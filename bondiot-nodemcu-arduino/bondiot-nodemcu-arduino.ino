@@ -66,10 +66,10 @@
 
 // ---------- DEFINE PINS ----------
 #define MQ2_PIN A0
-#define LOADCELL_DOUT_PIN (2)
-#define LOADCELL_SCK_PIN (1)
-#define FRONTDOOR_OUT_PIN (7)
-#define BACKDOOR_OUT_PIN (8)
+#define LOADCELL_DOUT_PIN 2
+#define LOADCELL_SCK_PIN 3
+#define FRONTDOOR_OUT_PIN 7
+#define BACKDOOR_OUT_PIN 8
 
 // =====================================
 //            GLOBAL VARIABLES
@@ -92,7 +92,7 @@ bool TB_OK = false;
 
 HX711 scale;
 String calibrationMode = "OFF";		 // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
-unsigned int loadcell_timeout = 100; // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
+unsigned int loadcell_timeout = 1000; // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int weight_variation = 10;  // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int last_weight = 0;
 unsigned int passengers = 0;
@@ -153,8 +153,10 @@ void setup() {
 		calibrateLoadCell(scale);
 	}*/
 	//HX711 scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
-  
+  Serial.println("ANTES DEL BEGIN");
   scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);   
+  //pinMode(LOADCELL_SCK_PIN, OUTPUT);
+  //pinMode(LOADCELL_DOUT_PIN, INPUT_PULLUP);  
   //scale.set_scale();
   //scale.tare(); //Reset the scale to 0 
   Serial.println("paso setup celda");
@@ -199,13 +201,13 @@ void loop() {
 		Serial.println(readingLoadCell);
 	}*/
 
-  if (scale.is_ready()) {
-    long reading = scale.read();
-    Serial.print("HX711 reading: ");
-    Serial.println(reading);
+  if (scale.wait_ready_timeout(loadcell_timeout)) {
+      long reading = scale.get_units(10);
+      Serial.print("Weight: ");
+      Serial.println(reading, 2);
   } else {
-    Serial.println("HX711 not found.");
-  } 
+      Serial.println("HX711 not found.");
+  }
 
 	//create and send json
   if (millis() - sendEntry > SENDTIME) {
