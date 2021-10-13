@@ -15,6 +15,7 @@ unsigned int read_co2(unsigned int analogPin)
 HX711 setUpLoadCell(unsigned int loadcell_dout_pin, unsigned int loadcell_sck_pin)
 {
 	HX711 scale;
+  
 	scale.begin(loadcell_dout_pin, loadcell_sck_pin);	  
 	scale.set_scale();
 	scale.tare(); //Reset the scale to 0
@@ -52,4 +53,3 @@ void calibrateLoadCell(HX711 scale)
 }
 
 //-
-

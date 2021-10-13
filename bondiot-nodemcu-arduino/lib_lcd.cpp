@@ -3,7 +3,7 @@
 
 
 
-void setLCD(LiquidCrystal_I2C lcd)
+/*void setLCD(LiquidCrystal_I2C lcd)
 {
     lcd.setBacklightPin(3,POSITIVE);	//  P3 port of PCF8574 as VCC
     lcd.setBacklight(HIGH);		        // Makes LCB screen backlit
@@ -13,7 +13,7 @@ void setLCD(LiquidCrystal_I2C lcd)
 
 void printLCD(LiquidCrystal_I2C lcd, bool hasCustomMessage, char* customMessage, int qPas,int maxPas)
 {
-    if(hascustomMessage)
+    if(hasCustomMessage)
     {
         if(strlen(customMessage)>16)
         {
@@ -55,4 +55,4 @@ void printLCD(LiquidCrystal_I2C lcd, bool hasCustomMessage, char* customMessage,
             delay(1000);			            // a second of delay        
         }
     }
-}
+}*/

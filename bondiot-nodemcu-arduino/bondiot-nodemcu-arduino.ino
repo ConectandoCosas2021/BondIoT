@@ -18,7 +18,7 @@
 // =====================================
 //               LIBRARIES
 // =====================================
-#include <ESP8266WiFi.h>
+#include <ESP8266WiFi.h> 
 #include <PubSubClient.h> 
 #include <ArduinoJson.h>
 #include <string.h>
@@ -67,7 +67,7 @@
 // ---------- DEFINE PINS ----------
 #define MQ2_PIN A0
 #define LOADCELL_DOUT_PIN (2)
-#define LOADCELL_SCK_PIN (3)
+#define LOADCELL_SCK_PIN (1)
 #define FRONTDOOR_OUT_PIN (7)
 #define BACKDOOR_OUT_PIN (8)
 
@@ -147,12 +147,19 @@ void setup() {
 	attachInterrupt(FRONTDOOR_OUT_PIN, read_frontdoor, RISING);
 	attachInterrupt(BACKDOOR_OUT_PIN, read_backdoor, RISING);
 	//-	 
-	
-	if (calibrationMode.equals("ON")){
+	*/
+  
+	/*if (calibrationMode.equals("ON")){
 		calibrateLoadCell(scale);
-	}
-	scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
-	delay(2000); //loadcell warm-up	 */
+	}*/
+	//HX711 scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+  
+  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);   
+  //scale.set_scale();
+  //scale.tare(); //Reset the scale to 0 
+  Serial.println("paso setup celda");
+  
+	//delay(2000); //loadcell warm-up
 }
 
 
@@ -179,9 +186,9 @@ void loop() {
   
 	//read CO2 level
 	unsigned int readingCO2 = read_co2(MQ2_PIN);
-  /*
+  
 	//read weight and send to thingsboard only when there is a significant variation
-	String readingLoadCellStr = read_weight(scale, loadcell_timeout);
+	/*String readingLoadCellStr = read_weight(scale, loadcell_timeout);
 	int readingLoadCell = readingLoadCellStr.toInt();
 	if (readingLoadCell != 0){		
 		if (readingLoadCell-last_weight >= weight_variation){
@@ -190,7 +197,15 @@ void loop() {
 		last_weight = readingLoadCell;
 	}else{
 		Serial.println(readingLoadCell);
-	}		*/
+	}*/
+
+  if (scale.is_ready()) {
+    long reading = scale.read();
+    Serial.print("HX711 reading: ");
+    Serial.println(reading);
+  } else {
+    Serial.println("HX711 not found.");
+  } 
 
 	//create and send json
   if (millis() - sendEntry > SENDTIME) {
@@ -212,8 +227,8 @@ void loop() {
     //test += String(ran); 
     test += String(readingCO2);
     test += ", 'loadcell': ";
-    ran = random(100);
-    test += String(ran);
+    //ran = random(100);
+    test += String(100);
     test += "}";
     debugln(test);
   
