@@ -66,8 +66,8 @@
 
 // ---------- DEFINE PINS ----------
 #define MQ2_PIN A0
-#define LOADCELL_DOUT_PIN 2
-#define LOADCELL_SCK_PIN 3
+#define LOADCELL_DOUT_PIN D5
+#define LOADCELL_SCK_PIN D6
 #define FRONTDOOR_OUT_PIN 7
 #define BACKDOOR_OUT_PIN 8
 
@@ -90,7 +90,7 @@ String wifi_PASSWORD = myPASSWORD;
 bool WiFi_OK = false;
 bool TB_OK = false;
 
-HX711 scale;
+HX711 scale; //(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
 String calibrationMode = "OFF";		 // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int loadcell_timeout = 1000; // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int weight_variation = 10;  // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
@@ -152,16 +152,9 @@ void setup() {
 	/*if (calibrationMode.equals("ON")){
 		calibrateLoadCell(scale);
 	}*/
-	//HX711 scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
-  Serial.println("ANTES DEL BEGIN");
-  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);   
-  //pinMode(LOADCELL_SCK_PIN, OUTPUT);
-  //pinMode(LOADCELL_DOUT_PIN, INPUT_PULLUP);  
-  //scale.set_scale();
-  //scale.tare(); //Reset the scale to 0 
-  Serial.println("paso setup celda");
-  
-	//delay(2000); //loadcell warm-up
+	scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+ 
+	delay(2000); //co2 warm-up
 }
 
 
@@ -190,24 +183,20 @@ void loop() {
 	unsigned int readingCO2 = read_co2(MQ2_PIN);
   
 	//read weight and send to thingsboard only when there is a significant variation
-	/*String readingLoadCellStr = read_weight(scale, loadcell_timeout);
-	int readingLoadCell = readingLoadCellStr.toInt();
+	String readingLoadCellStr = read_weight(scale, loadcell_timeout);
+
+  //check if weight variation was enough to be considered
+  /*String readingLoadCellOK = "";
+	int readingLoadCell = readingLoadCellStr.toInt(); 
 	if (readingLoadCell != 0){		
-		if (readingLoadCell-last_weight >= weight_variation){
-			//add to json
+		if (readingLoadCell-last_weight >= weight_variation){ //if enough variation send reading else ...
+			readingLoadCellOK = readingLoadCellStr;
 		}			
 		last_weight = readingLoadCell;
 	}else{
+    Serial.print("Reading load cell: ");
 		Serial.println(readingLoadCell);
 	}*/
-
-  if (scale.wait_ready_timeout(loadcell_timeout)) {
-      long reading = scale.get_units(10);
-      Serial.print("Weight: ");
-      Serial.println(reading, 2);
-  } else {
-      Serial.println("HX711 not found.");
-  }
 
 	//create and send json
   if (millis() - sendEntry > SENDTIME) {
@@ -230,7 +219,7 @@ void loop() {
     test += String(readingCO2);
     test += ", 'loadcell': ";
     //ran = random(100);
-    test += String(100);
+    test += readingLoadCellStr;
     test += "}";
     debugln(test);
   
