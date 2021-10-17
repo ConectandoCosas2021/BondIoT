@@ -23,8 +23,6 @@
 #include <ArduinoJson.h>
 #include <string.h>
 
-//#include "PubSubClient.h"
-//#include "ArduinoJson.h"
 #include "sniffer_functions.h"
 #include "iot_functions.h"
 #include "reading_sensors_lib.h"
@@ -90,8 +88,8 @@ String wifi_PASSWORD = myPASSWORD;
 bool WiFi_OK = false;
 bool TB_OK = false;
 
-HX711 scale; //(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
-String calibrationMode = "OFF";		 // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
+HX711 scale;
+String calibrationMode = "ON";		 // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int loadcell_timeout = 1000; // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int weight_variation = 10;  // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int last_weight = 0;
@@ -148,13 +146,13 @@ void setup() {
 	attachInterrupt(BACKDOOR_OUT_PIN, read_backdoor, RISING);
 	//-	 
 	*/
-  
-	/*if (calibrationMode.equals("ON")){
+  scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);  
+	if (calibrationMode.equals("ON")){
 		calibrateLoadCell(scale);
-	}*/
-	scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
- 
+	}
 	delay(2000); //co2 warm-up
+
+
 }
 
 
@@ -201,7 +199,7 @@ void loop() {
 	//create and send json
   if (millis() - sendEntry > SENDTIME) {
     sendEntry = millis();
-    //showDevices();
+    //showDevices();  //Prints MAC addressses to the serial monitor
     
     //jsonString = generateJson();
     

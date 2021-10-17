@@ -16,9 +16,9 @@ HX711 setUpLoadCell(unsigned int loadcell_dout_pin, unsigned int loadcell_sck_pi
    Returns: Loadcell measure */
 String read_weight(HX711 scale, unsigned int loadcell_timeout);
 
-/* Parameters: HX711 object
+/* Parameters: HX711 object pointer
    Returns: -
    This function is used to calibrate the load cell */
-void calibrateLoadCell(HX711 scale);
+void calibrateLoadCell(HX711 &scale);
 
 #endif

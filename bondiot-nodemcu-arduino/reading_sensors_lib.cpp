@@ -37,11 +37,12 @@ String read_weight(HX711 scale, unsigned int loadcell_timeout)
 	return msg;
 }
 
-void calibrateLoadCell(HX711 scale)
+void calibrateLoadCell(HX711 &scale)
 {
 	scale.set_scale();
 	scale.tare();
 	Serial.println("Place known weight on the scale");
+  delay(3000); 
 	int result = scale.get_units(10);
 	Serial.print("Measure = ");
 	Serial.print(result);
