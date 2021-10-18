@@ -1,9 +1,7 @@
 #include "lib_lcd.h"			        // library header
 
 
-
-
-/*void setLCD(LiquidCrystal_I2C lcd)
+void setLCD(LiquidCrystal_I2C lcd)
 {
     lcd.setBacklightPin(3,POSITIVE);	//  P3 port of PCF8574 as VCC
     lcd.setBacklight(HIGH);		        // Makes LCB screen backlit
@@ -15,23 +13,9 @@ void printLCD(LiquidCrystal_I2C lcd, bool hasCustomMessage, char* customMessage,
 {
     if(hasCustomMessage)
     {
-        if(strlen(customMessage)>16)
-        {
-            char*messageH[12];                        //Create buffer for first part of text
-            char*messageL[12] = customMessage + 12;   //Pointer to second part of text
-            strncpy(messageH, customMessage, 12);     //Copy first part on buffer.
-            lcd.setCursor(0, 0);		              // sets cursor to column 0 row 0		
-            lcd.print(messageH);	                  // prints text
-            lcd.setCursor(0, 1);		              // sets cursor to column 0 row 1		
-            lcd.print(messageL);	                  // prints text
-            delay(2000);			                  // two seconds of delay
-        }
-        else
-        {
             lcd.setCursor(0, 0);		        // sets cursor to column 0 row 0		
             lcd.print(customMessage);	        // prints text
-            delay(2000);			            // two seconds of delay
-        }    
+            delay(2000);			            // two seconds of delay    
     }
     else
     {
@@ -55,4 +39,4 @@ void printLCD(LiquidCrystal_I2C lcd, bool hasCustomMessage, char* customMessage,
             delay(1000);			            // a second of delay        
         }
     }
-}*/
+}
