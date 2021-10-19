@@ -92,8 +92,10 @@ HX711 scale;
 String calibrationMode = "ON";		 // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int loadcell_timeout = 1000; // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int weight_variation = 10;  // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
+unsigned int weight_for_calibration = 1;  //Kg !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int last_weight = 0;
 unsigned int passengers = 0;
+float calibration_constant = 1.f;
 
 //StaticJsonBuffer<JBUFFER>  jsonBuffer;
 
@@ -148,11 +150,10 @@ void setup() {
 	*/
   scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);  
 	if (calibrationMode.equals("ON")){
-		calibrateLoadCell(scale);
+		calibration_constant = calibrateLoadCell(scale, weight_for_calibration);
+    scale.set_scale(calibration_constant);
 	}
 	delay(2000); //co2 warm-up
-
-
 }
 
 
@@ -211,12 +212,9 @@ void loop() {
   
     topic = telemetryTopic;
 
-    String test = "{'co2': ";
-    long ran = random(200);
-    //test += String(ran); 
+    String test = "{'co2': "; 
     test += String(readingCO2);
     test += ", 'loadcell': ";
-    //ran = random(100);
     test += readingLoadCellStr;
     test += "}";
     debugln(test);

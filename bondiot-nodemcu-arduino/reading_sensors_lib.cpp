@@ -28,7 +28,7 @@ String read_weight(HX711 scale, unsigned int loadcell_timeout)
 	String msg = "";
 		
 	if (scale.wait_ready_timeout(loadcell_timeout)){
-		long reading = scale.get_units(10);
+		long reading = scale.get_units(10); //10 measures
 		msg = (String) reading;
 	}else{
 		msg = "HX711 not found.";
@@ -37,20 +37,21 @@ String read_weight(HX711 scale, unsigned int loadcell_timeout)
 	return msg;
 }
 
-void calibrateLoadCell(HX711 &scale)
+float calibrateLoadCell(HX711 &scale, unsigned int weight_for_calibration)
 {
 	scale.set_scale();
 	scale.tare();
-	Serial.println("Place known weight on the scale");
   delay(3000); 
+  
 	int result = scale.get_units(10);
 	Serial.print("Measure = ");
-	Serial.print(result);
-	Serial.println("Devide the measure by the known weight and type it:");
-  	if (Serial.available() > 0) {
-    	scale.set_scale(Serial.read());
-    }
-    Serial.println("Adjust the last result until getting an accurate reading."); 
+	Serial.println(result);
+ 
+  float adjusted_value = result/weight_for_calibration;
+  Serial.print("Adjusted value: ");
+  Serial.println(adjusted_value);
+
+  return adjusted_value;
 }
 
 //-
