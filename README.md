@@ -4,7 +4,3 @@ Se pretende equipar un ómnibus con un sistema IoT que se encargue principalment
 <p align="center">
   <img src="/otros/logo.png" />
 </p>
-
-
-
-![Logo](/otros/logo.png)
