@@ -232,9 +232,6 @@ void loop() {
   }//end if sendtime
 
   //move servo
-  if (servoStatus.equals("OPEN"))
-    if (servo.read() == closedPos) myServo.write(openedPos);
-  else
-    if (servo.read() == openedPos) myServo.write(closedPos);
+  moveServo(myServo, servoState, openedPos, closedPos);
       
 }

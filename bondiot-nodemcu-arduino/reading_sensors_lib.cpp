@@ -10,6 +10,18 @@ unsigned int read_co2(unsigned int analogPin)
 
 //-
 
+// ---------- SERVO ----------
+
+void moveServo(Servo &myServo, String servoState, int openedPos, int closedPos)
+{
+  if (servoState.equals("OPEN"))
+    if (myServo.read() == closedPos) myServo.write(openedPos);
+  else
+    if (myServo.read() == openedPos) myServo.write(closedPos);  
+}
+   
+//-    
+
 // ---------- LOADCELL ----------
 
 HX711 setUpLoadCell(unsigned int loadcell_dout_pin, unsigned int loadcell_sck_pin)

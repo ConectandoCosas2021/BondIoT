@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <HX711.h>
+#include <Servo.h>
 
 /* Parameters: MQ2 pin
    Returns: CO2 measure */
@@ -20,5 +21,10 @@ String read_weight(HX711 scale, unsigned int loadcell_timeout);
    Returns: Value to set_scale
    This function is used to calibrate the load cell */
 float calibrateLoadCell(HX711 &scale, unsigned int weight_for_calibration);
+
+/* Parameters: servoStatus (open or close), openedPos and closedPos are angles
+ * Returns: -
+ */
+void moveServo(Servo &myServo, String servoState, int openedPos, int closedPos);
 
 #endif
