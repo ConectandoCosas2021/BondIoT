@@ -106,11 +106,13 @@ float calibration_constant = 1.f;
 void read_frontdoor()
 {
 	passengers++;
+	Serial.println("Front door interrupting");
 }
 
 void read_backdoor()
 {
 	passengers--;
+	Serial.println("Back door interrupting");
 }
 
 
