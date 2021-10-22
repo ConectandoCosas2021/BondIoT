@@ -20,7 +20,7 @@ String read_weight(HX711 scale, unsigned int loadcell_timeout);
 /* Parameters: HX711 object pointer
    Returns: Value to set_scale
    This function is used to calibrate the load cell */
-float calibrateLoadCell(HX711 &scale, unsigned int weight_for_calibration);
+float calibrateLoadCell(HX711 &scale, float weight_for_calibration);
 
 /* Parameters: servoStatus (open or close), openedPos and closedPos are angles
  * Returns: -

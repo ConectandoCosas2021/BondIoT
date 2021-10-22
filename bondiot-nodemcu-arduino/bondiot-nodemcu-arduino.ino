@@ -1,7 +1,7 @@
 // =====================================
 //                 DEBUG
 // =====================================
-#define WIFI_DEBUG 1
+#define WIFI_DEBUG 0
 #define DEBUG 1
 
 #if DEBUG == 1
@@ -27,7 +27,7 @@
 #include "sniffer_functions.h"
 #include "iot_functions.h"
 #include "reading_sensors_lib.h"
-
+#include "lib_lcd.h"
 
 // =====================================
 //                 DEFINE
@@ -55,8 +55,8 @@
 #define mySSID "DEFAULT_SSID"
 #define myPASSWORD "DEFAULT_PASSWORD"
 #else
-#define mySSID ""
-#define myPASSWORD ""
+#define mySSID "HUAWEI-IoT"
+#define myPASSWORD "ORTWiFiIoT"
 #endif
 
 #define WiFi_connect_attempts 10
@@ -94,16 +94,16 @@ bool TB_OK = false;
 HX711 scale;
 Servo myServo;
 int openedPos = 90;
-int closedPos = 0;
+int closedPos = 0; 
 String calibrationMode = "ON";		 // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 String servoState = "OPEN";	// !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int loadcell_timeout = 1000; // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int weight_variation = 10;  // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
-unsigned int weight_for_calibration = 1;  //Kg !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
+float weight_for_calibration = 500;  //!!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
 unsigned int last_weight = 0;
 unsigned int passengers = 0;
-float calibration_constant = 1.f;
-
+float calibration_constant = 1;
+LiquidCrystal_I2C lcd(0x27); // DIR
 // =====================================
 //            INTERRUPT FUNCTIONS
 // =====================================
@@ -125,7 +125,7 @@ void read_backdoor()
 // =====================================
 void setup() {
   Serial.begin(115200);
-
+  Serial.println("MARCADOR0");
   // ---------- debug mode ----------
     if (WIFI_DEBUG == 1){
       debugf("\n\n\n\n\n\nBondIoT - version: 1.1\n",NULL);
@@ -153,21 +153,28 @@ void setup() {
   //-
   
   // ---------- interruptions ----------
-  	pinMode(FRONTDOOR_OUT_PIN, INPUT_PULLUP);
+  /*	pinMode(FRONTDOOR_OUT_PIN, INPUT_PULLUP);
   	pinMode(BACKDOOR_OUT_PIN, INPUT_PULLUP);
   	attachInterrupt(FRONTDOOR_OUT_PIN, read_frontdoor, RISING);
-  	attachInterrupt(BACKDOOR_OUT_PIN, read_backdoor, RISING);
+  	attachInterrupt(BACKDOOR_OUT_PIN, read_backdoor, RISING);*/
   //-	 
 
   // ---------- servo, scale, co2 ----------
-    myServo.attach(SERVO);
+   /* myServo.attach(SERVO);
     scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);  
   	if (calibrationMode.equals("ON")){
   		calibration_constant = calibrateLoadCell(scale, weight_for_calibration);
       scale.set_scale(calibration_constant);
-  	}
+      }*/
+  	
   	delay(2000); //co2 warm-up
-  //-
+  //---------- lcd setup-------------------
+
+  Serial.println("MARCADOR");
+  setLCD(lcd);
+  Serial.print("MARCADOR2");
+  
+
 
 }
 
@@ -232,6 +239,8 @@ void loop() {
   }//end if sendtime
 
   //move servo
-  moveServo(myServo, servoState, openedPos, closedPos);
+  //moveServo(myServo, servoState, openedPos, closedPos);
+
+  printLCD(lcd, false, "HOLA JUAN CARLOS", 10, 20);
       
 }

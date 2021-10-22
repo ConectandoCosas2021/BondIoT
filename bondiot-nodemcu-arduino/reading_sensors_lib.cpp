@@ -49,19 +49,22 @@ String read_weight(HX711 scale, unsigned int loadcell_timeout)
 	return msg;
 }
 
-float calibrateLoadCell(HX711 &scale, unsigned int weight_for_calibration)
+float calibrateLoadCell(HX711 &scale, float weight_for_calibration)
 {
 	scale.set_scale();
 	scale.tare();
+  Serial.println(" ");
+  Serial.println("Put known weight");
   delay(3000); 
-  
+
 	int result = scale.get_units(10);
 	Serial.print("Measure = ");
 	Serial.println(result);
  
-  float adjusted_value = result/weight_for_calibration;
+  float adjusted_value = (float)result/weight_for_calibration;
   Serial.print("Adjusted value: ");
-  Serial.println(adjusted_value);
+  Serial.println(String(adjusted_value));
+  //Serial.printf("%f", adjusted_value);
 
   return adjusted_value;
 }
