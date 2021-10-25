@@ -82,7 +82,6 @@ void sendValues(char* topic, char* jsonStringOut) {
 }
 
 
-
 void process_cb(const char* topic, byte* payload, unsigned int length){
   
   debug("Message received on topic: ");
@@ -110,8 +109,6 @@ char* receiveData(char* topic, int timeout){
 
   return receivedData;    // Global variable modified by the callback function "process_cb"
 }
-
-
 
 
 void purgeDevice(int purgetime) {
