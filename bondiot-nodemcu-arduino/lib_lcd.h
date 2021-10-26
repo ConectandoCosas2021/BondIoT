@@ -1,4 +1,4 @@
-#ifndef LIB_LCD_H
+/*#ifndef LIB_LCD_H
 #define LIB_LCD_H
 
 #include <Arduino.h>
@@ -15,7 +15,7 @@ LiquidCrystal_I2C lcd (0x27, 2, 1, 0, 4, 5, 6, 7); // DIR, E, RW, RS, D4, D5, D6
 /*
 Parameters: LiquidCrystal_I2C display.
 This function is used to setup previously declared lcd screen form communication.
-*/
+*//*
 void setLCD(LiquidCrystal_I2C lcd);
 
 /*
@@ -25,9 +25,9 @@ Parameters: LiquidCrystal_I2C display.
             qPas: Amount of passengers on board.
             maxPas: Passenger limit.
 This function is used to print information on display.
-*/
+*//*
 void printLCD(LiquidCrystal_I2C lcd, bool hasCustomMessage, char* customMessage, int qPas,int maxPas);
 
 
 
-#endif
+#endif*/

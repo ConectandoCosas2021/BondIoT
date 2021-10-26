@@ -1,4 +1,4 @@
-#include "lib_lcd.h"			        // library header
+/*#include "lib_lcd.h"			        // library header
 
 
 void setLCD(LiquidCrystal_I2C lcd)
@@ -39,4 +39,4 @@ void printLCD(LiquidCrystal_I2C lcd, bool hasCustomMessage, char* customMessage,
             delay(1000);			            // a second of delay        
         }
     }
-}
+}*/

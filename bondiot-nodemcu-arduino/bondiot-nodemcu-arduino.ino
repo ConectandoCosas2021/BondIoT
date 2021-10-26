@@ -103,7 +103,7 @@ float weight_for_calibration = 500;  //!!!!!!!! ESTO TIENE QUE TRAERSE DE THINGS
 unsigned int last_weight = 0;
 unsigned int passengers = 0;
 float calibration_constant = 1;
-LiquidCrystal_I2C lcd(0x27); // DIR
+//LiquidCrystal_I2C lcd(0x27); // DIR
 // =====================================
 //            INTERRUPT FUNCTIONS
 // =====================================
@@ -171,7 +171,7 @@ void setup() {
   //---------- lcd setup-------------------
 
   Serial.println("MARCADOR");
-  setLCD(lcd);
+  //setLCD(lcd);
   Serial.print("MARCADOR2");
   
 
@@ -241,6 +241,6 @@ void loop() {
   //move servo
   //moveServo(myServo, servoState, openedPos, closedPos);
 
-  printLCD(lcd, false, "HOLA JUAN CARLOS", 10, 20);
+  //printLCD(lcd, false, "HOLA JUAN CARLOS", 10, 20);
       
 }
