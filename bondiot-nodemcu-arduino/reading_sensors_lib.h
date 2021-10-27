@@ -2,7 +2,7 @@
 #define READING_SENSORS_LIB.H
 
 #include <Arduino.h>
-#include "librerias-externas/HX711/HX711.h"
+#include <HX711.h>
 #include <Servo.h>
 
 /* Parameters: MQ2 pin

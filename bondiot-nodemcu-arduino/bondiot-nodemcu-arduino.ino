@@ -77,8 +77,8 @@
 unsigned int channel = 1;
 int clients_known_count_old, aps_known_count_old;
 unsigned long sendEntry, deleteEntry;
-char jsonStringOut[JBUFFER];
-char* jsonStringIn;
+char* jsonOut;
+char* jsonIn;
 //StaticJsonBuffer<JBUFFER>  jsonBuffer;
 
 String device[MAXDEVICES];
@@ -117,6 +117,24 @@ void read_backdoor()
 {
 	passengers--;
 	Serial.println("Back door interrupting");
+}
+
+
+// =====================================
+//               FUNCTIONS
+// =====================================
+char* generatePayload(){
+    String test = "{'co2': "; 
+    test += String(read_co2(MQ2_PIN));
+    test += ", 'loadcell': ";
+    test += read_weight(scale, loadcell_timeout);
+    test += "}";
+    debugln(test);
+  
+    char payload[JBUFFER];
+    test.toCharArray(payload, JBUFFER);
+    
+    return payload;
 }
 
 
@@ -202,8 +220,8 @@ void loop() {
   }//endwhile
 
   //read co2 and loadcell sensors
-	unsigned int readingCO2 = read_co2(MQ2_PIN);
-  String readingLoadCellStr = read_weight(scale, loadcell_timeout);
+	//unsigned int readingCO2 = read_co2(MQ2_PIN);
+  //String readingLoadCellStr = read_weight(scale, loadcell_timeout);
 
   if (millis() - sendEntry > SENDTIME) {
     sendEntry = millis();
@@ -211,24 +229,21 @@ void loop() {
     //jsonString = generateJson();  
 
     // Disable promiscuous mode in order to connect to the access point 
-    wifi_promiscuous_enable(disable);             
-    WiFi_OK = connectToWiFi(wifi_SSID, wifi_PASSWORD, WiFi_connect_attempts);   // Connect to WiFi access point    
+    wifi_promiscuous_enable(disable);
+             
+    WiFi_OK = connectToWiFi(wifi_SSID, wifi_PASSWORD, WiFi_connect_attempts);   // Connect to WiFi access point
+    
     if (WiFi_OK) 
       TB_OK = connectToThingsBoard(TB_SERVER, NODE_NAME, NODE_TOKEN, NODE_PW, TB_connect_attempts);    // If WiFi connected successfully, connect to ThingsBoard 
 
     //create json to send to thingsboard
-    String test = "{'co2': "; 
-    test += String(readingCO2);
-    test += ", 'loadcell': ";
-    test += readingLoadCellStr;
-    test += "}";
-    debugln(test);
-  
-    char payload[100];
-    test.toCharArray(jsonStringOut, JBUFFER);
-    topic = telemetryTopic;              
-    if (WiFi_OK && TB_OK) 
-      sendValues(topic, jsonStringOut);    // If connected, send data to ThingsBoard
+
+                  
+    if (WiFi_OK && TB_OK){
+      topic = telemetryTopic;
+      jsonOut = generatePayload();  //create json to send to thingsboard
+      sendValues(topic, jsonOut);   // If connected, send data to ThingsBoard
+    }
   
     //jsonStringIn = receiveData(topic, RECEVIE_TIMEOUT);
   
