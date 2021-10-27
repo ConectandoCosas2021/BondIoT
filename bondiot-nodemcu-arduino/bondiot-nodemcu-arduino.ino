@@ -14,6 +14,15 @@
 #define debugln(x) 
 #endif
 
+#if WIFI_DEBUG == 1
+#define mySSID ""
+#define myPASSWORD ""
+#else
+#define mySSID "HUAWEI-IoT"
+#define myPASSWORD "ORTWiFiIoT"
+#endif
+//----------------------------------------------------------------------------
+
 
 // =====================================
 //               LIBRARIES
@@ -28,9 +37,11 @@
 #include "iot_functions.h"
 #include "reading_sensors_lib.h"
 #include "lib_lcd.h"
+//----------------------------------------------------------------------------
+
 
 // =====================================
-//                 DEFINE
+//                SNIFFER
 // =====================================
 #define disable 0
 #define enable  1
@@ -40,7 +51,9 @@
 #define PURGETIME 20000                 // Max time a device can be undetected before is considered to not be in range anymore
 #define MINRSSI -70                     // Minimum acceptable signal intensity to consider a device as "inside the bus"
 
-// thingsboard
+// =====================================
+//              THINGSBOARD
+// =====================================
 #define NODE_NAME "a2457060-1fee-11ec-b4a5-cfb289af38d9"
 #define NODE_TOKEN "NSo9BArnHowXfhTi9Xku"
 #define NODE_PW NULL
@@ -51,25 +64,24 @@
 #define requestTopic "v1/devices/me/rpc/request/+"
 #define attributesTopic "v1/devices/me/attributes"
 
-#if WIFI_DEBUG == 1
-#define mySSID ""
-#define myPASSWORD ""
-#else
-#define mySSID "HUAWEI-IoT"
-#define myPASSWORD "ORTWiFiIoT"
-#endif
-
+// =====================================
+//            COMMUNICATIONS
+// =====================================
 #define WiFi_connect_attempts 10
 #define TB_connect_attempts 5
 #define RECEVIE_TIMEOUT 5000    // Time in milliseconds
 
-// ---------- DEFINE PINS ----------
+// =====================================
+//               I/O PINS
+// =====================================
 #define MQ2_PIN A0              //co2 analog
 #define LOADCELL_DOUT_PIN D5    //loadcell data
 #define LOADCELL_SCK_PIN D6     //loadcell clock
 #define FRONTDOOR_OUT_PIN 7     //IR frontdoor
 #define BACKDOOR_OUT_PIN 8      //IR backdoor
 #define SERVO D4                //servo
+//----------------------------------------------------------------------------
+
 
 // =====================================
 //            GLOBAL VARIABLES
@@ -104,6 +116,9 @@ unsigned int last_weight = 0;
 unsigned int passengers = 0;
 float calibration_constant = 1;
 //LiquidCrystal_I2C lcd(0x27); // DIR
+//----------------------------------------------------------------------------
+
+
 // =====================================
 //            INTERRUPT FUNCTIONS
 // =====================================
@@ -118,6 +133,7 @@ void read_backdoor()
 	passengers--;
 	debugln("Back door interrupting");
 }
+//----------------------------------------------------------------------------
 
 
 // =====================================
@@ -127,7 +143,9 @@ char* generatePayload(){
     String test = "{'co2': "; 
     test += String(read_co2(MQ2_PIN));
     test += ", 'loadcell': ";
-    test += read_weight(scale, loadcell_timeout);
+    test += read_weight(scale, loadcell_timeout);  
+    //test += ", 'MACs': ";
+    //test += getClients(clients_known, clients_known_count);
     test += "}";
     debugln(test);
   
@@ -136,13 +154,16 @@ char* generatePayload(){
     
     return payload;
 }
+//----------------------------------------------------------------------------
 
 
 // =====================================
 //                 SETUP
 // =====================================
 void setup() {
+
   Serial.begin(115200);
+
   // ------------- debug mode --------------
     if (WIFI_DEBUG == 1){
       debugf("\n\n\n\n\n\nBondIoT - version: 1.1\n",NULL);
@@ -191,6 +212,7 @@ void setup() {
   //setLCD(lcd);
   Serial.print("MARCADOR2");
 }
+//----------------------------------------------------------------------------
 
 
 // =====================================
@@ -254,3 +276,4 @@ void loop() {
   //printLCD(lcd, false, "HOLA JUAN CARLOS", 10, 20);
       
 }
+//----------------------------------------------------------------------------

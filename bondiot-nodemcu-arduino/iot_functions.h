@@ -196,3 +196,28 @@ void showDevices() {
     debugln(clients_known[u].channel);
   }
 }
+
+
+String getClients(clientinfo clients_known[], int len){
+  String out;
+  uint8_t aux;
+  out = "{'total_clients':" + String(len) + ", ";
+  out += "'MACs':[";
+  for(int i = 0; i < len; i++){
+    aux = clients_known[i].station[0];
+    out += "'";
+    if (aux < 16) out += "0";
+    out += String(aux, HEX) + ":";
+    aux = clients_known[i].station[1];
+    if (aux < 16) out += "0";
+    out += String(aux, HEX) + "'";
+    if (i < len-1) out += ","; 
+  }
+  out += "]}";
+
+  debugln("-----------------------------------");
+  debugf("Redacted MACs to be sent:\n%s",out);
+  debugln("-----------------------------------");
+  
+  return out;
+}
