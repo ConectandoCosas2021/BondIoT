@@ -51,9 +51,9 @@
 #define requestTopic "v1/devices/me/rpc/request/+"
 #define attributesTopic "v1/devices/me/attributes"
 
-#if WIFI_DEBUG != 1
-#define mySSID "DEFAULT_SSID"
-#define myPASSWORD "DEFAULT_PASSWORD"
+#if WIFI_DEBUG == 1
+#define mySSID ""
+#define myPASSWORD ""
 #else
 #define mySSID "HUAWEI-IoT"
 #define myPASSWORD "ORTWiFiIoT"
@@ -110,13 +110,13 @@ float calibration_constant = 1;
 void read_frontdoor()
 {
 	passengers++;
-	Serial.println("Front door interrupting");
+	debugln("Front door interrupting");
 }
 
 void read_backdoor()
 {
 	passengers--;
-	Serial.println("Back door interrupting");
+	debugln("Back door interrupting");
 }
 
 
@@ -143,8 +143,7 @@ char* generatePayload(){
 // =====================================
 void setup() {
   Serial.begin(115200);
-  Serial.println("MARCADOR0");
-  // ---------- debug mode ----------
+  // ------------- debug mode --------------
     if (WIFI_DEBUG == 1){
       debugf("\n\n\n\n\n\nBondIoT - version: 1.1\n",NULL);
       debugf("SDK version: %s\n\n", system_get_sdk_version());
@@ -162,7 +161,7 @@ void setup() {
     }
   //-
   
-  // ---------- wifi ----------
+  // ----------------- wifi ----------------
     wifi_set_opmode(STATION_MODE);  // Promiscuous works only with station mode
     wifi_set_channel(channel);
     wifi_promiscuous_enable(disable);
@@ -170,7 +169,7 @@ void setup() {
     wifi_promiscuous_enable(enable);
   //-
   
-  // ---------- interruptions ----------
+  // ------------ interruptions ------------
   /*	pinMode(FRONTDOOR_OUT_PIN, INPUT_PULLUP);
   	pinMode(BACKDOOR_OUT_PIN, INPUT_PULLUP);
   	attachInterrupt(FRONTDOOR_OUT_PIN, read_frontdoor, RISING);
@@ -186,14 +185,11 @@ void setup() {
       }*/
   	
   	delay(2000); //co2 warm-up
-  //---------- lcd setup-------------------
+  //------------- lcd setup ----------------
 
   Serial.println("MARCADOR");
   //setLCD(lcd);
   Serial.print("MARCADOR2");
-  
-
-
 }
 
 
@@ -233,12 +229,11 @@ void loop() {
              
     WiFi_OK = connectToWiFi(wifi_SSID, wifi_PASSWORD, WiFi_connect_attempts);   // Connect to WiFi access point
     
+
     if (WiFi_OK) 
       TB_OK = connectToThingsBoard(TB_SERVER, NODE_NAME, NODE_TOKEN, NODE_PW, TB_connect_attempts);    // If WiFi connected successfully, connect to ThingsBoard 
+     
 
-    //create json to send to thingsboard
-
-                  
     if (WiFi_OK && TB_OK){
       topic = telemetryTopic;
       jsonOut = generatePayload();  //create json to send to thingsboard
