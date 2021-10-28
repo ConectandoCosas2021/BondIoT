@@ -753,16 +753,112 @@
         "col": 0,
         "id": "89d12478-a0f8-0c52-b1db-cc0595d19fe2"
       },
-      "e38863c2-5f6f-af6e-aae4-14dcba9c2c35": {
-        "isSystemType": false,
-        "bundleAlias": "mis_widgets",
-        "typeAlias": "chart_1",
-        "type": "timeseries",
+      "d424f876-ad55-abbe-8d96-b52770954665": {
+        "isSystemType": true,
+        "bundleAlias": "control_widgets",
+        "typeAlias": "rpcbutton",
+        "type": "rpc",
         "title": "New widget",
         "image": null,
         "description": null,
-        "sizeX": 9.5,
-        "sizeY": 7.5,
+        "sizeX": 4,
+        "sizeY": 2,
+        "config": {
+          "targetDeviceAliases": [],
+          "showTitle": false,
+          "backgroundColor": "#e6e7e8",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "0px",
+          "settings": {
+            "requestTimeout": 5000,
+            "oneWayElseTwoWay": true,
+            "buttonText": "Send RPC",
+            "styleButton": {
+              "isRaised": true,
+              "isPrimary": false
+            },
+            "methodName": "switchLed",
+            "methodParams": "{}"
+          },
+          "title": "New RPC Button",
+          "dropShadow": true,
+          "enableFullscreen": false,
+          "widgetStyle": {},
+          "titleStyle": {
+            "fontSize": "16px",
+            "fontWeight": 400
+          },
+          "useDashboardTimewindow": true,
+          "showLegend": false,
+          "actions": {},
+          "datasources": [],
+          "targetDeviceAliasIds": [
+            "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec"
+          ]
+        },
+        "row": 0,
+        "col": 0,
+        "id": "d424f876-ad55-abbe-8d96-b52770954665"
+      },
+      "57f9a463-ea15-8afe-09a0-4009dfa8970f": {
+        "isSystemType": true,
+        "bundleAlias": "control_widgets",
+        "typeAlias": "switch_control",
+        "type": "rpc",
+        "title": "New widget",
+        "image": null,
+        "description": null,
+        "sizeX": 4,
+        "sizeY": 2.5,
+        "config": {
+          "targetDeviceAliases": [],
+          "showTitle": false,
+          "backgroundColor": "#e6e7e8",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "0px",
+          "settings": {
+            "requestTimeout": 500,
+            "initialValue": false,
+            "getValueMethod": "getValue",
+            "setValueMethod": "setValue",
+            "showOnOffLabels": true,
+            "title": "Switch control",
+            "retrieveValueMethod": "rpc",
+            "valueKey": "value",
+            "parseValueFunction": "return data ? true : false;",
+            "convertValueFunction": "return value;"
+          },
+          "title": "New Switch Control",
+          "dropShadow": true,
+          "enableFullscreen": false,
+          "widgetStyle": {},
+          "titleStyle": {
+            "fontSize": "16px",
+            "fontWeight": 400
+          },
+          "useDashboardTimewindow": true,
+          "showLegend": false,
+          "actions": {},
+          "decimals": 2,
+          "datasources": [],
+          "targetDeviceAliasIds": [
+            "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec"
+          ]
+        },
+        "row": 0,
+        "col": 0,
+        "id": "57f9a463-ea15-8afe-09a0-4009dfa8970f"
+      },
+      "87fdfa26-5b25-b455-564b-96ab2b396f80": {
+        "isSystemType": true,
+        "bundleAlias": "input_widgets",
+        "typeAlias": "update_server_integer_attribute",
+        "type": "latest",
+        "title": "New widget",
+        "image": null,
+        "description": null,
+        "sizeX": 7.5,
+        "sizeY": 3,
         "config": {
           "datasources": [
             {
@@ -772,26 +868,12 @@
               "filterId": null,
               "dataKeys": [
                 {
-                  "name": "loadcell",
-                  "type": "timeseries",
-                  "label": "loadcell",
+                  "name": "standardWeight",
+                  "type": "attribute",
+                  "label": "standardWeight",
                   "color": "#2196f3",
-                  "settings": {
-                    "fillColor": "#008a00",
-                    "fillChart": false
-                  },
-                  "_hash": 0.3663467600484105
-                },
-                {
-                  "name": "co2",
-                  "type": "timeseries",
-                  "label": "co2",
-                  "color": "#4caf50",
-                  "settings": {
-                    "fillColor": "#008a00",
-                    "fillChart": false
-                  },
-                  "_hash": 0.872414873131875
+                  "settings": {},
+                  "_hash": 0.39100812910649096
                 }
               ]
             }
@@ -802,35 +884,45 @@
             }
           },
           "showTitle": true,
-          "backgroundColor": "#fff",
+          "backgroundColor": "rgba(153,218,215,0.66)",
           "color": "rgba(0, 0, 0, 0.87)",
           "padding": "8px",
           "settings": {
-            "showDataPoints": false
+            "showResultMessage": true,
+            "showLabel": true,
+            "isRequired": true
           },
-          "title": "New Chart 1",
+          "title": "Peso estándar de 1 pasajero",
           "dropShadow": true,
-          "enableFullscreen": true,
+          "enableFullscreen": false,
+          "widgetStyle": {},
           "titleStyle": {
             "fontSize": "16px",
             "fontWeight": 400
           },
-          "useDashboardTimewindow": true
+          "useDashboardTimewindow": true,
+          "showLegend": false,
+          "actions": {},
+          "showTitleIcon": true,
+          "iconColor": "rgba(0, 0, 0, 0.87)",
+          "iconSize": "24px",
+          "titleTooltip": "Peso estándar de 1 pasajero",
+          "titleIcon": "info"
         },
         "row": 0,
         "col": 0,
-        "id": "e38863c2-5f6f-af6e-aae4-14dcba9c2c35"
+        "id": "87fdfa26-5b25-b455-564b-96ab2b396f80"
       },
-      "5cd5297b-5ee0-eba7-9952-8366b7e99309": {
+      "18c48445-c7b2-1fc2-60a8-2f430c133c2d": {
         "isSystemType": true,
-        "bundleAlias": "cards",
-        "typeAlias": "markdown_card",
+        "bundleAlias": "input_widgets",
+        "typeAlias": "update_server_string_attribute",
         "type": "latest",
         "title": "New widget",
         "image": null,
         "description": null,
-        "sizeX": 5,
-        "sizeY": 3.5,
+        "sizeX": 7.5,
+        "sizeY": 3,
         "config": {
           "datasources": [
             {
@@ -840,12 +932,12 @@
               "filterId": null,
               "dataKeys": [
                 {
-                  "name": "passQty",
+                  "name": "calibrationModeLoadCell",
                   "type": "attribute",
-                  "label": "passQty",
+                  "label": "calibrationModeLoadCell",
                   "color": "#2196f3",
                   "settings": {},
-                  "_hash": 0.2272609360609652
+                  "_hash": 0.297220228625517
                 }
               ]
             }
@@ -855,32 +947,100 @@
               "timewindowMs": 60000
             }
           },
-          "showTitle": false,
-          "backgroundColor": "#fff",
+          "showTitle": true,
+          "backgroundColor": "rgba(153,218,215,0.66)",
           "color": "rgba(0, 0, 0, 0.87)",
-          "padding": "0px",
+          "padding": "8px",
           "settings": {
-            "markdownTextPattern": "### Cantidad de pasajeros\n - **Current entity**: ${entityName}.\n - **valor actual**: ${Random}.",
-            "markdownTextFunction": "return '# Some title\\n - Entity name: ' + data[0]['entityName'];",
-            "useMarkdownTextFunction": false
+            "showResultMessage": true,
+            "showLabel": true,
+            "isRequired": true
           },
-          "title": "Cantidad de pasajeros",
-          "showTitleIcon": false,
-          "iconColor": "rgba(0, 0, 0, 0.87)",
-          "iconSize": "24px",
-          "titleTooltip": "",
+          "title": "Calibración de celda de carga",
           "dropShadow": true,
-          "enableFullscreen": true,
+          "enableFullscreen": false,
+          "enableDataExport": false,
           "widgetStyle": {},
           "titleStyle": {
             "fontSize": "16px",
             "fontWeight": 400
           },
-          "showLegend": false
+          "useDashboardTimewindow": true,
+          "showLegend": false,
+          "actions": {},
+          "showTitleIcon": true,
+          "iconColor": "rgba(0, 0, 0, 0.87)",
+          "iconSize": "24px",
+          "titleTooltip": "¿Entrar en modo calibración de celda de carga?",
+          "titleIcon": "info"
         },
         "row": 0,
         "col": 0,
-        "id": "5cd5297b-5ee0-eba7-9952-8366b7e99309"
+        "id": "18c48445-c7b2-1fc2-60a8-2f430c133c2d"
+      },
+      "5c5f4c0a-73aa-e421-b900-6819c4aadfaa": {
+        "isSystemType": true,
+        "bundleAlias": "input_widgets",
+        "typeAlias": "update_server_integer_attribute",
+        "type": "latest",
+        "title": "New widget",
+        "image": null,
+        "description": null,
+        "sizeX": 7.5,
+        "sizeY": 3,
+        "config": {
+          "datasources": [
+            {
+              "type": "entity",
+              "name": null,
+              "entityAliasId": "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec",
+              "filterId": null,
+              "dataKeys": [
+                {
+                  "name": "weightForCalibration",
+                  "type": "attribute",
+                  "label": "weightForCalibration",
+                  "color": "#2196f3",
+                  "settings": {},
+                  "_hash": 0.8051627529857986
+                }
+              ]
+            }
+          ],
+          "timewindow": {
+            "realtime": {
+              "timewindowMs": 60000
+            }
+          },
+          "showTitle": true,
+          "backgroundColor": "rgba(153,218,215,0.66)",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "8px",
+          "settings": {
+            "showResultMessage": true,
+            "showLabel": true,
+            "isRequired": true
+          },
+          "title": "Peso para calibración de la celda de carga",
+          "dropShadow": true,
+          "enableFullscreen": false,
+          "widgetStyle": {},
+          "titleStyle": {
+            "fontSize": "16px",
+            "fontWeight": 400
+          },
+          "useDashboardTimewindow": true,
+          "showLegend": false,
+          "actions": {},
+          "showTitleIcon": true,
+          "iconColor": "rgba(0, 0, 0, 0.87)",
+          "iconSize": "24px",
+          "titleTooltip": "Peso para calibración de la celda de carga",
+          "titleIcon": "info"
+        },
+        "row": 0,
+        "col": 0,
+        "id": "5c5f4c0a-73aa-e421-b900-6819c4aadfaa"
       }
     },
     "states": {
@@ -891,16 +1051,34 @@
           "main": {
             "widgets": {
               "d21f345c-248f-37f2-67fd-dece7076db61": {
-                "sizeX": 7,
+                "sizeX": 5,
                 "sizeY": 3,
                 "row": 0,
                 "col": 0
               },
               "c7788150-f8f5-6ff0-3c0a-a6b22b100c05": {
-                "sizeX": 7,
+                "sizeX": 5,
                 "sizeY": 3,
                 "row": 0,
-                "col": 10
+                "col": 6
+              },
+              "87fdfa26-5b25-b455-564b-96ab2b396f80": {
+                "sizeX": 5,
+                "sizeY": 3,
+                "row": 0,
+                "col": 12
+              },
+              "18c48445-c7b2-1fc2-60a8-2f430c133c2d": {
+                "sizeX": 5,
+                "sizeY": 3,
+                "row": 0,
+                "col": 18
+              },
+              "5c5f4c0a-73aa-e421-b900-6819c4aadfaa": {
+                "sizeX": 5,
+                "sizeY": 3,
+                "row": 3,
+                "col": 0
               }
             },
             "gridSettings": {
@@ -931,16 +1109,16 @@
                 "col": 0
               },
               "59a1be1a-0934-2c2b-142a-6e443046fa02": {
-                "sizeX": 9,
+                "sizeX": 7,
                 "sizeY": 6,
-                "row": 7,
-                "col": 8
+                "row": 0,
+                "col": 17
               },
               "b370ec7d-6830-d582-e752-376dbe7c6b81": {
                 "sizeX": 7,
-                "sizeY": 13,
-                "row": 0,
-                "col": 17
+                "sizeY": 7,
+                "row": 7,
+                "col": 0
               },
               "61d6506d-6320-babb-6c0b-d4452f6747b3": {
                 "sizeX": 6,
@@ -960,16 +1138,16 @@
                 "row": 0,
                 "col": 0
               },
-              "e38863c2-5f6f-af6e-aae4-14dcba9c2c35": {
-                "sizeX": 8,
-                "sizeY": 6,
-                "row": 7,
-                "col": 0
-              },
-              "5cd5297b-5ee0-eba7-9952-8366b7e99309": {
+              "d424f876-ad55-abbe-8d96-b52770954665": {
                 "sizeX": 5,
-                "sizeY": 3,
+                "sizeY": 2,
                 "row": 4,
+                "col": 12
+              },
+              "57f9a463-ea15-8afe-09a0-4009dfa8970f": {
+                "sizeX": 5,
+                "sizeY": 2,
+                "row": 6,
                 "col": 12
               }
             },
