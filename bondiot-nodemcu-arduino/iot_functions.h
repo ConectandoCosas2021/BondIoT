@@ -82,17 +82,17 @@ void sendValues(char* topic, char* jsonStringOut){
 }
 
 
-void process_cb(const char* topic, byte* payload, unsigned int length){
+ void process_cb(const char* topic, byte* payload, unsigned int length);//{
   
-  debug("Message received on topic: ");
-  debug(topic);
-  debug(" ==> payload: ");
-  for (int i = 0; i < length; i++) {
-    debug((char)payload[i]);
-  }
-  debugln();
+//   debug("Message received on topic: ");
+//   debug(topic);
+//   debug(" ==> payload: ");
+//   for (int i = 0; i < length; i++) {
+//     debug((char)payload[i]);
+//   }
+//   debugln();
   
-}
+// }
 
 
 char* receiveData(char* topic, int timeout){

@@ -77,8 +77,8 @@
 #define MQ2_PIN A0              //co2 analog
 #define LOADCELL_DOUT_PIN D5    //loadcell data
 #define LOADCELL_SCK_PIN D6     //loadcell clock
-#define FRONTDOOR_OUT_PIN 7     //IR frontdoor
-#define BACKDOOR_OUT_PIN 8      //IR backdoor
+#define FRONTDOOR_OUT_PIN D7     //IR frontdoor
+#define BACKDOOR_OUT_PIN D8      //IR backdoor
 #define SERVO D4                //servo
 //----------------------------------------------------------------------------
 
@@ -87,15 +87,10 @@
 //            GLOBAL VARIABLES
 // =====================================
 unsigned int channel = 1;
-int clients_known_count_old, aps_known_count_old;
-unsigned long sendEntry, deleteEntry;
+unsigned long sendEntry;
 char* jsonOut;
 char* jsonIn;
 //StaticJsonBuffer<JBUFFER>  jsonBuffer;
-
-String device[MAXDEVICES];
-int nbrDevices = 0;
-int usedChannels[15];
 
 char* topic = telemetryTopic;
 String wifi_SSID = mySSID;
@@ -140,19 +135,31 @@ void read_backdoor()
 //               FUNCTIONS
 // =====================================
 char* generatePayload(){
-    String test = "{'co2': "; 
-    test += String(read_co2(MQ2_PIN));
-    test += ", 'loadcell': ";
-    test += read_weight(scale, loadcell_timeout);  
-    //test += ", 'MACs': ";
-    //test += getClients(clients_known, clients_known_count);
-    test += "}";
-    debugln(test);
+  DynamicJsonDocument out(JBUFFER);
+
+  out["co2"] = read_co2(MQ2_PIN);
+  out["loadcell"] = read_weight(scale, loadcell_timeout);
+  //out["MACs"] = getClients(clients_known, clients_known_count);
+
+  //debugln(out);
+
+  char payload[JBUFFER];
+  serializeJson(out, payload);
   
-    char payload[JBUFFER];
-    test.toCharArray(payload, JBUFFER);
-    
-    return payload;
+  return payload;
+}
+
+
+void process_cb(const char* topic, byte* payload, unsigned int length){
+  
+  debug("Message received on topic: ");
+  debug(topic);
+  debug(" ==> payload: ");
+  for (int i = 0; i < length; i++) {
+    debug((char)payload[i]);
+  }
+  debugln();
+  
 }
 //----------------------------------------------------------------------------
 
@@ -191,10 +198,10 @@ void setup() {
   //-
   
   // ------------ interruptions ------------
-  /*	pinMode(FRONTDOOR_OUT_PIN, INPUT_PULLUP);
+  	pinMode(FRONTDOOR_OUT_PIN, INPUT_PULLUP);
   	pinMode(BACKDOOR_OUT_PIN, INPUT_PULLUP);
   	attachInterrupt(FRONTDOOR_OUT_PIN, read_frontdoor, RISING);
-  	attachInterrupt(BACKDOOR_OUT_PIN, read_backdoor, RISING);*/
+  	attachInterrupt(BACKDOOR_OUT_PIN, read_backdoor, RISING);
   //-	 
 
   // ---------- servo, scale, co2 ----------
@@ -206,8 +213,9 @@ void setup() {
       }*/
   	
   	delay(2000); //co2 warm-up
-  //------------- lcd setup ----------------
+  //-
 
+  //------------- lcd setup ----------------
   Serial.println("MARCADOR");
   //setLCD(lcd);
   Serial.print("MARCADOR2");
