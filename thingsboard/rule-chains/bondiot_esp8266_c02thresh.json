@@ -11,26 +11,26 @@
     "configuration": null
   },
   "metadata": {
-    "firstNodeIndex": 2,
+    "firstNodeIndex": 3,
     "nodes": [
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 745,
-          "layoutY": 140
+          "layoutX": 724,
+          "layoutY": 153
         },
         "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
-        "name": "Compare with threshold",
+        "name": "CO2 < maxCO2 ?",
         "debugMode": false,
         "configuration": {
-          "jsScript": "return msg.CO2value < metadata[\"ss_maxCO2\"];"
+          "jsScript": "return msg.co2 < metadata[\"ss_maxCO2\"];"
         }
       },
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 1002,
-          "layoutY": 190
+          "layoutX": 975,
+          "layoutY": 248
         },
         "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
         "name": "C02 level is out of range",
@@ -48,21 +48,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 278,
-          "layoutY": 149
-        },
-        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
-        "name": "Is C02 sensor",
-        "debugMode": false,
-        "configuration": {
-          "jsScript": "return metadata.deviceType === \"BondIoT-ESP8266-Dev\""
-        }
-      },
-      {
-        "additionalInfo": {
-          "description": "",
-          "layoutX": 983,
-          "layoutY": 20
+          "layoutX": 974,
+          "layoutY": 74
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
         "name": "Save telemetry",
@@ -74,8 +61,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 517,
-          "layoutY": 224
+          "layoutX": 325,
+          "layoutY": 152
         },
         "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
         "name": "C02 Threshold",
@@ -95,7 +82,7 @@
     "connections": [
       {
         "fromIndex": 0,
-        "toIndex": 3,
+        "toIndex": 2,
         "type": "True"
       },
       {
@@ -104,17 +91,7 @@
         "type": "False"
       },
       {
-        "fromIndex": 2,
-        "toIndex": 3,
-        "type": "False"
-      },
-      {
-        "fromIndex": 2,
-        "toIndex": 4,
-        "type": "True"
-      },
-      {
-        "fromIndex": 4,
+        "fromIndex": 3,
         "toIndex": 0,
         "type": "Success"
       }

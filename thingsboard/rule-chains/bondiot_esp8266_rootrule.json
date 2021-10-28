@@ -11,28 +11,16 @@
     "configuration": null
   },
   "metadata": {
-    "firstNodeIndex": 9,
+    "firstNodeIndex": 7,
     "nodes": [
       {
         "additionalInfo": {
-          "layoutX": 896,
-          "layoutY": 331
-        },
-        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
-        "name": "Save Timeseries",
-        "debugMode": false,
-        "configuration": {
-          "defaultTTL": 0
-        }
-      },
-      {
-        "additionalInfo": {
           "description": "",
-          "layoutX": 650,
-          "layoutY": 337
+          "layoutX": 568,
+          "layoutY": 376
         },
         "type": "org.thingsboard.rule.engine.filter.TbOriginatorTypeSwitchNode",
-        "name": "originator type switch",
+        "name": "¿Originator type?",
         "debugMode": false,
         "configuration": {
           "version": 0
@@ -41,34 +29,20 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 912,
-          "layoutY": 215
+          "layoutX": 937,
+          "layoutY": 375
         },
-        "type": "org.thingsboard.rule.engine.filter.TbOriginatorTypeFilterNode",
-        "name": "CO2-originator",
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "¿BondIoT-ESP8266?",
         "debugMode": false,
         "configuration": {
-          "originatorTypes": [
-            "DEVICE"
-          ]
+          "jsScript": "return metadata.deviceType === \"BondIoT-ESP8266-Prof\";"
         }
       },
       {
         "additionalInfo": {
-          "layoutX": 1207,
-          "layoutY": 399
-        },
-        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
-        "name": "Save Timeseries",
-        "debugMode": false,
-        "configuration": {
-          "defaultTTL": 0
-        }
-      },
-      {
-        "additionalInfo": {
-          "layoutX": 649,
-          "layoutY": 149
+          "layoutX": 567,
+          "layoutY": 250
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
         "name": "Save Client Attributes",
@@ -80,8 +54,8 @@
       },
       {
         "additionalInfo": {
-          "layoutX": 298,
-          "layoutY": 400
+          "layoutX": 56,
+          "layoutY": 382
         },
         "type": "org.thingsboard.rule.engine.filter.TbMsgTypeSwitchNode",
         "name": "Message Type Switch",
@@ -92,8 +66,8 @@
       },
       {
         "additionalInfo": {
-          "layoutX": 700,
-          "layoutY": 499
+          "layoutX": 631,
+          "layoutY": 497
         },
         "type": "org.thingsboard.rule.engine.action.TbLogNode",
         "name": "Log RPC from Device",
@@ -104,8 +78,8 @@
       },
       {
         "additionalInfo": {
-          "layoutX": 626,
-          "layoutY": 646
+          "layoutX": 628,
+          "layoutY": 607
         },
         "type": "org.thingsboard.rule.engine.action.TbLogNode",
         "name": "Log Other",
@@ -116,8 +90,8 @@
       },
       {
         "additionalInfo": {
-          "layoutX": 500,
-          "layoutY": 777
+          "layoutX": 627,
+          "layoutY": 723
         },
         "type": "org.thingsboard.rule.engine.rpc.TbSendRPCRequestNode",
         "name": "RPC Call Request",
@@ -143,57 +117,66 @@
     ],
     "connections": [
       {
-        "fromIndex": 1,
-        "toIndex": 0,
+        "fromIndex": 0,
+        "toIndex": 1,
         "type": "Device"
       },
       {
-        "fromIndex": 2,
-        "toIndex": 3,
-        "type": "False"
-      },
-      {
-        "fromIndex": 5,
-        "toIndex": 7,
+        "fromIndex": 3,
+        "toIndex": 5,
         "type": "Other"
       },
       {
-        "fromIndex": 5,
-        "toIndex": 4,
+        "fromIndex": 3,
+        "toIndex": 2,
         "type": "Post attributes"
       },
       {
-        "fromIndex": 5,
-        "toIndex": 6,
+        "fromIndex": 3,
+        "toIndex": 4,
         "type": "RPC Request from Device"
       },
       {
-        "fromIndex": 5,
-        "toIndex": 8,
+        "fromIndex": 3,
+        "toIndex": 6,
         "type": "RPC Request to Device"
       },
       {
-        "fromIndex": 5,
-        "toIndex": 1,
+        "fromIndex": 3,
+        "toIndex": 0,
         "type": "Post telemetry"
       },
       {
-        "fromIndex": 9,
-        "toIndex": 5,
+        "fromIndex": 7,
+        "toIndex": 3,
         "type": "Success"
       }
     ],
     "ruleChainConnections": [
       {
-        "fromIndex": 2,
+        "fromIndex": 1,
         "targetRuleChainId": {
           "entityType": "RULE_CHAIN",
           "id": "b9eea290-306f-11ec-bbfc-fd6a05948889"
         },
         "additionalInfo": {
           "description": "",
-          "layoutX": 1087,
-          "layoutY": 149,
+          "layoutX": 1166,
+          "layoutY": 282,
+          "ruleChainNodeId": "rule-chain-node-10"
+        },
+        "type": "True"
+      },
+      {
+        "fromIndex": 1,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "36334b20-37f1-11ec-a0a8-5356543a831d"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1174,
+          "layoutY": 421,
           "ruleChainNodeId": "rule-chain-node-11"
         },
         "type": "True"

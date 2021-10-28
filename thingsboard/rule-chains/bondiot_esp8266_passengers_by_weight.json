@@ -11,13 +11,13 @@
     "configuration": null
   },
   "metadata": {
-    "firstNodeIndex": 3,
+    "firstNodeIndex": 4,
     "nodes": [
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 852,
-          "layoutY": 142
+          "layoutX": 939,
+          "layoutY": 220
         },
         "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
         "name": "Change number of passengers measured by weight",
@@ -29,8 +29,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 519,
-          "layoutY": 269
+          "layoutX": 679,
+          "layoutY": 151
         },
         "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
         "name": "Number of Passengers measured by weight",
@@ -49,8 +49,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 1201,
-          "layoutY": 140
+          "layoutX": 943,
+          "layoutY": 348
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
         "name": "Save modified attributes",
@@ -63,21 +63,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 278,
-          "layoutY": 149
-        },
-        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
-        "name": "Is weight sensor",
-        "debugMode": false,
-        "configuration": {
-          "jsScript": "return metadata.deviceType === \"WeightSensor\""
-        }
-      },
-      {
-        "additionalInfo": {
-          "description": "",
-          "layoutX": 755,
-          "layoutY": 20
+          "layoutX": 934,
+          "layoutY": 49
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
         "name": "Save telemetry",
@@ -89,8 +76,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 224,
-          "layoutY": 267
+          "layoutX": 300,
+          "layoutY": 149
         },
         "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
         "name": "Standard weight for passenger",
@@ -120,21 +107,11 @@
       },
       {
         "fromIndex": 1,
-        "toIndex": 4,
+        "toIndex": 3,
         "type": "Failure"
       },
       {
-        "fromIndex": 3,
-        "toIndex": 4,
-        "type": "False"
-      },
-      {
-        "fromIndex": 3,
-        "toIndex": 5,
-        "type": "True"
-      },
-      {
-        "fromIndex": 5,
+        "fromIndex": 4,
         "toIndex": 1,
         "type": "Success"
       }
