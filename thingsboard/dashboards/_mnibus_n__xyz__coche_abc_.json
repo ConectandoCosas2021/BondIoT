@@ -1041,6 +1041,54 @@
         "row": 0,
         "col": 0,
         "id": "5c5f4c0a-73aa-e421-b900-6819c4aadfaa"
+      },
+      "e0684e36-1430-edc1-5efb-7a160982f2f0": {
+        "isSystemType": true,
+        "bundleAlias": "control_widgets",
+        "typeAlias": "round_switch",
+        "type": "rpc",
+        "title": "New widget",
+        "image": null,
+        "description": null,
+        "sizeX": 2.5,
+        "sizeY": 2,
+        "config": {
+          "targetDeviceAliases": [],
+          "showTitle": false,
+          "backgroundColor": "#e6e7e8",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "0px",
+          "settings": {
+            "requestTimeout": 1000,
+            "initialValue": false,
+            "getValueMethod": "getValue",
+            "setValueMethod": "switchLed",
+            "title": "Round switch",
+            "retrieveValueMethod": "rpc",
+            "valueKey": "value",
+            "parseValueFunction": "return data ? true : false;",
+            "convertValueFunction": "return value;"
+          },
+          "title": "New Round switch",
+          "dropShadow": true,
+          "enableFullscreen": false,
+          "widgetStyle": {},
+          "titleStyle": {
+            "fontSize": "16px",
+            "fontWeight": 400
+          },
+          "useDashboardTimewindow": true,
+          "showLegend": false,
+          "actions": {},
+          "decimals": 2,
+          "datasources": [],
+          "targetDeviceAliasIds": [
+            "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec"
+          ]
+        },
+        "row": 0,
+        "col": 0,
+        "id": "e0684e36-1430-edc1-5efb-7a160982f2f0"
       }
     },
     "states": {
@@ -1077,7 +1125,7 @@
               "5c5f4c0a-73aa-e421-b900-6819c4aadfaa": {
                 "sizeX": 5,
                 "sizeY": 3,
-                "row": 3,
+                "row": 4,
                 "col": 0
               }
             },
@@ -1149,6 +1197,12 @@
                 "sizeY": 2,
                 "row": 6,
                 "col": 12
+              },
+              "e0684e36-1430-edc1-5efb-7a160982f2f0": {
+                "sizeX": 5,
+                "sizeY": 5,
+                "row": 7,
+                "col": 7
               }
             },
             "gridSettings": {

@@ -23,7 +23,7 @@
         "name": "Change number of passengers measured by weight",
         "debugMode": false,
         "configuration": {
-          "jsScript": "function changeNpassByWeight(msg)\n{\n    msg.nPassWeight = msg.peso/msg.pStandard;\n}\n\n\n\nreturn {msg: changeNpassByWeight(msg), metadata: metadata, msgType: msgType};"
+          "jsScript": "function changeNpassByWeight(msg)\n{\n    msg.nPassWeight = msg.loadcell/msg.standardWeight;\n}\n\n\n\nreturn {msg: changeNpassByWeight(msg), metadata: metadata, msgType: msgType};"
         }
       },
       {

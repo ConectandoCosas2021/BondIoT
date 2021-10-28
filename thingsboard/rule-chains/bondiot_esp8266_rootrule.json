@@ -11,13 +11,38 @@
     "configuration": null
   },
   "metadata": {
-    "firstNodeIndex": 8,
+    "firstNodeIndex": 9,
     "nodes": [
       {
         "additionalInfo": {
+          "layoutX": 896,
+          "layoutY": 331
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "Save Timeseries",
+        "debugMode": false,
+        "configuration": {
+          "defaultTTL": 0
+        }
+      },
+      {
+        "additionalInfo": {
           "description": "",
-          "layoutX": 1115,
-          "layoutY": 171
+          "layoutX": 650,
+          "layoutY": 337
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbOriginatorTypeSwitchNode",
+        "name": "originator type switch",
+        "debugMode": false,
+        "configuration": {
+          "version": 0
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 912,
+          "layoutY": 215
         },
         "type": "org.thingsboard.rule.engine.filter.TbOriginatorTypeFilterNode",
         "name": "CO2-originator",
@@ -30,8 +55,8 @@
       },
       {
         "additionalInfo": {
-          "layoutX": 1360,
-          "layoutY": 282
+          "layoutX": 1207,
+          "layoutY": 399
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
         "name": "Save Timeseries",
@@ -42,20 +67,8 @@
       },
       {
         "additionalInfo": {
-          "layoutX": 1088,
-          "layoutY": 93
-        },
-        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
-        "name": "Save Timeseries",
-        "debugMode": false,
-        "configuration": {
-          "defaultTTL": 0
-        }
-      },
-      {
-        "additionalInfo": {
-          "layoutX": 895,
-          "layoutY": 24
+          "layoutX": 649,
+          "layoutY": 149
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
         "name": "Save Client Attributes",
@@ -67,8 +80,8 @@
       },
       {
         "additionalInfo": {
-          "layoutX": 601,
-          "layoutY": 189
+          "layoutX": 298,
+          "layoutY": 400
         },
         "type": "org.thingsboard.rule.engine.filter.TbMsgTypeSwitchNode",
         "name": "Message Type Switch",
@@ -79,8 +92,8 @@
       },
       {
         "additionalInfo": {
-          "layoutX": 987,
-          "layoutY": 248
+          "layoutX": 700,
+          "layoutY": 499
         },
         "type": "org.thingsboard.rule.engine.action.TbLogNode",
         "name": "Log RPC from Device",
@@ -91,8 +104,8 @@
       },
       {
         "additionalInfo": {
-          "layoutX": 934,
-          "layoutY": 407
+          "layoutX": 626,
+          "layoutY": 646
         },
         "type": "org.thingsboard.rule.engine.action.TbLogNode",
         "name": "Log Other",
@@ -103,8 +116,8 @@
       },
       {
         "additionalInfo": {
-          "layoutX": 887,
-          "layoutY": 577
+          "layoutX": 500,
+          "layoutY": 777
         },
         "type": "org.thingsboard.rule.engine.rpc.TbSendRPCRequestNode",
         "name": "RPC Call Request",
@@ -116,8 +129,8 @@
       {
         "additionalInfo": {
           "description": "Process incoming messages from devices with the alarm rules defined in the device profile. Dispatch all incoming messages with \"Success\" relation type.",
-          "layoutX": 293,
-          "layoutY": 313
+          "layoutX": 300,
+          "layoutY": 149
         },
         "type": "org.thingsboard.rule.engine.profile.TbDeviceProfileNode",
         "name": "Device Profile Node",
@@ -130,74 +143,60 @@
     ],
     "connections": [
       {
-        "fromIndex": 0,
-        "toIndex": 1,
+        "fromIndex": 1,
+        "toIndex": 0,
+        "type": "Device"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 3,
         "type": "False"
       },
       {
-        "fromIndex": 4,
-        "toIndex": 6,
+        "fromIndex": 5,
+        "toIndex": 7,
         "type": "Other"
       },
       {
-        "fromIndex": 4,
-        "toIndex": 3,
+        "fromIndex": 5,
+        "toIndex": 4,
         "type": "Post attributes"
       },
       {
-        "fromIndex": 4,
-        "toIndex": 2,
-        "type": "Post telemetry"
-      },
-      {
-        "fromIndex": 4,
-        "toIndex": 5,
+        "fromIndex": 5,
+        "toIndex": 6,
         "type": "RPC Request from Device"
       },
       {
-        "fromIndex": 4,
-        "toIndex": 7,
+        "fromIndex": 5,
+        "toIndex": 8,
         "type": "RPC Request to Device"
       },
       {
-        "fromIndex": 4,
-        "toIndex": 0,
+        "fromIndex": 5,
+        "toIndex": 1,
         "type": "Post telemetry"
       },
       {
-        "fromIndex": 8,
-        "toIndex": 4,
+        "fromIndex": 9,
+        "toIndex": 5,
         "type": "Success"
       }
     ],
     "ruleChainConnections": [
       {
-        "fromIndex": 0,
+        "fromIndex": 2,
         "targetRuleChainId": {
           "entityType": "RULE_CHAIN",
           "id": "b9eea290-306f-11ec-bbfc-fd6a05948889"
         },
         "additionalInfo": {
           "description": "",
-          "layoutX": 1356,
-          "layoutY": 169,
-          "ruleChainNodeId": "rule-chain-node-10"
+          "layoutX": 1087,
+          "layoutY": 149,
+          "ruleChainNodeId": "rule-chain-node-11"
         },
         "type": "True"
-      },
-      {
-        "fromIndex": 2,
-        "targetRuleChainId": {
-          "entityType": "RULE_CHAIN",
-          "id": "65327860-222a-11ec-98da-ff58a36923f6"
-        },
-        "additionalInfo": {
-          "description": "",
-          "layoutX": 1375,
-          "layoutY": 92,
-          "ruleChainNodeId": "rule-chain-node-9"
-        },
-        "type": "Success"
       }
     ]
   }
