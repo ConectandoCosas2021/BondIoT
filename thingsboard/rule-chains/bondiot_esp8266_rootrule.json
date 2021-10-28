@@ -11,8 +11,21 @@
     "configuration": null
   },
   "metadata": {
-    "firstNodeIndex": 7,
+    "firstNodeIndex": 8,
     "nodes": [
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1002,
+          "layoutY": 478
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "Save timeseries",
+        "debugMode": false,
+        "configuration": {
+          "defaultTTL": 5
+        }
+      },
       {
         "additionalInfo": {
           "description": "",
@@ -90,6 +103,7 @@
       },
       {
         "additionalInfo": {
+          "description": null,
           "layoutX": 627,
           "layoutY": 723
         },
@@ -97,7 +111,7 @@
         "name": "RPC Call Request",
         "debugMode": false,
         "configuration": {
-          "timeoutInSeconds": 60
+          "timeoutInSeconds": 1000
         }
       },
       {
@@ -117,44 +131,49 @@
     ],
     "connections": [
       {
-        "fromIndex": 0,
-        "toIndex": 1,
+        "fromIndex": 1,
+        "toIndex": 2,
         "type": "Device"
       },
       {
-        "fromIndex": 3,
-        "toIndex": 5,
+        "fromIndex": 4,
+        "toIndex": 6,
         "type": "Other"
       },
       {
-        "fromIndex": 3,
-        "toIndex": 2,
+        "fromIndex": 4,
+        "toIndex": 3,
         "type": "Post attributes"
       },
       {
-        "fromIndex": 3,
-        "toIndex": 4,
+        "fromIndex": 4,
+        "toIndex": 5,
         "type": "RPC Request from Device"
       },
       {
-        "fromIndex": 3,
-        "toIndex": 6,
+        "fromIndex": 4,
+        "toIndex": 7,
         "type": "RPC Request to Device"
       },
       {
-        "fromIndex": 3,
+        "fromIndex": 4,
+        "toIndex": 1,
+        "type": "Post telemetry"
+      },
+      {
+        "fromIndex": 4,
         "toIndex": 0,
         "type": "Post telemetry"
       },
       {
-        "fromIndex": 7,
-        "toIndex": 3,
+        "fromIndex": 8,
+        "toIndex": 4,
         "type": "Success"
       }
     ],
     "ruleChainConnections": [
       {
-        "fromIndex": 1,
+        "fromIndex": 2,
         "targetRuleChainId": {
           "entityType": "RULE_CHAIN",
           "id": "b9eea290-306f-11ec-bbfc-fd6a05948889"
@@ -163,12 +182,12 @@
           "description": "",
           "layoutX": 1166,
           "layoutY": 282,
-          "ruleChainNodeId": "rule-chain-node-10"
+          "ruleChainNodeId": "rule-chain-node-11"
         },
         "type": "True"
       },
       {
-        "fromIndex": 1,
+        "fromIndex": 2,
         "targetRuleChainId": {
           "entityType": "RULE_CHAIN",
           "id": "36334b20-37f1-11ec-a0a8-5356543a831d"
@@ -177,7 +196,7 @@
           "description": "",
           "layoutX": 1174,
           "layoutY": 421,
-          "ruleChainNodeId": "rule-chain-node-11"
+          "ruleChainNodeId": "rule-chain-node-12"
         },
         "type": "True"
       }
