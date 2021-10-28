@@ -4,7 +4,7 @@ PubSubClient client(wifiClient);
 char* receivedData = "";
 
 
-bool connectToWiFi(String AP_SSID, String AP_PASSWORD, int MAX_ATTEMPTS) {
+bool connectToWiFi(String AP_SSID, String AP_PASSWORD, int MAX_ATTEMPTS){
   delay(10);
   debugln();
   debug("Connecting to ");
@@ -66,7 +66,7 @@ bool connectToThingsBoard(char* TB_SERVER, char* NODE_NAME, char* NODE_TOKEN, ch
 }
 
 
-void sendValues(char* topic, char* jsonStringOut) {
+void sendValues(char* topic, char* jsonStringOut){
   bool publishOK = false;
 
   publishOK = client.publish(topic, jsonStringOut);
@@ -111,7 +111,7 @@ char* receiveData(char* topic, int timeout){
 }
 
 
-void purgeDevice(int purgetime) {
+void purgeDevice(int purgetime){
   for (int u = 0; u < clients_known_count; u++) {
     if ((millis() - clients_known[u].lastDiscoveredTime) > purgetime) {
       //debug("purge Client" );
@@ -146,7 +146,7 @@ char *signalQuality(signed rssi){
 }
 
 
-void showDevices() {
+void showDevices(){
   debug("\n\n");
   debugln("-------------------Device DB-------------------");
   debugf("%4d Devices + Clients.\n",aps_known_count + clients_known_count); // show count

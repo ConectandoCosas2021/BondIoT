@@ -219,6 +219,11 @@ void setup() {
 //                 LOOP
 // =====================================
 void loop() {
+
+  //for(channel = 1; channel < 15; channel++){  // Only scan channels 1 to 14
+  //  for(int wait = 0; wait < 300; wait++);  // wait while monitor channel for 300 cicles
+  //  wifi_set_channel(channel);
+  //}
   
   channel = 1;
   wifi_set_channel(channel);

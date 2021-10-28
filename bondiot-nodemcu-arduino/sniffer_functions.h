@@ -24,7 +24,7 @@ int clients_known_count = 0;                              // Number of known CLI
 
 
 
-String formatMac1(uint8_t mac[ETH_MAC_LEN]) {
+String formatMac1(uint8_t mac[ETH_MAC_LEN]){
   String hi = "";
   for (int i = 0; i < ETH_MAC_LEN; i++) {
     if (mac[i] < 16) hi = hi + "0" + String(mac[i], HEX);
@@ -34,8 +34,8 @@ String formatMac1(uint8_t mac[ETH_MAC_LEN]) {
   return hi;
 }
 
-int register_beacon(beaconinfo beacon)
-{
+
+int register_beacon(beaconinfo beacon){
   int known = 0;   // Clear known flag
   for (int u = 0; u < aps_known_count; u++)
   {
@@ -69,7 +69,8 @@ int register_beacon(beaconinfo beacon)
   return known;
 }
 
-int register_client(clientinfo &ci) {
+
+int register_client(clientinfo &ci){
   int known = 0;   // Clear known flag
   for (int u = 0; u < clients_known_count; u++)
   {
@@ -117,58 +118,7 @@ int register_client(clientinfo &ci) {
 }
 
 
-String print_beacon(beaconinfo beacon)
-{
-  String hi = "";
-  if (beacon.err != 0) {
-    //debugf("BEACON ERR: (%d)  ", beacon.err);
-  } else {
-    debugf(" BEACON: <=============== [%32s]  ", beacon.ssid);
-    debug(formatMac1(beacon.bssid));
-    debugf("   %2d", beacon.channel);
-    debugf("   %4d\r\n", beacon.rssi);
-  }
-  return hi;
-}
-
-String print_client(clientinfo ci)
-{
-  String hi = "";
-  int u = 0;
-  int known = 0;   // Clear known flag
-  if (ci.err != 0) {
-    // nothing
-  } else {
-    debug("CLIENT: ");
-    debug(formatMac1(ci.station));  //Mac of device
-    debug(" ==> ");
-
-//    for (u = 0; u < aps_known_count; u++)
-//    {
-//      if (! memcmp(aps_known[u].bssid, ci.bssid, ETH_MAC_LEN)) {
-//        //       debug("   ");
-//        //        debugf("[%32s]", aps_known[u].ssid);   // Name of connected AP
-//        known = 1;     // AP known => Set known flag
-//        break;
-//      }
-//    }
-//
-//    if (! known)  {
-//      debugf("   Unknown/Malformed packet \r\n");
-//      for (int i = 0; i < 6; i++) debugf("%02x", ci.bssid[i]);
-//    } else {
-//      //    debugf("%2s", " ");
-      
-      debug(formatMac1(ci.ap));   // Mac of connected AP
-      debugf("  % 3d", ci.channel);  //used channel
-      debugf("   % 4d\r\n", ci.rssi);
-//    }
-  }
-  return hi;
-}
-
-void promisc_cb(uint8_t *buf, uint16_t len)
-{
+void promisc_cb(uint8_t *buf, uint16_t len){
   int i = 0;
   uint16_t seq_n_new = 0;
   if (len == 12) {
