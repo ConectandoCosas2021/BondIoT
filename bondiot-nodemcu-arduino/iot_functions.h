@@ -66,14 +66,19 @@ bool connectToThingsBoard(char* TB_SERVER, char* NODE_NAME, char* NODE_TOKEN, ch
 }
 
 
-void sendValues(char* topic, char* jsonStringOut){
+void sendValues(char* topic, DynamicJsonDocument jsonOut){
   bool publishOK = false;
 
-  publishOK = client.publish(topic, jsonStringOut);
+  char payload[1024];
+  serializeJson(jsonOut, payload);
+
+  publishOK = client.publish(topic, payload);
   
   if (publishOK){ 
     debug("Successfully published on topic: ");
     debugln(topic);
+    debug("Payload: ");
+    debugln(payload);
   }else {
     debugln();
     debugln("!!!!! Not published. Please add #define MQTT_MAX_PACKET_SIZE 2048 at the beginning of PubSubClient.h file");
@@ -82,7 +87,7 @@ void sendValues(char* topic, char* jsonStringOut){
 }
 
 
- void process_cb(const char* topic, byte* payload, unsigned int length);//{
+ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length);//{
   
 //   debug("Message received on topic: ");
 //   debug(topic);
@@ -100,7 +105,7 @@ char* receiveData(char* topic, int timeout){
   unsigned long t_act = millis();
 
   client.subscribe(topic);
-  client.setCallback(process_cb);
+  client.setCallback(thingsBoard_cb);
 
   while(t_act - t_0 < timeout){
     client.loop();

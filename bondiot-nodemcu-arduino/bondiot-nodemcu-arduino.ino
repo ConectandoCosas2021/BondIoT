@@ -1,7 +1,7 @@
 // =====================================
 //                 DEBUG
 // =====================================
-#define WIFI_DEBUG 0
+#define WIFI_DEBUG 1
 #define DEBUG 1
 
 #if DEBUG == 1
@@ -69,7 +69,7 @@
 // =====================================
 #define WiFi_connect_attempts 10
 #define TB_connect_attempts 5
-#define RECEVIE_TIMEOUT 5000    // Time in milliseconds
+#define RECEVIE_TIMEOUT 10000    // Time in milliseconds
 
 // =====================================
 //               I/O PINS
@@ -79,7 +79,8 @@
 #define LOADCELL_SCK_PIN D6     //loadcell clock
 #define FRONTDOOR_OUT_PIN D7     //IR frontdoor
 #define BACKDOOR_OUT_PIN D8      //IR backdoor
-#define SERVO D4                //servo
+#define LED_PIN D4               //NodeMCU built in LED
+#define SERVO D1                //servo
 //----------------------------------------------------------------------------
 
 
@@ -88,7 +89,6 @@
 // =====================================
 unsigned int channel = 1;
 unsigned long sendEntry;
-char* jsonOut;
 char* jsonIn;
 //StaticJsonBuffer<JBUFFER>  jsonBuffer;
 
@@ -134,32 +134,57 @@ void read_backdoor()
 // =====================================
 //               FUNCTIONS
 // =====================================
-char* generatePayload(){
+DynamicJsonDocument generateJsonPayload(){
   DynamicJsonDocument out(JBUFFER);
 
-  out["co2"] = read_co2(MQ2_PIN);
-  out["loadcell"] = read_weight(scale, loadcell_timeout);
+  out["co2"] = 10;//read_co2(MQ2_PIN);
+  out["loadcell"] = 20;//read_weight(scale, loadcell_timeout);
   //out["MACs"] = getClients(clients_known, clients_known_count);
 
-  //debugln(out);
-
-  char payload[JBUFFER];
-  serializeJson(out, payload);
-  
-  return payload;
+  return out;
 }
 
 
-void process_cb(const char* topic, byte* payload, unsigned int length){
+void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
   
   debug("Message received on topic: ");
   debug(topic);
   debug(" ==> payload: ");
-  for (int i = 0; i < length; i++) {
+  for (int i = 0; i < length; i++){
     debug((char)payload[i]);
   }
   debugln();
+
+  String cb_topic = String(topic);  //convert topic to string to parse
   
+  if (cb_topic.startsWith("v1/devices/me/rpc/request/")){
+    String response_number = cb_topic.substring(26);  //We are in a request, check request number
+
+    //Read JSON Object
+    DynamicJsonDocument in_message(256);
+    deserializeJson(in_message, payload);
+    String method = in_message["method"];
+    
+    if (method == "switchLed"){
+
+      bool state = in_message["params"];
+
+      if (state) {
+        digitalWrite(LED_PIN, LOW); //turn on led
+      } else {
+        digitalWrite(LED_PIN, HIGH); //turn off led
+      }
+      
+      char outTopic[128];
+      ("v1/devices/me/rpc/response/"+response_number).toCharArray(outTopic,128);
+      
+      DynamicJsonDocument resp(256);
+      resp["state"] = state;
+      char buffer[256];
+      serializeJson(resp, buffer);
+      client.publish(outTopic, buffer);
+    } 
+  } 
 }
 //----------------------------------------------------------------------------
 
@@ -170,6 +195,7 @@ void process_cb(const char* topic, byte* payload, unsigned int length){
 void setup() {
 
   Serial.begin(115200);
+  pinMode(LED_PIN, OUTPUT);
 
   // ------------- debug mode --------------
     if (WIFI_DEBUG == 1){
@@ -200,8 +226,8 @@ void setup() {
   // ------------ interruptions ------------
   	pinMode(FRONTDOOR_OUT_PIN, INPUT_PULLUP);
   	pinMode(BACKDOOR_OUT_PIN, INPUT_PULLUP);
-  	attachInterrupt(FRONTDOOR_OUT_PIN, read_frontdoor, RISING);
-  	attachInterrupt(BACKDOOR_OUT_PIN, read_backdoor, RISING);
+  	//attachInterrupt(FRONTDOOR_OUT_PIN, read_frontdoor, RISING);
+  	//attachInterrupt(BACKDOOR_OUT_PIN, read_backdoor, RISING);
   //-	 
 
   // ---------- servo, scale, co2 ----------
@@ -270,12 +296,9 @@ void loop() {
      
 
     if (WiFi_OK && TB_OK){
-      topic = telemetryTopic;
-      jsonOut = generatePayload();  //create json to send to thingsboard
-      sendValues(topic, jsonOut);   // If connected, send data to ThingsBoard
+      sendValues(telemetryTopic, generateJsonPayload());   // If connected, send data to ThingsBoard
+      receiveData(requestTopic, RECEVIE_TIMEOUT);
     }
-  
-    //jsonStringIn = receiveData(topic, RECEVIE_TIMEOUT);
   
     client.disconnect ();   // Disconnect from ThingsBoard
     WiFi.disconnect();    // Disconnect from WiFi
