@@ -49,8 +49,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 943,
-          "layoutY": 348
+          "layoutX": 1235,
+          "layoutY": 221
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
         "name": "Save modified attributes",

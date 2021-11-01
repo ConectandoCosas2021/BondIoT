@@ -11,13 +11,105 @@
     "configuration": null
   },
   "metadata": {
-    "firstNodeIndex": 3,
+    "firstNodeIndex": 0,
     "nodes": [
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 724,
-          "layoutY": 153
+          "layoutX": 379,
+          "layoutY": 150
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
+        "name": "Add alarmStateCO2 attribute to metadata",
+        "debugMode": false,
+        "configuration": {
+          "tellFailureIfAbsent": true,
+          "clientAttributeNames": [],
+          "sharedAttributeNames": [],
+          "serverAttributeNames": [],
+          "latestTsKeyNames": [
+            "alarmStateCO2"
+          ],
+          "getLatestValueWithTs": false
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1001,
+          "layoutY": 64
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Alarm ON",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "msg.alarmStateCO2 = true;\n\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1001,
+          "layoutY": 221
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Alarm OFF",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "msg.alarmStateCO2 = false;\n\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1075,
+          "layoutY": 456
+        },
+        "type": "org.thingsboard.rule.engine.mail.TbSendEmailNode",
+        "name": "mando maiiiiiiiiiiiiiil",
+        "debugMode": false,
+        "configuration": {
+          "useSystemSmtpSettings": true,
+          "smtpHost": "localhost",
+          "smtpPort": 25,
+          "username": null,
+          "password": null,
+          "smtpProtocol": "smtp",
+          "timeout": 10000,
+          "enableTls": false,
+          "tlsVersion": "TLSv1.2",
+          "enableProxy": false,
+          "proxyHost": null,
+          "proxyPort": null,
+          "proxyUser": null,
+          "proxyPassword": null
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "HOLA",
+          "layoutX": 654,
+          "layoutY": 460
+        },
+        "type": "org.thingsboard.rule.engine.mail.TbMsgToEmailNode",
+        "name": "email de falla",
+        "debugMode": false,
+        "configuration": {
+          "fromTemplate": "elmaildemajo.95@gmail.com",
+          "toTemplate": "${majocarbajal@gmail.com}",
+          "ccTemplate": null,
+          "bccTemplate": null,
+          "subjectTemplate": "EL DISPOSITIVO ${BondIoT-ESP8266-Prof} ESTA PASADO DE CO2",
+          "mailBodyType": "false",
+          "isHtmlTemplate": null,
+          "bodyTemplate": "EL NIVEL DE CO2 DE  ${BondIoT-ESP8266-Dev} ES ${co2}"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 721,
+          "layoutY": 149
         },
         "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
         "name": "CO2 < maxCO2 ?",
@@ -29,8 +121,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 975,
-          "layoutY": 248
+          "layoutX": 262,
+          "layoutY": 384
         },
         "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
         "name": "C02 level is out of range",
@@ -44,56 +136,33 @@
           "relationTypes": [],
           "dynamicSeverity": false
         }
-      },
-      {
-        "additionalInfo": {
-          "description": "",
-          "layoutX": 974,
-          "layoutY": 74
-        },
-        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
-        "name": "Save telemetry",
-        "debugMode": false,
-        "configuration": {
-          "defaultTTL": 0
-        }
-      },
-      {
-        "additionalInfo": {
-          "description": "",
-          "layoutX": 325,
-          "layoutY": 152
-        },
-        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
-        "name": "C02 Threshold",
-        "debugMode": false,
-        "configuration": {
-          "tellFailureIfAbsent": true,
-          "clientAttributeNames": [],
-          "sharedAttributeNames": [],
-          "serverAttributeNames": [
-            "maxC02"
-          ],
-          "latestTsKeyNames": [],
-          "getLatestValueWithTs": false
-        }
       }
     ],
     "connections": [
       {
         "fromIndex": 0,
-        "toIndex": 2,
+        "toIndex": 5,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 3,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 3,
+        "type": "Failure"
+      },
+      {
+        "fromIndex": 5,
+        "toIndex": 1,
         "type": "True"
       },
       {
-        "fromIndex": 0,
-        "toIndex": 1,
+        "fromIndex": 5,
+        "toIndex": 2,
         "type": "False"
-      },
-      {
-        "fromIndex": 3,
-        "toIndex": 0,
-        "type": "Success"
       }
     ],
     "ruleChainConnections": null
