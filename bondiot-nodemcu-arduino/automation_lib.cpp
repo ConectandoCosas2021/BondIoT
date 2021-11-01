@@ -5,7 +5,7 @@ void setLCD(LiquidCrystal_I2C lcd)
 {
     lcd.init();	                        // initializes LCD
     lcd.backlight();		            // makes LCB screen backlit
-    lcd.noCursor()                      // turns the cursor off
+    lcd.noCursor();                     // turns the cursor off
     lcd.clear();			            // erases screen
     lcd.home();                         // brings cursor to home position
 }
@@ -25,10 +25,9 @@ void printLCD(LiquidCrystal_I2C lcd, bool hasCustomMessage, char* customMessage,
 
         if(qPas < maxPas)
         {
-            lcd.home();                             // brings cursor to home position		
-            lcd.print("Nro DE PASAJEROS:");         // prints text       
-            lcd.setCursor(0, 1);		            // sets cursor to column 0 row 1
-            lcd.print(qPas,DEC);                    // prints number of passengers in decimal
+            lcd.setCursor(0, 1);                    // sets cursor to column 0 row 1	
+            lcd.print("PASAJEROS:");                // prints text       
+            lcd.print(qPas);                    // prints number of passengers
         }
         else
         {

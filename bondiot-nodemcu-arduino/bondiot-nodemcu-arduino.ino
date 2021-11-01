@@ -79,7 +79,7 @@
 #define LOADCELL_SCK_PIN D6     //loadcell clock
 #define FRONTDOOR_OUT_PIN D7     //IR frontdoor
 #define BACKDOOR_OUT_PIN D8      //IR backdoor
-#define LED_PIN D4               //NodeMCU built in LED
+#define LED_PIN 16               //NodeMCU built in LED
 #define SERVO D1                //servo
 //----------------------------------------------------------------------------
 
@@ -117,13 +117,13 @@ LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars
 // =====================================
 //            INTERRUPT FUNCTIONS
 // =====================================
-void read_frontdoor()
+ICACHE_RAM_ATTR void read_frontdoor()
 {
 	passengers++;
 	debugln("Front door interrupting");
 }
 
-void read_backdoor()
+ICACHE_RAM_ATTR void read_backdoor()
 {
 	passengers--;
 	debugln("Back door interrupting");
@@ -137,8 +137,9 @@ void read_backdoor()
 DynamicJsonDocument generateJsonPayload(){
   DynamicJsonDocument out(JBUFFER);
 
-  out["co2"] = 10;//read_co2(MQ2_PIN);
-  out["loadcell"] = 20;//read_weight(scale, loadcell_timeout);
+  out["co2"] = random(1024);//read_co2(MQ2_PIN);
+  out["loadcell"] = random(20000);//read_weight(scale, loadcell_timeout);
+  out["doors"] = passengers;
   //out["MACs"] = getClients(clients_known, clients_known_count);
 
   return out;
@@ -165,7 +166,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     deserializeJson(in_message, payload);
     String method = in_message["method"];
     
-    if (method == "switchLed"){
+    if (method == "switchLED"){
 
       bool state = in_message["params"];
 
@@ -174,15 +175,17 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
       } else {
         digitalWrite(LED_PIN, HIGH); //turn off led
       }
-      
-      char outTopic[128];
-      ("v1/devices/me/rpc/response/"+response_number).toCharArray(outTopic,128);
-      
+
+      //Attribute update
       DynamicJsonDocument resp(256);
-      resp["state"] = state;
+      resp["ledStatus"] = state;
       char buffer[256];
       serializeJson(resp, buffer);
-      client.publish(outTopic, buffer);
+      client.publish("v1/devices/me/attributes", buffer);
+
+      debug("Message sent on atribute: ledStatus");
+      debug(" ==> payload: ");
+      debug(buffer);
     } 
   } 
 }
@@ -226,8 +229,8 @@ void setup() {
   // ------------ interruptions ------------
   	pinMode(FRONTDOOR_OUT_PIN, INPUT_PULLUP);
   	pinMode(BACKDOOR_OUT_PIN, INPUT_PULLUP);
-  	//attachInterrupt(FRONTDOOR_OUT_PIN, read_frontdoor, RISING);
-  	//attachInterrupt(BACKDOOR_OUT_PIN, read_backdoor, RISING);
+  	attachInterrupt(digitalPinToInterrupt(FRONTDOOR_OUT_PIN), read_frontdoor, RISING);
+  	attachInterrupt(digitalPinToInterrupt(BACKDOOR_OUT_PIN), read_backdoor, RISING);
   //-	 
 
   // ---------- servo, scale, co2 ----------
@@ -256,7 +259,7 @@ void loop() {
   //  for(int wait = 0; wait < 300; wait++);  // wait while monitor channel for 300 cicles
   //  wifi_set_channel(channel);
   //}
-  
+  /*
   channel = 1;
   wifi_set_channel(channel);
   
@@ -282,10 +285,12 @@ void loop() {
     sendEntry = millis();
     //showDevices();  //Prints MAC addressses to the serial monitor    
     //jsonString = generateJson();  
-
+  */
     // Disable promiscuous mode in order to connect to the access point 
     wifi_promiscuous_enable(disable);
              
+    
+    if (!WiFi_OK)
     WiFi_OK = connectToWiFi(wifi_SSID, wifi_PASSWORD, WiFi_connect_attempts);   // Connect to WiFi access point
     
 
@@ -297,12 +302,13 @@ void loop() {
       sendValues(telemetryTopic, generateJsonPayload());   // If connected, send data to ThingsBoard
       receiveData(requestTopic, RECEVIE_TIMEOUT);
     }
-  
+  /*
     client.disconnect ();   // Disconnect from ThingsBoard
     WiFi.disconnect();    // Disconnect from WiFi
     wifi_promiscuous_enable(enable);    // Re-enable promiscuous mode
   
   }//end if sendtime
+  */
 
   //move servo
   //moveServo(myServo, servoState, openedPos, closedPos);
