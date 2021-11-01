@@ -36,7 +36,7 @@
 #include "sniffer_functions.h"
 #include "iot_functions.h"
 #include "reading_sensors_lib.h"
-#include "lib_lcd.h"
+#include "automation_lib.h"
 //----------------------------------------------------------------------------
 
 
@@ -110,7 +110,7 @@ float weight_for_calibration = 500;  //!!!!!!!! ESTO TIENE QUE TRAERSE DE THINGS
 unsigned int last_weight = 0;
 unsigned int passengers = 0;
 float calibration_constant = 1;
-//LiquidCrystal_I2C lcd(0x27); // DIR
+LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 //----------------------------------------------------------------------------
 
 
@@ -242,9 +242,7 @@ void setup() {
   //-
 
   //------------- lcd setup ----------------
-  Serial.println("MARCADOR");
-  //setLCD(lcd);
-  Serial.print("MARCADOR2");
+  setLCD(lcd);
 }
 //----------------------------------------------------------------------------
 
