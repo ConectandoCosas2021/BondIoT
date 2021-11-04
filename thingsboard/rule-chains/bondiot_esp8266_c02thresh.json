@@ -11,8 +11,22 @@
     "configuration": null
   },
   "metadata": {
-    "firstNodeIndex": 0,
+    "firstNodeIndex": 1,
     "nodes": [
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1292,
+          "layoutY": 133
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
+        "name": "Save alarm state",
+        "debugMode": false,
+        "configuration": {
+          "scope": "SERVER_SCOPE",
+          "notifyDevice": false
+        }
+      },
       {
         "additionalInfo": {
           "description": "",
@@ -26,16 +40,17 @@
           "tellFailureIfAbsent": true,
           "clientAttributeNames": [],
           "sharedAttributeNames": [],
-          "serverAttributeNames": [],
-          "latestTsKeyNames": [
-            "alarmStateCO2"
+          "serverAttributeNames": [
+            "alarmStateCO2",
+            "maxCO2"
           ],
+          "latestTsKeyNames": [],
           "getLatestValueWithTs": false
         }
       },
       {
         "additionalInfo": {
-          "description": "",
+          "description": "Change alarm state to ON and modify message type. The save attributes node requires message type = POST_ATTRIBUTES_REQUEST\n",
           "layoutX": 1001,
           "layoutY": 64
         },
@@ -43,12 +58,12 @@
         "name": "Alarm ON",
         "debugMode": false,
         "configuration": {
-          "jsScript": "msg.alarmStateCO2 = true;\n\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+          "jsScript": "\nvar newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar newMsg = {};\nnewMsg.alarmStateCO2 = true;\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
         }
       },
       {
         "additionalInfo": {
-          "description": "",
+          "description": "Change alarm state to OFF and modify message type. The save attributes node requires message type = POST_ATTRIBUTES_REQUEST",
           "layoutX": 1001,
           "layoutY": 221
         },
@@ -56,7 +71,7 @@
         "name": "Alarm OFF",
         "debugMode": false,
         "configuration": {
-          "jsScript": "msg.alarmStateCO2 = false;\n\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar newMsg = {};\nnewMsg.alarmStateCO2 = false;\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
         }
       },
       {
@@ -115,14 +130,14 @@
         "name": "CO2 < maxCO2 ?",
         "debugMode": false,
         "configuration": {
-          "jsScript": "return msg.co2 < metadata[\"ss_maxCO2\"];"
+          "jsScript": "return msg.co2 >= metadata.ss_maxCO2;"
         }
       },
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 262,
-          "layoutY": 384
+          "layoutX": 650,
+          "layoutY": 524
         },
         "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
         "name": "C02 level is out of range",
@@ -140,28 +155,38 @@
     ],
     "connections": [
       {
-        "fromIndex": 0,
-        "toIndex": 5,
+        "fromIndex": 1,
+        "toIndex": 6,
         "type": "Success"
       },
       {
-        "fromIndex": 4,
-        "toIndex": 3,
+        "fromIndex": 2,
+        "toIndex": 0,
         "type": "Success"
       },
       {
-        "fromIndex": 4,
-        "toIndex": 3,
+        "fromIndex": 3,
+        "toIndex": 0,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 5,
+        "toIndex": 4,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 5,
+        "toIndex": 4,
         "type": "Failure"
       },
       {
-        "fromIndex": 5,
-        "toIndex": 1,
+        "fromIndex": 6,
+        "toIndex": 2,
         "type": "True"
       },
       {
-        "fromIndex": 5,
-        "toIndex": 2,
+        "fromIndex": 6,
+        "toIndex": 3,
         "type": "False"
       }
     ],
