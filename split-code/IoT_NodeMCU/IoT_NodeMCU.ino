@@ -33,23 +33,11 @@
 #include <string.h>
 #include <Servo.h>
 
-#include "sniffer_functions.h"
 #include "iot_functions.h"
 #include "reading_sensors_lib.h"
 #include "automation_lib.h"
 //----------------------------------------------------------------------------
 
-
-// =====================================
-//                SNIFFER
-// =====================================
-#define disable 0
-#define enable  1
-#define SENDTIME 5000                   // Cloud report frequency
-#define MAXDEVICES 60
-#define JBUFFER 15+ (MAXDEVICES * 40)
-#define PURGETIME 20000                 // Max time a device can be undetected before is considered to not be in range anymore
-#define MINRSSI -70                     // Minimum acceptable signal intensity to consider a device as "inside the bus"
 
 // =====================================
 //              THINGSBOARD
@@ -67,6 +55,8 @@
 #define telemetryTopic "v1/devices/me/telemetry"
 #define requestTopic "v1/devices/me/rpc/request/+"
 #define attributesTopic "v1/devices/me/attributes"
+
+#define JBUFFER 1024
 
 // =====================================
 //            COMMUNICATIONS
@@ -91,12 +81,8 @@
 // =====================================
 //            GLOBAL VARIABLES
 // =====================================
-unsigned int channel = 1;
-unsigned long sendEntry;
-char* jsonIn;
-//StaticJsonBuffer<JBUFFER>  jsonBuffer;
-
 char* topic = telemetryTopic;
+
 String wifi_SSID = mySSID;
 String wifi_PASSWORD = myPASSWORD;
 bool WiFi_OK = false;
@@ -222,14 +208,6 @@ void setup() {
     }
   //-
   
-  // ----------------- wifi ----------------
-    wifi_set_opmode(STATION_MODE);  // Promiscuous works only with station mode
-    wifi_set_channel(channel);
-    wifi_promiscuous_enable(disable);
-    wifi_set_promiscuous_rx_cb(promisc_cb); // Set up promiscuous callback
-    wifi_promiscuous_enable(enable);
-  //-
-  
   // ------------ interruptions ------------
   	pinMode(FRONTDOOR_OUT_PIN, INPUT_PULLUP);
   	pinMode(BACKDOOR_OUT_PIN, INPUT_PULLUP);
@@ -257,62 +235,23 @@ void setup() {
 // =====================================
 //                 LOOP
 // =====================================
-void loop() {
-
-  //for(channel = 1; channel < 15; channel++){  // Only scan channels 1 to 14
-  //  for(int wait = 0; wait < 300; wait++);  // wait while monitor channel for 300 cicles
-  //  wifi_set_channel(channel);
-  //}
-  /*
-  channel = 1;
-  wifi_set_channel(channel);
-  
-  while (channel < 15) {                    // Only scan channels 1 to 14
-    nothing_new++;                          // Array is not finite, check bounds and adjust if required
-    if (nothing_new > 300) {       //200    // monitor channel for 200 ms
-      nothing_new = 0;
-      channel++;            
-      wifi_set_channel(channel);
+void loop() {             
+    
+    if (!WiFi.status() == WL_CONNECTED){
+      WiFi_OK = connectToWiFi(wifi_SSID, wifi_PASSWORD, WiFi_connect_attempts);   // Connect to WiFi access point
+      if (WiFi_OK) 
+        TB_OK = connectToThingsBoard(TB_SERVER, NODE_NAME, NODE_TOKEN, NODE_PW, TB_connect_attempts);    // If WiFi connected successfully, connect to ThingsBoard 
+        // Setup callback topic and function
+        if (TB_OK){
+          client.subscribe(requestTopic);
+          client.setCallback(thingsBoard_cb);
+        }
     }
-    
-    delay(1);                               // Critical processing timeslice for NONOS SDK! No delay(0) yield()
-
-    purgeDevice(PURGETIME);                 // Delete old devices that are no longer in range
-    
-  }//endwhile
-
-  //read co2 and loadcell sensors
-	//unsigned int readingCO2 = read_co2(MQ2_PIN);
-  //String readingLoadCellStr = read_weight(scale, loadcell_timeout);
-
-  if (millis() - sendEntry > SENDTIME) {
-    sendEntry = millis();
-    //showDevices();  //Prints MAC addressses to the serial monitor    
-    //jsonString = generateJson();  
-  */
-    // Disable promiscuous mode in order to connect to the access point 
-    wifi_promiscuous_enable(disable);
-             
-    
-    if (!WiFi_OK)
-    WiFi_OK = connectToWiFi(wifi_SSID, wifi_PASSWORD, WiFi_connect_attempts);   // Connect to WiFi access point
-    
-
-    if (WiFi_OK) 
-      TB_OK = connectToThingsBoard(TB_SERVER, NODE_NAME, NODE_TOKEN, NODE_PW, TB_connect_attempts);    // If WiFi connected successfully, connect to ThingsBoard 
-     
 
     if (WiFi_OK && TB_OK){
       sendValues(telemetryTopic, generateJsonPayload());   // If connected, send data to ThingsBoard
-      receiveData(requestTopic, RECEVIE_TIMEOUT);
+      //receiveData(requestTopic, RECEVIE_TIMEOUT);
     }
-  /*
-    client.disconnect ();   // Disconnect from ThingsBoard
-    WiFi.disconnect();    // Disconnect from WiFi
-    wifi_promiscuous_enable(enable);    // Re-enable promiscuous mode
-  
-  }//end if sendtime
-  */
 
   //move servo
   //moveServo(myServo, servoState, openedPos, closedPos);
