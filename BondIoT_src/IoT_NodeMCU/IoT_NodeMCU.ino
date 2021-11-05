@@ -81,8 +81,6 @@
 // =====================================
 //            GLOBAL VARIABLES
 // =====================================
-char* topic = telemetryTopic;
-
 String wifi_SSID = mySSID;
 String wifi_PASSWORD = myPASSWORD;
 bool WiFi_OK = false;
@@ -178,6 +176,37 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
       debug(buffer);
     } 
   } 
+/* majo sigo desde aca 
+  if (cb_topic.startsWith("v1/devices/me/attributes/")){
+    String attribute_id = cb_topic.substring(24);  //We are in a request, check request number
+
+    //Read JSON Object
+    DynamicJsonDocument in_message(256);
+    deserializeJson(in_message, payload);
+    String method = in_message["method"];
+    
+    if (method == "switchLED"){
+
+      bool state = in_message["params"];
+
+      if (state) {
+        digitalWrite(LED_PIN, LOW); //turn on led
+      } else {
+        digitalWrite(LED_PIN, HIGH); //turn off led
+      }
+
+      //Attribute update
+      DynamicJsonDocument resp(256);
+      resp["ledStatus"] = state;
+      char buffer[256];
+      serializeJson(resp, buffer);
+      client.publish("v1/devices/me/attributes", buffer);
+
+      debug("Message sent on atribute: ledStatus");
+      debug(" ==> payload: ");
+      debug(buffer);
+    } 
+  } */  
 }
 //----------------------------------------------------------------------------
 
@@ -244,13 +273,14 @@ void loop() {
         // Setup callback topic and function
         if (TB_OK){
           client.subscribe(requestTopic);
+          client.subscribe(attributesTopic);
           client.setCallback(thingsBoard_cb);
         }
     }
 
     if (WiFi_OK && TB_OK){
       sendValues(telemetryTopic, generateJsonPayload());   // If connected, send data to ThingsBoard
-      //receiveData(requestTopic, RECEVIE_TIMEOUT);
+      
     }
 
   //move servo
