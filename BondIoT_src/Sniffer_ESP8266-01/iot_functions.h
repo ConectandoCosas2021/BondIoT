@@ -106,10 +106,20 @@ String getClients(clientinfo clients_known[], int len, unsigned int digits){
   }
   out += "]}";
 
-  debugln("-----------------------------------");
+  debugln("-------------- DEBUG --------------");
   debugln("Redacted MACs to be sent:");
   debugln(out);
   debugln("-----------------------------------");
   
   return out;
+}
+
+
+void manageMsg(String msg){
+
+  if (msg == "GET_STATUS") Serial.println("OK");
+
+  if (msg == "GET_CLIENTS") Serial.println(getClients(clients_known, clients_known_count, 3));
+
+  if (msg == "SHOW_DEVICES") showDevices();
 }

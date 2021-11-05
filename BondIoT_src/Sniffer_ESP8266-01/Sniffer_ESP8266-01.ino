@@ -32,9 +32,7 @@
 // =====================================
 #define disable 0
 #define enable  1
-#define SENDTIME 5000                   // Cloud report frequency
 #define MAXDEVICES 60
-#define JBUFFER 15+ (MAXDEVICES * 40)
 #define PURGETIME 20000                 // Max time a device can be undetected before is considered to not be in range anymore
 #define MINRSSI -70                     // Minimum acceptable signal intensity to consider a device as "inside the bus"
 //----------------------------------------------------------------------------
@@ -83,17 +81,12 @@ void loop() {
     
     delay(1);                               // Critical processing timeslice for NONOS SDK! No delay(0) yield()
 
-    //purgeDevice(PURGETIME);                 // Delete old devices that are no longer in range
+    purgeDevice(PURGETIME);                 // Delete old devices that are no longer in range
 
     if (Serial.available()){
       serialMsg = Serial.readString();
       wifi_promiscuous_enable(disable);
-      if (serialMsg == "GET_CLIENTS"){
-        getClients(clients_known, clients_known_count, 3);
-      }
-      if (serialMsg == "SHOW_DEVICES"){
-        showDevices();
-      }
+      manageMsg(serialMsg);
       wifi_promiscuous_enable(enable);
     }
   }
