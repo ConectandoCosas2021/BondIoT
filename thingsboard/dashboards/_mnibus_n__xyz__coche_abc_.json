@@ -620,7 +620,7 @@
         "col": 0,
         "id": "89d12478-a0f8-0c52-b1db-cc0595d19fe2"
       },
-      "87fdfa26-5b25-b455-564b-96ab2b396f80": {
+      "5c5f4c0a-73aa-e421-b900-6819c4aadfaa": {
         "isSystemType": true,
         "bundleAlias": "input_widgets",
         "typeAlias": "update_server_integer_attribute",
@@ -644,7 +644,7 @@
                   "label": "standardWeight",
                   "color": "#2196f3",
                   "settings": {},
-                  "_hash": 0.39100812910649096
+                  "_hash": 0.8206856146887841
                 }
               ]
             }
@@ -677,137 +677,9 @@
           "showTitleIcon": true,
           "iconColor": "rgba(0, 0, 0, 0.87)",
           "iconSize": "24px",
-          "titleTooltip": "Peso estándar de 1 pasajero",
-          "titleIcon": "info"
-        },
-        "row": 0,
-        "col": 0,
-        "id": "87fdfa26-5b25-b455-564b-96ab2b396f80"
-      },
-      "18c48445-c7b2-1fc2-60a8-2f430c133c2d": {
-        "isSystemType": true,
-        "bundleAlias": "input_widgets",
-        "typeAlias": "update_server_string_attribute",
-        "type": "latest",
-        "title": "New widget",
-        "image": null,
-        "description": null,
-        "sizeX": 7.5,
-        "sizeY": 3,
-        "config": {
-          "datasources": [
-            {
-              "type": "entity",
-              "name": null,
-              "entityAliasId": "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec",
-              "filterId": null,
-              "dataKeys": [
-                {
-                  "name": "calibrationModeLoadCell",
-                  "type": "attribute",
-                  "label": "calibrationModeLoadCell",
-                  "color": "#2196f3",
-                  "settings": {},
-                  "_hash": 0.297220228625517
-                }
-              ]
-            }
-          ],
-          "timewindow": {
-            "realtime": {
-              "timewindowMs": 60000
-            }
-          },
-          "showTitle": true,
-          "backgroundColor": "rgba(153,218,215,0.66)",
-          "color": "rgba(0, 0, 0, 0.87)",
-          "padding": "8px",
-          "settings": {
-            "showResultMessage": true,
-            "showLabel": true,
-            "isRequired": true
-          },
-          "title": "Calibración de celda de carga",
-          "dropShadow": true,
-          "enableFullscreen": false,
-          "enableDataExport": false,
-          "widgetStyle": {},
-          "titleStyle": {
-            "fontSize": "16px",
-            "fontWeight": 400
-          },
-          "useDashboardTimewindow": true,
-          "showLegend": false,
-          "actions": {},
-          "showTitleIcon": true,
-          "iconColor": "rgba(0, 0, 0, 0.87)",
-          "iconSize": "24px",
-          "titleTooltip": "¿Entrar en modo calibración de celda de carga?",
-          "titleIcon": "info"
-        },
-        "row": 0,
-        "col": 0,
-        "id": "18c48445-c7b2-1fc2-60a8-2f430c133c2d"
-      },
-      "5c5f4c0a-73aa-e421-b900-6819c4aadfaa": {
-        "isSystemType": true,
-        "bundleAlias": "input_widgets",
-        "typeAlias": "update_server_integer_attribute",
-        "type": "latest",
-        "title": "New widget",
-        "image": null,
-        "description": null,
-        "sizeX": 7.5,
-        "sizeY": 3,
-        "config": {
-          "datasources": [
-            {
-              "type": "entity",
-              "name": null,
-              "entityAliasId": "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec",
-              "filterId": null,
-              "dataKeys": [
-                {
-                  "name": "weightForCalibration",
-                  "type": "attribute",
-                  "label": "weightForCalibration",
-                  "color": "#2196f3",
-                  "settings": {},
-                  "_hash": 0.8051627529857986
-                }
-              ]
-            }
-          ],
-          "timewindow": {
-            "realtime": {
-              "timewindowMs": 60000
-            }
-          },
-          "showTitle": true,
-          "backgroundColor": "rgba(153,218,215,0.66)",
-          "color": "rgba(0, 0, 0, 0.87)",
-          "padding": "8px",
-          "settings": {
-            "showResultMessage": true,
-            "showLabel": true,
-            "isRequired": true
-          },
-          "title": "Peso para calibración de la celda de carga",
-          "dropShadow": true,
-          "enableFullscreen": false,
-          "widgetStyle": {},
-          "titleStyle": {
-            "fontSize": "16px",
-            "fontWeight": 400
-          },
-          "useDashboardTimewindow": true,
-          "showLegend": false,
-          "actions": {},
-          "showTitleIcon": true,
-          "iconColor": "rgba(0, 0, 0, 0.87)",
-          "iconSize": "24px",
           "titleTooltip": "Peso para calibración de la celda de carga",
-          "titleIcon": "info"
+          "titleIcon": "info",
+          "noDataDisplayMessage": ""
         },
         "row": 0,
         "col": 0,
@@ -1092,6 +964,129 @@
         "row": 0,
         "col": 0,
         "id": "04f95609-92aa-03a0-8569-f2b3812d4504"
+      },
+      "3b050578-e578-3533-60c5-9aa5923ce6d6": {
+        "isSystemType": true,
+        "bundleAlias": "input_widgets",
+        "typeAlias": "update_shared_string_attribute",
+        "type": "latest",
+        "title": "New widget",
+        "image": null,
+        "description": null,
+        "sizeX": 7.5,
+        "sizeY": 3,
+        "config": {
+          "datasources": [
+            {
+              "type": "entity",
+              "name": null,
+              "entityAliasId": "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec",
+              "filterId": null,
+              "dataKeys": [
+                {
+                  "name": "calibrationModeLoadCell",
+                  "type": "attribute",
+                  "label": "calibrationModeLoadCell",
+                  "color": "#2196f3",
+                  "settings": {},
+                  "_hash": 0.843920752960269
+                }
+              ]
+            }
+          ],
+          "timewindow": {
+            "realtime": {
+              "timewindowMs": 60000
+            }
+          },
+          "showTitle": true,
+          "backgroundColor": "#fff",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "8px",
+          "settings": {
+            "showResultMessage": true,
+            "showLabel": true,
+            "isRequired": true
+          },
+          "title": "New Update shared string attribute",
+          "dropShadow": true,
+          "enableFullscreen": false,
+          "enableDataExport": false,
+          "widgetStyle": {},
+          "titleStyle": {
+            "fontSize": "16px",
+            "fontWeight": 400
+          },
+          "useDashboardTimewindow": true,
+          "showLegend": false,
+          "actions": {}
+        },
+        "row": 0,
+        "col": 0,
+        "id": "3b050578-e578-3533-60c5-9aa5923ce6d6"
+      },
+      "62c1762d-52df-133a-12d1-dce190a79b41": {
+        "isSystemType": true,
+        "bundleAlias": "input_widgets",
+        "typeAlias": "update_shared_integer_attribute",
+        "type": "latest",
+        "title": "New widget",
+        "image": null,
+        "description": null,
+        "sizeX": 7.5,
+        "sizeY": 3,
+        "config": {
+          "datasources": [
+            {
+              "type": "entity",
+              "name": null,
+              "entityAliasId": "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec",
+              "filterId": null,
+              "dataKeys": [
+                {
+                  "name": "weightForCalibration",
+                  "type": "attribute",
+                  "label": "weightForCalibration",
+                  "color": "#2196f3",
+                  "settings": {},
+                  "_hash": 0.19150578821570707
+                }
+              ]
+            }
+          ],
+          "timewindow": {
+            "realtime": {
+              "timewindowMs": 60000
+            }
+          },
+          "showTitle": true,
+          "backgroundColor": "#fff",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "8px",
+          "settings": {
+            "showResultMessage": true,
+            "showLabel": true,
+            "isRequired": true,
+            "widgetTitle": "Peso estándar de 1 pasajero"
+          },
+          "title": "Peso para calibración de la celda de carga",
+          "dropShadow": true,
+          "enableFullscreen": false,
+          "widgetStyle": {},
+          "titleStyle": {
+            "fontSize": "16px",
+            "fontWeight": 400
+          },
+          "useDashboardTimewindow": true,
+          "showLegend": false,
+          "actions": {},
+          "showTitleIcon": false,
+          "titleTooltip": "",
+          "noDataDisplayMessage": ""
+        },
+        "row": 0,
+        "col": 0,
+        "id": "62c1762d-52df-133a-12d1-dce190a79b41"
       }
     },
     "states": {
@@ -1113,23 +1108,23 @@
                 "row": 0,
                 "col": 6
               },
-              "87fdfa26-5b25-b455-564b-96ab2b396f80": {
+              "5c5f4c0a-73aa-e421-b900-6819c4aadfaa": {
                 "sizeX": 5,
                 "sizeY": 3,
                 "row": 0,
                 "col": 12
               },
-              "18c48445-c7b2-1fc2-60a8-2f430c133c2d": {
-                "sizeX": 5,
-                "sizeY": 3,
-                "row": 0,
-                "col": 18
-              },
-              "5c5f4c0a-73aa-e421-b900-6819c4aadfaa": {
+              "3b050578-e578-3533-60c5-9aa5923ce6d6": {
                 "sizeX": 5,
                 "sizeY": 3,
                 "row": 4,
                 "col": 0
+              },
+              "62c1762d-52df-133a-12d1-dce190a79b41": {
+                "sizeX": 5,
+                "sizeY": 3,
+                "row": 4,
+                "col": 6
               }
             },
             "gridSettings": {
