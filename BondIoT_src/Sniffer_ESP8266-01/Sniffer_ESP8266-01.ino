@@ -89,7 +89,7 @@ void loop() {
       serialMsg = Serial.readString();
       wifi_promiscuous_enable(disable);
       if (serialMsg == "GET_CLIENTS"){
-        getClients(clients_known, clients_known_count);
+        getClients(clients_known, clients_known_count, 3);
       }
       if (serialMsg == "SHOW_DEVICES"){
         showDevices();

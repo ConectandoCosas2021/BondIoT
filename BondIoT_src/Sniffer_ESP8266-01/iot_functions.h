@@ -1,3 +1,4 @@
+#define MAC_LEN 6
 
 void purgeDevice(int purgetime){
   for (int u = 0; u < clients_known_count; u++) {
@@ -86,25 +87,28 @@ void showDevices(){
 }
 
 
-String getClients(clientinfo clients_known[], int len){
+String getClients(clientinfo clients_known[], int len, unsigned int digits){
   String out;
   uint8_t aux;
+  if (digits > MAC_LEN) digits = MAC_LEN;
   out = "{'total_clients':" + String(len) + ", ";
   out += "'MACs':[";
   for(int i = 0; i < len; i++){
-    aux = clients_known[i].station[0];
     out += "'";
-    if (aux < 16) out += "0";
-    out += String(aux, HEX) + ":";
-    aux = clients_known[i].station[1];
-    if (aux < 16) out += "0";
-    out += String(aux, HEX) + "'";
-    if (i < len-1) out += ","; 
+    for(int j = 0; j < digits; j++){
+      aux = clients_known[i].station[j];
+      if (aux < 16) out += "0";
+      out += String(aux, HEX);
+      if (j < digits-1) out += ":";
+    }
+    out += "'";
+    if (i < len-1) out += ",";
   }
   out += "]}";
 
   debugln("-----------------------------------");
-  debugf("Redacted MACs to be sent:\n%s\n",out);
+  debugln("Redacted MACs to be sent:");
+  debugln(out);
   debugln("-----------------------------------");
   
   return out;
