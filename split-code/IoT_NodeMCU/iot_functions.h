@@ -1,7 +1,7 @@
 // Taken from PubSubClient in the fuction "setCallback"
 // Defines a generic function whith the needed parameters and the alias "callBackFunction" in this case
 // The alias "callBackFunction" is used to set the cb function in setCallback through the input parameter "CALLBACK_FUNCTION" of the function "setupCallBack"
-#define CALLBACK_FUNCTION std::function<void(char*, uint8_t*, unsigned int)> callBackFunction
+//#define CALLBACK_FUNCTION std::function<void(char*, uint8_t*, unsigned int)> callBackFunction
 
 
 WiFiClient wifiClient;
@@ -104,7 +104,7 @@ void sendValues(char* topic, DynamicJsonDocument jsonOut){
 //   debugln();
   
 // }
-
+/*
 void setupCallBack(CALLBACK_FUNCTION, char* topic){
   client.subscribe(topic);
   client.setCallback(callBackFunction);
