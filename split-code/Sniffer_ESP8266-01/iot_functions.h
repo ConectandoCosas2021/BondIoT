@@ -104,7 +104,7 @@ String getClients(clientinfo clients_known[], int len){
   out += "]}";
 
   debugln("-----------------------------------");
-  debugf("Redacted MACs to be sent:\n%s",out);
+  debugf("Redacted MACs to be sent:\n%s\n",out);
   debugln("-----------------------------------");
   
   return out;

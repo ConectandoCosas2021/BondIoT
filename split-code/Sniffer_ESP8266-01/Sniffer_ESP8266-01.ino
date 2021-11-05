@@ -87,11 +87,14 @@ void loop() {
 
     if (Serial.available()){
       serialMsg = Serial.readString();
+      wifi_promiscuous_enable(disable);
       if (serialMsg == "GET_CLIENTS"){
-        wifi_promiscuous_enable(disable);
-        showDevices();
-        wifi_promiscuous_enable(enable);
+        getClients(clients_known, clients_known_count);
       }
+      if (serialMsg == "SHOW_DEVICES"){
+        showDevices();
+      }
+      wifi_promiscuous_enable(enable);
     }
   }
 }
