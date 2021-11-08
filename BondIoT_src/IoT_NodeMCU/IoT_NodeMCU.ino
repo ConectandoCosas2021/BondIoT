@@ -98,7 +98,7 @@
   Servo myServo;
   LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
-  String calibrationMode = "ON";     // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
+  String calibrationMode = "OFF";     // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
   String servoState = "OPEN"; // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
   unsigned int last_weight = 0;
   unsigned int passengers = 0;
@@ -165,12 +165,12 @@ void setup() {
   //-	 
 
   // ---------- servo, scale, co2 ----------
-   /* myServo.attach(SERVO);
+    //myServo.attach(SERVO);
     scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);  
   	if (calibrationMode.equals("ON")){
   		calibration_constant = calibrateLoadCell(scale, weight_for_calibration);
       scale.set_scale(calibration_constant);
-      }*/
+      }
   	
   	delay(2000); //co2 warm-up
   //-
@@ -187,7 +187,7 @@ void setup() {
 // =====================================
 void loop() {             
     
-  if (!WiFi.status() == WL_CONNECTED){
+  if (WiFi.status() != WL_CONNECTED){
     WiFi_OK = connectToWiFi(wifi_SSID, wifi_PASSWORD, WiFi_connect_attempts);   // Connect to WiFi access point
     if (WiFi_OK) 
       TB_OK = connectToThingsBoard(TB_SERVER, NODE_NAME, NODE_TOKEN, NODE_PW, TB_connect_attempts);    // If WiFi connected successfully, connect to ThingsBoard 
@@ -241,8 +241,8 @@ void wifiDebugSetup(){
 DynamicJsonDocument generateJsonPayload(){
   DynamicJsonDocument out(JBUFFER);
 
-  out["co2"] = random(1024);//read_co2(MQ2_PIN);
-  out["loadcell"] = random(20000);//read_weight(scale, loadcell_timeout);
+  out["co2"] = read_co2(MQ2_PIN); //random(1024);
+  out["loadcell"] = read_weight(scale, loadcell_timeout); //random(20000);
   out["doors"] = passengers;
   //out["MACs"] = getClients(clients_known, clients_known_count);
 
@@ -320,8 +320,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
   // ---------------------------------------
   //         MANAGE ATTRIBUTE UPDATES 
   // ---------------------------------------
-
-/* majo sigo desde aca 
+/*
   if (cb_topic.startsWith("v1/devices/me/attributes/")){
     String attribute_id = cb_topic.substring(24);  //We are in a request, check request number
 
@@ -351,5 +350,5 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
       debug(" ==> payload: ");
       debug(buffer);
     } 
-  } */  
+  } */
 }
