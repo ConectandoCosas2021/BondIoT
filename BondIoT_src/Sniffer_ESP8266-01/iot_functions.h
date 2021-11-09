@@ -114,8 +114,23 @@ String getClients(clientinfo clients_known[], int len, unsigned int digits){
   return out;
 }
 
+String showHelp(){
+  String man = "";
+  man += ">>>>> SNIFFER MANUAL <<<<<\n";
+  man += "> HELP/MAN/?   - Shows this manual\n";
+  man += "> GET_STATUS   - Returns \"OK\" if there is active communication\n";
+  man += "> GET_CLIENTS  - Returns redacted MACs of client devices in json format\n";
+  man += "> SHOW_DEVICES - Shows a full list of client and beacon devices with details\n";
+  man += "\n\n";
+  return man;
+}
+
 
 void manageMsg(String msg){
+
+  msg.toUpperCase();
+
+  if (msg == "HELP" || msg == "MAN" || msg == "?") Serial.print(showHelp());
 
   if (msg == "GET_STATUS") Serial.println("OK");
 
