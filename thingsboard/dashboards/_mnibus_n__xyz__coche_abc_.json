@@ -754,16 +754,16 @@
           "color": "rgba(0, 0, 0, 0.87)",
           "padding": "0px",
           "settings": {
-            "requestTimeout": 500,
+            "requestTimeout": 60000,
             "initialValue": false,
             "getValueMethod": "getValue",
-            "setValueMethod": "setValue",
+            "setValueMethod": "setHatch",
             "showOnOffLabels": true,
             "title": "Escotilla",
-            "retrieveValueMethod": "rpc",
-            "valueKey": "value",
+            "retrieveValueMethod": "attribute",
+            "valueKey": "hatchState",
             "parseValueFunction": "return data ? true : false;",
-            "convertValueFunction": "return value;"
+            "convertValueFunction": "return hatchState;"
           },
           "title": "Escotilla",
           "dropShadow": true,
@@ -810,8 +810,8 @@
           "settings": {
             "requestTimeout": 60000,
             "initialValue": true,
-            "title": "CO2 indicator -> green = OK",
-            "ledColor": "#4caf50",
+            "title": "CO2 indicator",
+            "ledColor": "#c40c0c",
             "valueAttribute": "alarmStateCO2",
             "retrieveValueMethod": "attribute",
             "parseValueFunction": "return data ? true : false;",
