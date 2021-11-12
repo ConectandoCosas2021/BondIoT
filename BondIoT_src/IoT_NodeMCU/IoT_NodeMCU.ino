@@ -44,11 +44,11 @@
 // =====================================
 //              THINGSBOARD
 // =====================================
-  //#define NODE_NAME "a2457060-1fee-11ec-b4a5-cfb289af38d9" //MAJO
-  //#define NODE_TOKEN "NSo9BArnHowXfhTi9Xku" //MAJO
+  #define NODE_NAME "a2457060-1fee-11ec-b4a5-cfb289af38d9" //MAJO
+  #define NODE_TOKEN "NSo9BArnHowXfhTi9Xku" //MAJO
 
-  #define NODE_NAME "aa0a47f0-3b6c-11ec-a8d7-7db293f1afb9" //SEBA
-  #define NODE_TOKEN "ynQ3BwFFN1dfS8aYuXMa" //SEBA
+  //#define NODE_NAME "aa0a47f0-3b6c-11ec-a8d7-7db293f1afb9" //SEBA
+  //#define NODE_TOKEN "ynQ3BwFFN1dfS8aYuXMa" //SEBA
 
   #define NODE_PW NULL
 
@@ -75,7 +75,7 @@
   #define LOADCELL_SCK_PIN D6     //loadcell clock
   #define FRONTDOOR_OUT_PIN D7     //IR frontdoor
   #define BACKDOOR_OUT_PIN D8      //IR backdoor
-  #define LED_PIN 16               //NodeMCU built in LED
+  #define LED_PIN D4               //NodeMCU built in LED
   #define SERVO D1                //servo
 //----------------------------------------------------------------------------
 
@@ -257,7 +257,7 @@ DynamicJsonDocument generateJsonPayload(){
 // =====================================
 
 // This callback function is called by de client.loop routine every time
-// a topic, to witch this device is subscibed to, is updated with new data.
+// a topic, to which this device is subscibed to, is updated with new data.
 void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
   
   // DEBUG MSG
@@ -320,7 +320,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
   // ---------------------------------------
   //         MANAGE ATTRIBUTE UPDATES 
   // ---------------------------------------
-/*
+
   if (cb_topic.startsWith("v1/devices/me/attributes/")){
     String attribute_id = cb_topic.substring(24);  //We are in a request, check request number
 
@@ -328,27 +328,19 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     DynamicJsonDocument in_message(256);
     deserializeJson(in_message, payload);
     String method = in_message["method"];
-    
-    if (method == "switchLED"){
 
+    if (method == "setHatch"){
+      Serial.println("ESTOY EN EL METODO DE ABRIR ESCOTILLA");
       bool state = in_message["params"];
-
-      if (state) {
-        digitalWrite(LED_PIN, LOW); //turn on led
-      } else {
-        digitalWrite(LED_PIN, HIGH); //turn off led
-      }
+      if (state) Serial.println("vino TRUE");
+      else Serial.println("vino FALSE");
 
       //Attribute update
       DynamicJsonDocument resp(256);
-      resp["ledStatus"] = state;
+      resp["busHatch"] = state;
       char buffer[256];
       serializeJson(resp, buffer);
-      client.publish("v1/devices/me/attributes", buffer);
-
-      debug("Message sent on atribute: ledStatus");
-      debug(" ==> payload: ");
-      debug(buffer);
-    } 
-  } */
+      client.publish("v1/devices/me/attributes", buffer);      
+    }    
+  } 
 }
