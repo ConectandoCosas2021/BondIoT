@@ -1006,9 +1006,11 @@
           "settings": {
             "showResultMessage": true,
             "showLabel": true,
-            "isRequired": true
+            "isRequired": true,
+            "widgetTitle": "Modo calibración celda de carga",
+            "labelValue": " (ON/OFF)"
           },
-          "title": "New Update shared string attribute",
+          "title": "Modo calibración celda de carga",
           "dropShadow": true,
           "enableFullscreen": false,
           "enableDataExport": false,
@@ -1019,7 +1021,10 @@
           },
           "useDashboardTimewindow": true,
           "showLegend": false,
-          "actions": {}
+          "actions": {},
+          "showTitleIcon": false,
+          "titleTooltip": "",
+          "noDataDisplayMessage": ""
         },
         "row": 0,
         "col": 0,
@@ -1067,7 +1072,7 @@
             "showResultMessage": true,
             "showLabel": true,
             "isRequired": true,
-            "widgetTitle": "Peso estándar de 1 pasajero"
+            "widgetTitle": "Peso para calibración de la celda de carga"
           },
           "title": "Peso para calibración de la celda de carga",
           "dropShadow": true,

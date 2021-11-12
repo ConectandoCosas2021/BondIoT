@@ -292,34 +292,36 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     
 
     // --------- method "switchLED" ----------
-    if (method == "switchLED"){
+      if (method == "switchLED"){
 
-      bool state = in_message["params"]; //read parameter
+        bool state = in_message["params"]; //read parameter
 
-      if (state) {
-        digitalWrite(LED_PIN, LOW); //turn on led
-      } else {
-        digitalWrite(LED_PIN, HIGH); //turn off led
-      }
+        if (state) {
+          digitalWrite(LED_PIN, LOW); //turn on led
+        } else {
+          digitalWrite(LED_PIN, HIGH); //turn off led
+        }
 
-      // Update attribute "ledStatus" to let ThingsBoard know the new led state
-      DynamicJsonDocument resp(256);
-      resp["ledStatus"] = state;
-      char buffer[256];
-      serializeJson(resp, buffer);
-      client.publish("v1/devices/me/attributes", buffer);
+        // Update attribute "ledStatus" to let ThingsBoard know the new led state
+        DynamicJsonDocument resp(256);
+        resp["ledStatus"] = state;
+        char buffer[256];
+        serializeJson(resp, buffer);
+        client.publish("v1/devices/me/attributes", buffer);
 
-      // DEBUG MSG
-      debug("Message sent on atribute: ledStatus");
-      debug(" ==> payload: ");
-      debug(buffer);
-    } 
+        // DEBUG MSG
+        debug("Message sent on atribute: ledStatus");
+        debug(" ==> payload: ");
+        debug(buffer);
+      } 
+    //-
   }
 
 
   // ---------------------------------------
   //         MANAGE ATTRIBUTE UPDATES 
   // ---------------------------------------
+  
 
   if (cb_topic.startsWith("v1/devices/me/attributes/")){
     String attribute_id = cb_topic.substring(24);  //We are in a request, check request number
@@ -329,18 +331,29 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     deserializeJson(in_message, payload);
     String method = in_message["method"];
 
-    if (method == "setHatch"){
-      Serial.println("ESTOY EN EL METODO DE ABRIR ESCOTILLA");
-      bool state = in_message["params"];
-      if (state) Serial.println("vino TRUE");
-      else Serial.println("vino FALSE");
+    // --------- method "setHatch" ----------
 
-      //Attribute update
-      DynamicJsonDocument resp(256);
-      resp["busHatch"] = state;
-      char buffer[256];
-      serializeJson(resp, buffer);
-      client.publish("v1/devices/me/attributes", buffer);      
-    }    
-  } 
+      //me llega el true/false pero NO aparecen los Serial.print, no entra al IF
+
+      if (method == "setHatch"){ 
+        Serial.println("ESTOY EN EL METODO DE ABRIR ESCOTILLA");
+        bool state = in_message["params"];
+        if (state) Serial.println("vino TRUE");
+        else Serial.println("vino FALSE");
+
+        //Attribute update
+        DynamicJsonDocument resp(256);
+        resp["busHatch"] = state;
+        char buffer[256];
+        serializeJson(resp, buffer);
+        client.publish("v1/devices/me/attributes", buffer);      
+      }  
+        
+    //-
+
+    // --------- shared attribute " weightForCalibration " ----------
+
+    //-
+  }
+
 }
