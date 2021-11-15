@@ -208,9 +208,6 @@ void loop() {
     }
   }
 
-  //move servo
-  //moveServo(myServo, servoState, openedPos, closedPos);
-
   //printLCD(lcd, false, "HOLA JUAN CARLOS", 10, 20);
       
 }
@@ -315,6 +312,25 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
         debug(buffer);
       } 
     //-
+
+    // --------- method "setHatch" ----------
+      if (method == "setHatch"){ 
+        Serial.println("ESTOY EN EL METODO DE ABRIR ESCOTILLA");
+        bool state = in_message["params"];
+
+        if (state)
+          //moveServo(myServo, "OPEN", openedPos, closedPos);
+        else
+          //moveServo(myServo, "CLOSE", openedPos, closedPos);
+
+        //Attribute update
+        DynamicJsonDocument resp(256);
+        resp["busHatch"] = state;
+        char buffer[256];
+        serializeJson(resp, buffer);
+        client.publish("v1/devices/me/attributes", buffer);      
+      }        
+    //-      
   }
 
 
@@ -330,26 +346,6 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     DynamicJsonDocument in_message(256);
     deserializeJson(in_message, payload);
     String method = in_message["method"];
-
-    // --------- method "setHatch" ----------
-
-      //me llega el true/false pero NO aparecen los Serial.print, no entra al IF
-
-      if (method == "setHatch"){ 
-        Serial.println("ESTOY EN EL METODO DE ABRIR ESCOTILLA");
-        bool state = in_message["params"];
-        if (state) Serial.println("vino TRUE");
-        else Serial.println("vino FALSE");
-
-        //Attribute update
-        DynamicJsonDocument resp(256);
-        resp["busHatch"] = state;
-        char buffer[256];
-        serializeJson(resp, buffer);
-        client.publish("v1/devices/me/attributes", buffer);      
-      }  
-        
-    //-
 
     // --------- shared attribute " weightForCalibration " ----------
 
