@@ -98,8 +98,7 @@
   Servo myServo;
   LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
-  String calibrationMode = "OFF";     // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
-  String servoState = "OPEN"; // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
+  String calibrationMode = "OFF"; //initialize only. Value comes from thingsboard.
   unsigned int last_weight = 0;
   unsigned int passengers = 0;
 //-
@@ -107,9 +106,9 @@
 // ------------- constatnts --------------
   const int openedPos = 90;
   const int closedPos = 0; 
-  unsigned int loadcell_timeout = 1000; // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
+  unsigned int loadcell_timeout = 1000; //initialize only. Value comes from thingsboard.
   unsigned int weight_variation = 10;  // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
-  float weight_for_calibration = 500;  //!!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
+  float weight_for_calibration = 500;  //initialize only. Value comes from thingsboard.
   float calibration_constant = 1;
 //----------------------------------------------------------------------------
 
@@ -166,11 +165,15 @@ void setup() {
 
   // ---------- servo, scale, co2 ----------
     //myServo.attach(SERVO);
-    scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);  
+
+    scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+
+    calibrationMode.toUpperCase();
+    
   	if (calibrationMode.equals("ON")){
   		calibration_constant = calibrateLoadCell(scale, weight_for_calibration);
       scale.set_scale(calibration_constant);
-      }
+    }
   	
   	delay(2000); //co2 warm-up
   //-
@@ -260,7 +263,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
   // DEBUG MSG
   debug("Message received on topic: ");
   debug(topic);
-  debug(" ==> payload: ");
+  debug(" ==> Payload: ");
   for (int i = 0; i < length; i++){
     debug((char)payload[i]);
   }
@@ -268,7 +271,6 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
 
   // Convert topic to string to be parsed
   String cb_topic = String(topic);
-  
 
   // ---------------------------------------
   //           MANAGE RPC REQUESTS 
@@ -308,7 +310,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
 
         // DEBUG MSG
         debug("Message sent on atribute: ledStatus");
-        debug(" ==> payload: ");
+        debug(" ==> Payload: ");
         debug(buffer);
       } 
     //-
@@ -318,10 +320,14 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
         Serial.println("ESTOY EN EL METODO DE ABRIR ESCOTILLA");
         bool state = in_message["params"];
 
-        if (state)
+        if (state){
+          Serial.println("Abriendo escotilla");
           //moveServo(myServo, "OPEN", openedPos, closedPos);
-        else
+        }
+        else{
+          Serial.println("Cerrando escotilla");
           //moveServo(myServo, "CLOSE", openedPos, closedPos);
+        }
 
         //Attribute update
         DynamicJsonDocument resp(256);
@@ -339,17 +345,28 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
   // ---------------------------------------
   
 
-  if (cb_topic.startsWith("v1/devices/me/attributes/")){
+  //if (cb_topic.startsWith("v1/devices/me/attributes/")) //doesnt work
+  if (cb_topic.equals("v1/devices/me/attributes")){
     String attribute_id = cb_topic.substring(24);  //We are in a request, check request number
 
     //Read JSON Object
     DynamicJsonDocument in_message(256);
     deserializeJson(in_message, payload);
-    String method = in_message["method"];
 
     // --------- shared attribute " weightForCalibration " ----------
-
+      String weightForCalibration = in_message["weightForCalibration"]; //read from thingsboard
+      weight_for_calibration = (float) weightForCalibration.toInt();    //update ESP variable
     //-
+
+    // --------- shared attribute " calibrationModeLoadCell " ----------
+      String calibrationModeLoadCell = in_message["calibrationModeLoadCell"];
+      calibrationMode = String(calibrationModeLoadCell);
+    //-
+
+    // --------- shared attribute " calibrationModeLoadCell " ----------
+      String loadCellTimeOut = in_message["loadCellTimeOut"];
+      loadcell_timeout = loadCellTimeOut.toInt();
+    //-   
   }
 
 }

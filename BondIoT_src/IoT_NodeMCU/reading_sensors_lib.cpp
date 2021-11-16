@@ -14,6 +14,8 @@ unsigned int read_co2(unsigned int analogPin)
 
 void moveServo(Servo &myServo, String servoState, int openedPos, int closedPos)
 {
+	servoState.toUpperCase();
+	
   if (servoState.equals("OPEN"))
     if (myServo.read() == closedPos) myServo.write(openedPos);
   else

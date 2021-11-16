@@ -749,7 +749,7 @@
         "sizeY": 2.5,
         "config": {
           "targetDeviceAliases": [],
-          "showTitle": false,
+          "showTitle": true,
           "backgroundColor": "#e6e7e8",
           "color": "rgba(0, 0, 0, 0.87)",
           "padding": "0px",
@@ -758,12 +758,12 @@
             "initialValue": false,
             "getValueMethod": "getValue",
             "setValueMethod": "setHatch",
-            "showOnOffLabels": true,
+            "showOnOffLabels": false,
             "title": "Escotilla",
             "retrieveValueMethod": "attribute",
             "valueKey": "hatchState",
             "parseValueFunction": "return data ? true : false;",
-            "convertValueFunction": "return hatchState;"
+            "convertValueFunction": "return value;"
           },
           "title": "Escotilla",
           "dropShadow": true,
@@ -785,7 +785,8 @@
           "iconColor": "rgba(0, 0, 0, 0.87)",
           "iconSize": "24px",
           "titleTooltip": "Abrir o cerrar escotilla del ómnibus",
-          "titleIcon": ""
+          "titleIcon": "input",
+          "noDataDisplayMessage": ""
         },
         "row": 0,
         "col": 0,
@@ -1092,6 +1093,78 @@
         "row": 0,
         "col": 0,
         "id": "62c1762d-52df-133a-12d1-dce190a79b41"
+      },
+      "1ec176f0-bb0d-f531-6a4d-08213ff4282b": {
+        "isSystemType": true,
+        "bundleAlias": "cards",
+        "typeAlias": "html_card",
+        "type": "static",
+        "title": "New widget",
+        "image": null,
+        "description": null,
+        "sizeX": 7.5,
+        "sizeY": 3,
+        "config": {
+          "datasources": [],
+          "timewindow": {
+            "realtime": {
+              "timewindowMs": 60000
+            }
+          },
+          "showTitle": false,
+          "backgroundColor": "rgba(153,218,215,0.66)",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "8px",
+          "settings": {
+            "cardHtml": "<div class='card'> Datos para uso del dashboard </div>",
+            "cardCss": ".card {\n    font-weight: bold;\n    font-size: 32px;\n    color: #999;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}"
+          },
+          "title": "New HTML Card",
+          "dropShadow": true,
+          "enableFullscreen": true,
+          "widgetStyle": {},
+          "noDataDisplayMessage": "",
+          "showLegend": false
+        },
+        "row": 0,
+        "col": 0,
+        "id": "1ec176f0-bb0d-f531-6a4d-08213ff4282b"
+      },
+      "39f8cd90-402d-12b2-c7e2-0d398d6456d1": {
+        "isSystemType": true,
+        "bundleAlias": "cards",
+        "typeAlias": "html_card",
+        "type": "static",
+        "title": "New widget",
+        "image": null,
+        "description": null,
+        "sizeX": 7.5,
+        "sizeY": 3,
+        "config": {
+          "datasources": [],
+          "timewindow": {
+            "realtime": {
+              "timewindowMs": 60000
+            }
+          },
+          "showTitle": false,
+          "backgroundColor": "rgba(94,159,123,0.66)",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "8px",
+          "settings": {
+            "cardHtml": "<div class='card'> Datos para uso del dashboard </div>",
+            "cardCss": ".card {\n    font-weight: bold;\n    font-size: 32px;\n    color: #999;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}"
+          },
+          "title": "New HTML Card",
+          "dropShadow": true,
+          "enableFullscreen": true,
+          "widgetStyle": {},
+          "noDataDisplayMessage": "",
+          "showLegend": false
+        },
+        "row": 0,
+        "col": 0,
+        "id": "39f8cd90-402d-12b2-c7e2-0d398d6456d1"
       }
     },
     "states": {
@@ -1102,34 +1175,46 @@
           "main": {
             "widgets": {
               "d21f345c-248f-37f2-67fd-dece7076db61": {
-                "sizeX": 5,
+                "sizeX": 7,
                 "sizeY": 3,
-                "row": 0,
+                "row": 3,
                 "col": 0
               },
               "c7788150-f8f5-6ff0-3c0a-a6b22b100c05": {
-                "sizeX": 5,
+                "sizeX": 7,
                 "sizeY": 3,
-                "row": 0,
-                "col": 6
+                "row": 3,
+                "col": 7
               },
               "5c5f4c0a-73aa-e421-b900-6819c4aadfaa": {
-                "sizeX": 5,
+                "sizeX": 7,
                 "sizeY": 3,
-                "row": 0,
-                "col": 12
+                "row": 3,
+                "col": 14
               },
               "3b050578-e578-3533-60c5-9aa5923ce6d6": {
-                "sizeX": 5,
+                "sizeX": 7,
                 "sizeY": 3,
-                "row": 4,
-                "col": 0
+                "row": 9,
+                "col": 7
               },
               "62c1762d-52df-133a-12d1-dce190a79b41": {
-                "sizeX": 5,
+                "sizeX": 7,
                 "sizeY": 3,
-                "row": 4,
-                "col": 6
+                "row": 9,
+                "col": 0
+              },
+              "1ec176f0-bb0d-f531-6a4d-08213ff4282b": {
+                "sizeX": 21,
+                "sizeY": 3,
+                "row": 0,
+                "col": 0
+              },
+              "39f8cd90-402d-12b2-c7e2-0d398d6456d1": {
+                "sizeX": 21,
+                "sizeY": 3,
+                "row": 6,
+                "col": 0
               }
             },
             "gridSettings": {
