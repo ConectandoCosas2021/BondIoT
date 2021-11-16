@@ -169,7 +169,7 @@ void setup() {
     scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
 
     calibrationMode.toUpperCase();
-    
+
   	if (calibrationMode.equals("ON")){
   		calibration_constant = calibrateLoadCell(scale, weight_for_calibration);
       scale.set_scale(calibration_constant);
@@ -344,10 +344,8 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
   //         MANAGE ATTRIBUTE UPDATES 
   // ---------------------------------------
   
-
-  //if (cb_topic.startsWith("v1/devices/me/attributes/")) //doesnt work
   if (cb_topic.equals("v1/devices/me/attributes")){
-    String attribute_id = cb_topic.substring(24);  //We are in a request, check request number
+    //String attribute_id = cb_topic.substring(24);  //We are in a request, check request number
 
     //Read JSON Object
     DynamicJsonDocument in_message(256);
