@@ -73,10 +73,11 @@
   #define MQ2_PIN A0              //co2 analog
   #define LOADCELL_DOUT_PIN D5    //loadcell data
   #define LOADCELL_SCK_PIN D6     //loadcell clock
-  #define FRONTDOOR_OUT_PIN D7     //IR frontdoor
-  #define BACKDOOR_OUT_PIN D8      //IR backdoor
-  #define LED_PIN D4               //NodeMCU built in LED
+  #define FRONTDOOR_OUT_PIN D7    //IR frontdoor
+  #define BACKDOOR_OUT_PIN D8     //IR backdoor
+  #define LED_PIN D4              //NodeMCU built in LED
   #define SERVO D1                //servo
+  #define WINDOWSIGN D0           //open windows sign
 //----------------------------------------------------------------------------
 
 
@@ -154,6 +155,7 @@ void setup() {
 
   // -------------- pin mode ---------------
     pinMode(LED_PIN, OUTPUT);
+    pinMode(WINDOWSIGN, OUTPUT);
   //-
   
   // ------------ interruptions ------------
@@ -164,7 +166,7 @@ void setup() {
   //-	 
 
   // ---------- servo, scale, co2 ----------
-    //myServo.attach(SERVO);
+    myServo.attach(SERVO);
 
     scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
 
@@ -322,11 +324,17 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
 
         if (state){
           Serial.println("Abriendo escotilla");
-          //moveServo(myServo, "OPEN", openedPos, closedPos);
+          //moveServo(myServo, "OPEN", 45, 90);
+          myServo.write(180);
+          delay(1000);
+          //openWindowsSign(true, WINDOWSIGN);
         }
         else{
           Serial.println("Cerrando escotilla");
-          //moveServo(myServo, "CLOSE", openedPos, closedPos);
+          //moveServo(myServo, "CLOSE", 45, 90);
+          myServo.write(90);
+          delay(1000);
+          //openWindowsSign(false, WINDOWSIGN);
         }
 
         //Attribute update
