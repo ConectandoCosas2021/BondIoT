@@ -44,11 +44,11 @@
 // =====================================
 //              THINGSBOARD
 // =====================================
-  //#define NODE_NAME "a2457060-1fee-11ec-b4a5-cfb289af38d9" //MAJO
-  //#define NODE_TOKEN "NSo9BArnHowXfhTi9Xku" //MAJO
+  #define NODE_NAME "a2457060-1fee-11ec-b4a5-cfb289af38d9" //MAJO
+  #define NODE_TOKEN "NSo9BArnHowXfhTi9Xku" //MAJO
 
-  #define NODE_NAME "aa0a47f0-3b6c-11ec-a8d7-7db293f1afb9" //SEBA
-  #define NODE_TOKEN "ynQ3BwFFN1dfS8aYuXMa" //SEBA
+//  #define NODE_NAME "aa0a47f0-3b6c-11ec-a8d7-7db293f1afb9" //SEBA
+//  #define NODE_TOKEN "ynQ3BwFFN1dfS8aYuXMa" //SEBA
 
   #define NODE_PW NULL
 
@@ -166,7 +166,7 @@ void setup() {
 
   // ---------- servo, scale, co2 ----------
     //myServo.attach(SERVO);
-    scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);  
+    //scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);  
   	if (calibrationMode.equals("ON")){
   		calibration_constant = calibrateLoadCell(scale, weight_for_calibration);
       scale.set_scale(calibration_constant);
