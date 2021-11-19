@@ -16,14 +16,14 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 1292,
-          "layoutY": 133
+          "layoutX": 1283,
+          "layoutY": 138
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
-        "name": "Save alarm state",
+        "name": "Save alarmCO2",
         "debugMode": false,
         "configuration": {
-          "scope": "SERVER_SCOPE",
+          "scope": "SHARED_SCOPE",
           "notifyDevice": false
         }
       },
@@ -34,14 +34,15 @@
           "layoutY": 150
         },
         "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
-        "name": "Add alarmStateCO2 attribute to metadata",
+        "name": "Add alarmCO2 attribute to metadata",
         "debugMode": false,
         "configuration": {
           "tellFailureIfAbsent": true,
           "clientAttributeNames": [],
-          "sharedAttributeNames": [],
+          "sharedAttributeNames": [
+            "alarmCO2"
+          ],
           "serverAttributeNames": [
-            "alarmStateCO2",
             "maxCO2"
           ],
           "latestTsKeyNames": [],
@@ -58,7 +59,7 @@
         "name": "Alarm ON",
         "debugMode": false,
         "configuration": {
-          "jsScript": "\nvar newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar newMsg = {};\nnewMsg.alarmStateCO2 = true;\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
+          "jsScript": "\nvar newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar newMsg = {};\nnewMsg.alarmCO2 = true;\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
         }
       },
       {
@@ -71,53 +72,7 @@
         "name": "Alarm OFF",
         "debugMode": false,
         "configuration": {
-          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar newMsg = {};\nnewMsg.alarmStateCO2 = false;\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
-        }
-      },
-      {
-        "additionalInfo": {
-          "description": "",
-          "layoutX": 1075,
-          "layoutY": 456
-        },
-        "type": "org.thingsboard.rule.engine.mail.TbSendEmailNode",
-        "name": "mando maiiiiiiiiiiiiiil",
-        "debugMode": false,
-        "configuration": {
-          "useSystemSmtpSettings": true,
-          "smtpHost": "localhost",
-          "smtpPort": 25,
-          "username": null,
-          "password": null,
-          "smtpProtocol": "smtp",
-          "timeout": 10000,
-          "enableTls": false,
-          "tlsVersion": "TLSv1.2",
-          "enableProxy": false,
-          "proxyHost": null,
-          "proxyPort": null,
-          "proxyUser": null,
-          "proxyPassword": null
-        }
-      },
-      {
-        "additionalInfo": {
-          "description": "HOLA",
-          "layoutX": 654,
-          "layoutY": 460
-        },
-        "type": "org.thingsboard.rule.engine.mail.TbMsgToEmailNode",
-        "name": "email de falla",
-        "debugMode": false,
-        "configuration": {
-          "fromTemplate": "elmaildemajo.95@gmail.com",
-          "toTemplate": "${majocarbajal@gmail.com}",
-          "ccTemplate": null,
-          "bccTemplate": null,
-          "subjectTemplate": "EL DISPOSITIVO ${BondIoT-ESP8266-Prof} ESTA PASADO DE CO2",
-          "mailBodyType": "false",
-          "isHtmlTemplate": null,
-          "bodyTemplate": "EL NIVEL DE CO2 DE  ${BondIoT-ESP8266-Dev} ES ${co2}"
+          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar newMsg = {};\nnewMsg.alarmCO2 = false;\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
         }
       },
       {
@@ -132,31 +87,12 @@
         "configuration": {
           "jsScript": "return msg.co2 >= metadata.ss_maxCO2;"
         }
-      },
-      {
-        "additionalInfo": {
-          "description": "",
-          "layoutX": 650,
-          "layoutY": 524
-        },
-        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
-        "name": "C02 level is out of range",
-        "debugMode": false,
-        "configuration": {
-          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n}\nreturn details;",
-          "useMessageAlarmData": false,
-          "alarmType": "General Alarm",
-          "severity": "CRITICAL",
-          "propagate": true,
-          "relationTypes": [],
-          "dynamicSeverity": false
-        }
       }
     ],
     "connections": [
       {
         "fromIndex": 1,
-        "toIndex": 6,
+        "toIndex": 4,
         "type": "Success"
       },
       {
@@ -170,22 +106,12 @@
         "type": "Success"
       },
       {
-        "fromIndex": 5,
-        "toIndex": 4,
-        "type": "Success"
-      },
-      {
-        "fromIndex": 5,
-        "toIndex": 4,
-        "type": "Failure"
-      },
-      {
-        "fromIndex": 6,
+        "fromIndex": 4,
         "toIndex": 2,
         "type": "True"
       },
       {
-        "fromIndex": 6,
+        "fromIndex": 4,
         "toIndex": 3,
         "type": "False"
       }

@@ -813,7 +813,7 @@
             "initialValue": true,
             "title": "CO2 indicator",
             "ledColor": "#c40c0c",
-            "valueAttribute": "alarmStateCO2",
+            "valueAttribute": "alarmCO2",
             "retrieveValueMethod": "attribute",
             "parseValueFunction": "return data ? true : false;",
             "performCheckStatus": false,
@@ -868,20 +868,20 @@
                   "_hash": 0.7165268111792885
                 },
                 {
-                  "name": "alarmStateCO2",
-                  "type": "attribute",
-                  "label": "alarmStateCO2",
-                  "color": "#af4ca5",
-                  "settings": {},
-                  "_hash": 0.8981198345929172
-                },
-                {
                   "name": "co2",
                   "type": "timeseries",
                   "label": "co2",
                   "color": "#f44336",
                   "settings": {},
                   "_hash": 0.7151915894538912
+                },
+                {
+                  "name": "alarmCO2",
+                  "type": "attribute",
+                  "label": "alarmCO2",
+                  "color": "#f44336",
+                  "settings": {},
+                  "_hash": 0.4588545697100498
                 }
               ]
             }
@@ -1001,7 +1001,7 @@
             }
           },
           "showTitle": true,
-          "backgroundColor": "#fff",
+          "backgroundColor": "rgba(94,159,123,0.66)",
           "color": "rgba(0, 0, 0, 0.87)",
           "padding": "8px",
           "settings": {
@@ -1066,7 +1066,7 @@
             }
           },
           "showTitle": true,
-          "backgroundColor": "#fff",
+          "backgroundColor": "rgba(94,159,123,0.66)",
           "color": "rgba(0, 0, 0, 0.87)",
           "padding": "8px",
           "settings": {
@@ -1117,7 +1117,7 @@
           "padding": "8px",
           "settings": {
             "cardHtml": "<div class='card'> Datos para uso del dashboard </div>",
-            "cardCss": ".card {\n    font-weight: bold;\n    font-size: 32px;\n    color: #999;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}"
+            "cardCss": ".card {\n    font-weight: bold;\n    font-size: 32px;\n    color: #000;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}"
           },
           "title": "New HTML Card",
           "dropShadow": true,
@@ -1152,8 +1152,8 @@
           "color": "rgba(0, 0, 0, 0.87)",
           "padding": "8px",
           "settings": {
-            "cardHtml": "<div class='card'> Datos para uso del dashboard </div>",
-            "cardCss": ".card {\n    font-weight: bold;\n    font-size: 32px;\n    color: #999;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}"
+            "cardHtml": "<div class='card'> Datos para el ESP8266 </div>",
+            "cardCss": ".card {\n    font-weight: bold;\n    font-size: 32px;\n    color: #000;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}"
           },
           "title": "New HTML Card",
           "dropShadow": true,
@@ -1165,6 +1165,69 @@
         "row": 0,
         "col": 0,
         "id": "39f8cd90-402d-12b2-c7e2-0d398d6456d1"
+      },
+      "7de0d673-518e-acf1-f4ff-63f0449225d3": {
+        "isSystemType": true,
+        "bundleAlias": "input_widgets",
+        "typeAlias": "update_shared_integer_attribute",
+        "type": "latest",
+        "title": "New widget",
+        "image": null,
+        "description": null,
+        "sizeX": 7.5,
+        "sizeY": 3,
+        "config": {
+          "datasources": [
+            {
+              "type": "entity",
+              "name": null,
+              "entityAliasId": "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec",
+              "filterId": null,
+              "dataKeys": [
+                {
+                  "name": "loadCellTimeOut",
+                  "type": "attribute",
+                  "label": "loadCellTimeOut",
+                  "color": "#2196f3",
+                  "settings": {},
+                  "_hash": 0.8517230168021717
+                }
+              ]
+            }
+          ],
+          "timewindow": {
+            "realtime": {
+              "timewindowMs": 60000
+            }
+          },
+          "showTitle": true,
+          "backgroundColor": "rgba(94,159,123,0.66)",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "8px",
+          "settings": {
+            "showResultMessage": true,
+            "showLabel": true,
+            "isRequired": true,
+            "widgetTitle": "Tiempo de espera por lectura de celda de carga"
+          },
+          "title": "Tiempo de espera por lectura de celda de carga",
+          "dropShadow": true,
+          "enableFullscreen": false,
+          "widgetStyle": {},
+          "titleStyle": {
+            "fontSize": "16px",
+            "fontWeight": 400
+          },
+          "useDashboardTimewindow": true,
+          "showLegend": false,
+          "actions": {},
+          "showTitleIcon": false,
+          "titleTooltip": "loadCellTimeOut",
+          "noDataDisplayMessage": ""
+        },
+        "row": 0,
+        "col": 0,
+        "id": "7de0d673-518e-acf1-f4ff-63f0449225d3"
       }
     },
     "states": {
@@ -1215,6 +1278,12 @@
                 "sizeY": 3,
                 "row": 6,
                 "col": 0
+              },
+              "7de0d673-518e-acf1-f4ff-63f0449225d3": {
+                "sizeX": 7,
+                "sizeY": 3,
+                "row": 9,
+                "col": 14
               }
             },
             "gridSettings": {
