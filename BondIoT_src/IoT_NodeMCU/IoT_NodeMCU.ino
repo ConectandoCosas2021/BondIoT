@@ -71,13 +71,14 @@
 //               I/O PINS
 // =====================================
   #define MQ2_PIN A0              //co2 analog
+  #define WINDOWSIGN D0           //open windows sign
+//Pin D1, D2 -> i2C               //display
+  #define SERVO D3                //servo
+  #define LED_PIN D4              //NodeMCU built in LED
   #define LOADCELL_DOUT_PIN D5    //loadcell data
   #define LOADCELL_SCK_PIN D6     //loadcell clock
   #define FRONTDOOR_OUT_PIN D7    //IR frontdoor
   #define BACKDOOR_OUT_PIN D8     //IR backdoor
-  #define LED_PIN D4              //NodeMCU built in LED
-  #define SERVO D1                //servo
-  #define WINDOWSIGN D0           //open windows sign
 //----------------------------------------------------------------------------
  
 
@@ -108,9 +109,10 @@
   const int openedPos = 90;
   const int closedPos = 0; 
   unsigned int loadcell_timeout = 1000; //initialize only. Value comes from thingsboard.
-  unsigned int weight_variation = 10;  // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
-  float weight_for_calibration = 500;  //initialize only. Value comes from thingsboard.
+  unsigned int weight_variation = 10;   // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
+  float weight_for_calibration = 500;   //initialize only. Value comes from thingsboard.
   float calibration_constant = 1;
+  bool alarmCO2 = false;           //initialize only. Value comes from thingsboard.
 //----------------------------------------------------------------------------
 
 
@@ -319,22 +321,16 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
 
     // --------- method "setHatch" ----------
       if (method == "setHatch"){ 
-        Serial.println("ESTOY EN EL METODO DE ABRIR ESCOTILLA");
         bool state = in_message["params"];
 
         if (state){
           Serial.println("Abriendo escotilla");
-          //moveServo(myServo, "OPEN", 45, 90);
-          myServo.write(180);
-          delay(1000);
-          //openWindowsSign(true, WINDOWSIGN);
+          myServo.write(openedPos);        
         }
         else{
           Serial.println("Cerrando escotilla");
-          //moveServo(myServo, "CLOSE", 45, 90);
-          myServo.write(90);
-          delay(1000);
-          //openWindowsSign(false, WINDOWSIGN);
+          myServo.write(closedPos);
+          openWindowsSign(false, WINDOWSIGN);
         }
 
         //Attribute update
@@ -372,7 +368,17 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     // --------- shared attribute " calibrationModeLoadCell " ----------
       String loadCellTimeOut = in_message["loadCellTimeOut"];
       loadcell_timeout = loadCellTimeOut.toInt();
-    //-   
+    //- 
+
+    // --------- server attribute " alarmStateCO2 " ----------  
+      String stralarmCO2 = in_message["alarmCO2"];
+      alarmCO2 = stralarmCO2.equals("true");
+
+      if (alarmCO2)
+        openWindowsSign(true, WINDOWSIGN);
+      else
+        openWindowsSign(false, WINDOWSIGN);
+    //-
   }
 
 }

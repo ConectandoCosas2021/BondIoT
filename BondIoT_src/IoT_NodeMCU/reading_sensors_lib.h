@@ -22,9 +22,4 @@ String read_weight(HX711 scale, unsigned int loadcell_timeout);
    This function is used to calibrate the load cell */
 float calibrateLoadCell(HX711 &scale, float weight_for_calibration);
 
-/* Parameters: servoStatus (OPEN or CLOSE), openedPos and closedPos are angles
- * Returns: -
- */
-void moveServo(Servo &myServo, String servoState, int openedPos, int closedPos);
-
 #endif

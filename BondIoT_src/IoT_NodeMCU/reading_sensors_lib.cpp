@@ -8,21 +8,7 @@ unsigned int read_co2(unsigned int analogPin)
 	return analogRead(analogPin);
 }
 
-//-
-
-// ---------- SERVO ----------
-
-void moveServo(Servo &myServo, String servoState, int openedPos, int closedPos)
-{
-	servoState.toUpperCase();
-	
-  if (servoState.equals("OPEN"))
-    if (myServo.read() == closedPos) myServo.write(openedPos);
-  else
-    if (myServo.read() == openedPos) myServo.write(closedPos);  
-}
-   
-//-    
+//-  
 
 // ---------- LOADCELL ----------
 
