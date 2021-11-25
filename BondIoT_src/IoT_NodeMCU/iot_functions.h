@@ -93,6 +93,17 @@ void sendValues(char* topic, DynamicJsonDocument jsonOut){
 }
 
 
+String getMACs(){
+  String out = "";
+  Serial.print("GET_CLIENTS");
+  delay(10);
+  if (Serial.available()){
+    out = Serial.readString();
+  }
+  return out;
+}
+
+
  void thingsBoard_cb(const char* topic, byte* payload, unsigned int length);//{
   
 //   debug("Message received on topic: ");

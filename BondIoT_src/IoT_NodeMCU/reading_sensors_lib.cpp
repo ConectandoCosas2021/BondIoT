@@ -18,7 +18,10 @@ HX711 setUpLoadCell(unsigned int loadcell_dout_pin, unsigned int loadcell_sck_pi
   
 	scale.begin(loadcell_dout_pin, loadcell_sck_pin);	  
 	scale.set_scale();
-	scale.tare(); //Reset the scale to 0
+	delay(10);
+	if (scale.is_ready()){
+		scale.tare(); //Reset the scale to 0
+	}
 
   return scale;
 }

@@ -248,7 +248,7 @@ DynamicJsonDocument generateJsonPayload(){
   out["co2"] = read_co2(MQ2_PIN); //random(1024);
   out["loadcell"] = read_weight(scale, loadcell_timeout); //random(20000);
   out["doors"] = passengers;
-  //out["MACs"] = getClients(clients_known, clients_known_count);
+  out["MACs"] = "['test', 'sending', 'macs', 'list', '11:22:33', '44:55:66']"; //getClients(clients_known, clients_known_count, 3);
 
   return out;
 }
