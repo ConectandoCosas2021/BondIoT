@@ -45,6 +45,7 @@ float calibrateLoadCell(HX711 &scale, float weight_for_calibration)
 	scale.set_scale();
 	scale.tare();
   Serial.println(" ");
+  Serial.println("============LOAD CELL CALIBRATION============");
   Serial.println("Put known weight");
   delay(3000); 
 
@@ -56,6 +57,7 @@ float calibrateLoadCell(HX711 &scale, float weight_for_calibration)
   Serial.print("Adjusted value: ");
   Serial.println(String(adjusted_value));
   //Serial.printf("%f", adjusted_value);
+  Serial.println("============END CALIBRATION============");
 
   return adjusted_value;
 }

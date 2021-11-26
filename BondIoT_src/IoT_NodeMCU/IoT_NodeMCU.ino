@@ -174,10 +174,10 @@ void setup() {
 
     calibrationMode.toUpperCase();
 
-  	if (calibrationMode.equals("ON")){
+  	/*if (calibrationMode.equals("ON")){
   		calibration_constant = calibrateLoadCell(scale, weight_for_calibration);
       scale.set_scale(calibration_constant);
-    }
+    }*/
   	
   	delay(2000); //co2 warm-up
   //-
@@ -192,7 +192,7 @@ void setup() {
 // =====================================
 //                 LOOP
 // =====================================
-void loop() {             
+void loop() { 
     
   if (WiFi.status() != WL_CONNECTED){
     WiFi_OK = connectToWiFi(wifi_SSID, wifi_PASSWORD, WiFi_connect_attempts);   // Connect to WiFi access point
@@ -214,7 +214,7 @@ void loop() {
       lastTelemetryUpdate = millis();
     }
   }
-      
+
 }
 //----------------------------------------------------------------------------
 
@@ -356,16 +356,36 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     // --------- shared attribute " weightForCalibration " ----------
       String weightForCalibration = in_message["weightForCalibration"]; //read from thingsboard
       weight_for_calibration = (float) weightForCalibration.toInt();    //update ESP variable
+      Serial.println("WEIGHT FOR CALIBRATION");
+      Serial.println(String(weightForCalibration));
     //-
 
     // --------- shared attribute " calibrationModeLoadCell " ----------
       String calibrationModeLoadCell = in_message["calibrationModeLoadCell"];
       calibrationMode = String(calibrationModeLoadCell);
+      Serial.println("Leido desde tb");
+      Serial.println(calibrationMode);
+      //calibration mode (after WiFi connection)
+        if (calibrationMode.equals("ON")){
+          calibration_constant = calibrateLoadCell(scale, weight_for_calibration);
+          scale.set_scale(calibration_constant);
+          //Attribute update
+          /*  DynamicJsonDocument resp(256);
+            resp["calibrationModeLoadCell"] = "OFF";
+            char buffer[256];
+            serializeJson(resp, buffer);
+            client.publish("v1/devices/me/attributes", buffer);
+            Serial.println("Enviando el OFF hacia tb");  */         
+          //-        
+        }
+      //-      
     //-
 
-    // --------- shared attribute " calibrationModeLoadCell " ----------
+    // --------- shared attribute " loadCellTimeOut " ----------
       String loadCellTimeOut = in_message["loadCellTimeOut"];
       loadcell_timeout = loadCellTimeOut.toInt();
+      Serial.println("loadCellTimeOut");
+      Serial.println(String(loadCellTimeOut));
     //- 
 
     // --------- server attribute " alarmStateCO2 " ----------  
