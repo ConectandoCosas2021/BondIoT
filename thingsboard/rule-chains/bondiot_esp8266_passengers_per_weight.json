@@ -1,0 +1,79 @@
+{
+  "ruleChain": {
+    "additionalInfo": {
+      "description": "Calculates the number of pasangers and stores it in the device's attribute passengersPerWeight."
+    },
+    "name": "BondIoT-ESP8266-Passengers_per_weight",
+    "type": "CORE",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 2,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 661,
+          "layoutY": 147
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Change number of passengers meassured by weight",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "var qty = msg.loadcell/metadata.ss_standardWeight;\n\nvar newMsg = {};\nnewMsg.passengersPerWeight = parseInt(qty);\nnewMsg.loadcell = msg.loadcell;\nnewMsg.standardWeight = metadata.ss_standardWeight;\n\nvar newMsgType = \"POST_ATTRIBUTES_REQUEST\";\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};\n"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1000,
+          "layoutY": 150
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
+        "name": "Save modified attributes",
+        "debugMode": false,
+        "configuration": {
+          "scope": "SERVER_SCOPE",
+          "notifyDevice": false
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 300,
+          "layoutY": 149
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
+        "name": "Standard weight for passenger",
+        "debugMode": false,
+        "configuration": {
+          "tellFailureIfAbsent": true,
+          "clientAttributeNames": [],
+          "sharedAttributeNames": [],
+          "serverAttributeNames": [
+            "standardWeight",
+            "passengersPerWeight"
+          ],
+          "latestTsKeyNames": [],
+          "getLatestValueWithTs": false
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 1,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 0,
+        "type": "Success"
+      }
+    ],
+    "ruleChainConnections": null
+  }
+}

@@ -314,61 +314,6 @@
         "col": 0,
         "id": "59a1be1a-0934-2c2b-142a-6e443046fa02"
       },
-      "61d6506d-6320-babb-6c0b-d4452f6747b3": {
-        "isSystemType": false,
-        "bundleAlias": "mis_widgets",
-        "typeAlias": "switch_1",
-        "type": "rpc",
-        "title": "New widget",
-        "image": null,
-        "description": null,
-        "sizeX": 9,
-        "sizeY": 7.5,
-        "config": {
-          "targetDeviceAliases": [],
-          "showTitle": true,
-          "backgroundColor": "rgba(255,255,255,0.74)",
-          "color": "rgba(0, 0, 0, 0.87)",
-          "padding": "0px",
-          "settings": {
-            "requestTimeout": 60000,
-            "retrieveValueMethod": "Subscribe for attribute",
-            "updateValueKey": "ledStatus",
-            "statusRequestMethod": "getValue",
-            "changeRequestMethod": "switchLED",
-            "convertStatusRequestMethod": "return data ? true : false;",
-            "convertStatusChangeMethod": "return value;",
-            "backgroundcolorOn": "#6AFD8A",
-            "backgroundcolorOff": "#666",
-            "textColorOn": "#fff",
-            "textColorOff": "#fff",
-            "height": 150,
-            "textOn": "ABIERTA",
-            "textOff": "CERRADA"
-          },
-          "title": "Escotilla",
-          "datasources": [],
-          "targetDeviceAliasIds": [
-            "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec"
-          ],
-          "showTitleIcon": true,
-          "iconColor": "rgba(0, 0, 0, 0.87)",
-          "iconSize": "24px",
-          "titleTooltip": "Escotilla del ómnibus",
-          "dropShadow": true,
-          "enableFullscreen": true,
-          "widgetStyle": {},
-          "titleStyle": {
-            "fontSize": "16px",
-            "fontWeight": 400
-          },
-          "showLegend": false,
-          "titleIcon": "tab"
-        },
-        "row": 0,
-        "col": 0,
-        "id": "61d6506d-6320-babb-6c0b-d4452f6747b3"
-      },
       "72367af5-ea2d-c715-deb0-7278f517949e": {
         "isSystemType": false,
         "bundleAlias": "mis_widgets",
@@ -575,12 +520,12 @@
               "filterId": null,
               "dataKeys": [
                 {
-                  "name": "nPassengers",
+                  "name": "passengersQty",
                   "type": "attribute",
-                  "label": "nPassengers",
+                  "label": "passengersQty",
                   "color": "#2196f3",
                   "settings": {},
-                  "_hash": 0.46345580663638686
+                  "_hash": 0.6937632574772984
                 }
               ]
             }
@@ -786,7 +731,16 @@
           "iconSize": "24px",
           "titleTooltip": "Abrir o cerrar escotilla del ómnibus",
           "titleIcon": "input",
-          "noDataDisplayMessage": ""
+          "noDataDisplayMessage": "",
+          "legendConfig": {
+            "direction": "column",
+            "position": "bottom",
+            "sortDataKeys": false,
+            "showMin": false,
+            "showMax": false,
+            "showAvg": false,
+            "showTotal": false
+          }
         },
         "row": 0,
         "col": 0,
@@ -882,6 +836,14 @@
                   "color": "#f44336",
                   "settings": {},
                   "_hash": 0.4588545697100498
+                },
+                {
+                  "name": "passengersPerWeight",
+                  "type": "attribute",
+                  "label": "passengersPerWeight",
+                  "color": "#ffc107",
+                  "settings": {},
+                  "_hash": 0.943080450132339
                 }
               ]
             }
@@ -1318,12 +1280,6 @@
                 "sizeY": 6,
                 "row": 0,
                 "col": 17
-              },
-              "61d6506d-6320-babb-6c0b-d4452f6747b3": {
-                "sizeX": 8,
-                "sizeY": 4,
-                "row": 7,
-                "col": 4
               },
               "72367af5-ea2d-c715-deb0-7278f517949e": {
                 "sizeX": 5,

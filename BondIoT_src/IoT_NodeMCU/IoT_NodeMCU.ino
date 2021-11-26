@@ -100,7 +100,7 @@
   Servo myServo;
   LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
-  String calibrationMode = "OFF"; //initialize only. Value comes from thingsboard.
+  String calibrationMode = "ON"; //initialize only. Value comes from thingsboard.
   unsigned int last_weight = 0;
   unsigned int passengers = 0;
 //-
@@ -214,8 +214,6 @@ void loop() {
       lastTelemetryUpdate = millis();
     }
   }
-
-  //printLCD(lcd, false, "HOLA JUAN CARLOS", 10, 20);
       
 }
 //----------------------------------------------------------------------------
@@ -246,8 +244,8 @@ DynamicJsonDocument generateJsonPayload(){
   DynamicJsonDocument out(JBUFFER);
 
   out["co2"] = read_co2(MQ2_PIN); //random(1024);
-  out["loadcell"] = read_weight(scale, loadcell_timeout); //random(20000);
-  out["doors"] = passengers;
+  out["loadcell"] = random(20000); //read_weight(scale, loadcell_timeout); 
+  out["doors"] = random(60);//passengers;
   out["MACs"] = "['test', 'sending', 'macs', 'list', '11:22:33', '44:55:66']"; //getClients(clients_known, clients_known_count, 3);
 
   return out;

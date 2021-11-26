@@ -143,10 +143,52 @@
           "id": "b9eea290-306f-11ec-bbfc-fd6a05948889"
         },
         "additionalInfo": {
-          "description": "",
+          "description": "CO2",
           "layoutX": 1023,
           "layoutY": 408,
           "ruleChainNodeId": "rule-chain-node-9"
+        },
+        "type": "Success"
+      },
+      {
+        "fromIndex": 0,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "52bc8170-4e18-11ec-bdee-5b1567981707"
+        },
+        "additionalInfo": {
+          "description": "MACs",
+          "layoutX": 1026,
+          "layoutY": 285,
+          "ruleChainNodeId": "rule-chain-node-10"
+        },
+        "type": "Success"
+      },
+      {
+        "fromIndex": 0,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "36334b20-37f1-11ec-a0a8-5356543a831d"
+        },
+        "additionalInfo": {
+          "description": "Passengers calculated by Loadcell weight meassure",
+          "layoutX": 1024,
+          "layoutY": 523,
+          "ruleChainNodeId": "rule-chain-node-11"
+        },
+        "type": "Success"
+      },
+      {
+        "fromIndex": 0,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "44f26810-4e50-11ec-8c14-07468c6f7a3d"
+        },
+        "additionalInfo": {
+          "description": "Doors",
+          "layoutX": 1025,
+          "layoutY": 191,
+          "ruleChainNodeId": "rule-chain-node-12"
         },
         "type": "Success"
       }
