@@ -63,8 +63,6 @@
 
   #define telemetryTopic "v1/devices/me/telemetry"
 
-  #define JBUFFER 1024
-
 
 // =====================================
 //            COMMUNICATIONS
@@ -159,7 +157,8 @@ void loop() {
     //digitalWrite(LED_PIN, LOW);
     wifi_promiscuous_enable(disable);
 
-    debugln(getClients(clients_known, clients_known_count, 3));
+    for (int i = 0; i < totalMACs; i++) debug(MACs[i]);
+    debugln("");
 
     WiFi_OK = connectToWiFi(wifi_SSID, wifi_PASSWORD, WiFi_connect_attempts);   // Connect to WiFi access point
 
@@ -167,9 +166,17 @@ void loop() {
       TB_OK = connectToThingsBoard(TB_SERVER, NODE_NAME, NODE_TOKEN, NODE_PW, TB_connect_attempts);    // If WiFi connected successfully, connect to ThingsBoard
     
     if (TB_OK && WiFi_OK){
-      DynamicJsonDocument data(JBUFFER);
-      data["MACs"] = "['00:f4:8d','80:fd:7a','c0:9f:e1','2c:d9:74','3e:84:6a','11:22:33','aa:bb:cc']"; //getClients(clients_known, clients_known_count, 3);
-      sendValues(telemetryTopic, data);
+      sendValues(telemetryTopic, "readingMode", "New reading");
+
+      //getClients(clients_known, clients_known_count, 3);
+
+      for (int i = 0; i < totalMACs; i++) sendValues(telemetryTopic, "MAC", MACs[i]);
+
+      sendValues(telemetryTopic, "readingMode", "End of reading");
+
+      // DynamicJsonDocument data(JBUFFER);
+      // data["MACs"] = "['00:f4:8d','80:fd:7a','c0:9f:e1','2c:d9:74','3e:84:6a','11:22:33','aa:bb:cc']"; //getClients(clients_known, clients_known_count, 3);
+      // sendValues(telemetryTopic, data);
     }
 
     client.disconnect ();   // Disconnect from ThingsBoard

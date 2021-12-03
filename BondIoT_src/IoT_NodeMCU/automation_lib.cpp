@@ -1,7 +1,7 @@
 #include "automation_lib.h"			    // library header
 
 // ---------- Display ----------
-    void setLCD(LiquidCrystal_I2C lcd)
+    void setLCD(LiquidCrystal_I2C &lcd)
     {
         lcd.init();	                        // initializes LCD
         lcd.backlight();		            // makes LCB screen backlit
@@ -11,7 +11,7 @@
     }
 
 
-    void printLCD(LiquidCrystal_I2C lcd, bool hasCustomMessage, char* customMessage, int qPas,int maxPas)
+    void printLCD(LiquidCrystal_I2C &lcd, bool hasCustomMessage, char* customMessage, int qPas,int maxPas)
     {
         if(hasCustomMessage)
         {
@@ -31,10 +31,8 @@
             }
             else
             {
-                lcd.setCursor(0, 0);		        // sets cursor to column 0 row 0		
-                lcd.print("OMNIBUS");	            // prints text
-                lcd.setCursor(0, 1);                // sets cursor to column 0 row 1
-                lcd.print("LLENO");	                // prints text      
+                lcd.setCursor(0, 1);		        // sets cursor to column 0 row 1		
+                lcd.print("OMNIBUS LLENO");	            // prints text
             }
         }
     }

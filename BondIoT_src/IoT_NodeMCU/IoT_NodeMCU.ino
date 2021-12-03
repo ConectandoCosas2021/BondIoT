@@ -44,11 +44,11 @@
 // =====================================
 //              THINGSBOARD
 // =====================================
-  #define NODE_NAME "a2457060-1fee-11ec-b4a5-cfb289af38d9" //MAJO
-  #define NODE_TOKEN "NSo9BArnHowXfhTi9Xku" //MAJO
+  //#define NODE_NAME "a2457060-1fee-11ec-b4a5-cfb289af38d9" //MAJO
+  //#define NODE_TOKEN "NSo9BArnHowXfhTi9Xku" //MAJO
 
-  //#define NODE_NAME "aa0a47f0-3b6c-11ec-a8d7-7db293f1afb9" //SEBA
-  //#define NODE_TOKEN "ynQ3BwFFN1dfS8aYuXMa" //SEBA
+  #define NODE_NAME "aa0a47f0-3b6c-11ec-a8d7-7db293f1afb9" //SEBA
+  #define NODE_TOKEN "ynQ3BwFFN1dfS8aYuXMa" //SEBA
 
   #define NODE_PW NULL
 
@@ -163,12 +163,13 @@ void setup() {
   // ------------ interruptions ------------
   	pinMode(FRONTDOOR_OUT_PIN, INPUT_PULLUP);
   	pinMode(BACKDOOR_OUT_PIN, INPUT_PULLUP);
-  	attachInterrupt(digitalPinToInterrupt(FRONTDOOR_OUT_PIN), read_frontdoor, RISING);
-  	attachInterrupt(digitalPinToInterrupt(BACKDOOR_OUT_PIN), read_backdoor, RISING);
+  	attachInterrupt(digitalPinToInterrupt(FRONTDOOR_OUT_PIN), read_frontdoor, FALLING);
+  	attachInterrupt(digitalPinToInterrupt(BACKDOOR_OUT_PIN), read_backdoor, FALLING);
   //-	 
 
   // ---------- servo, scale, co2 ----------
     myServo.attach(SERVO);
+    myServo.write(closedPos);
 
     scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
 
@@ -213,6 +214,8 @@ void loop() {
       sendValues(telemetryTopic, generateJsonPayload());   // If connected, send data to ThingsBoard
       lastTelemetryUpdate = millis();
     }
+
+    printLCD(lcd, false, "", 0, 0);
   }
 
 }

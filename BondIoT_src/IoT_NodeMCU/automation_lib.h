@@ -14,7 +14,7 @@ LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars
 Parameters: LiquidCrystal_I2C display.
 This function is used to setup previously declared lcd screen form communication.
 */
-void setLCD(LiquidCrystal_I2C lcd);
+void setLCD(LiquidCrystal_I2C &lcd);
 
 /*
 Parameters: LiquidCrystal_I2C display.
@@ -24,7 +24,7 @@ Parameters: LiquidCrystal_I2C display.
             maxPas: Passenger limit.
 This function is used to print information on display.
 */
-void printLCD(LiquidCrystal_I2C lcd, bool hasCustomMessage, char* customMessage, int qPas,int maxPas);
+void printLCD(LiquidCrystal_I2C &lcd, bool hasCustomMessage, char* customMessage, int qPas,int maxPas);
 
 
 /*

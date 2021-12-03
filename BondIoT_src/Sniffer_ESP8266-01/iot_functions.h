@@ -1,4 +1,11 @@
 #define MAC_LEN 6
+#define JBUFFER 1024
+
+String MACs[] = {"00:f4:8d","80:fd:7a","c0:9f:e1","2c:d9:74","3e:84:6a","11:22:33","aa:bb:cc"};
+int totalMACs = 7;
+
+//String MACs[MAX_CLIENTS_TRACKED];
+//int totalMACs = 0;
 
 
 WiFiClient wifiClient;
@@ -67,11 +74,14 @@ bool connectToThingsBoard(char* TB_SERVER, char* NODE_NAME, char* NODE_TOKEN, ch
 }
 
 
-void sendValues(char* topic, DynamicJsonDocument jsonOut){
+void sendValues(char* topic, String name, String value){
   bool publishOK = false;
 
+  DynamicJsonDocument data(JBUFFER);
+  data[name] = value;"['00:f4:8d','80:fd:7a','c0:9f:e1','2c:d9:74','3e:84:6a','11:22:33','aa:bb:cc']"; 
+
   char payload[1024];
-  serializeJson(jsonOut, payload);
+  serializeJson(data, payload);
 
   publishOK = client.publish(topic, payload);
   
@@ -175,34 +185,53 @@ void showDevices(){
 }
 
 
-String getClients(clientinfo clients_known[], int len, unsigned int digits){
-  String out;
+void getClients(clientinfo clients_known[], int len, unsigned int digits){
+  String newMAC = "";
   uint8_t aux;
+
   if (digits > MAC_LEN) digits = MAC_LEN;
-  //out = "{'total_clients':" + String(len) + ", ";
-  //out += "'MACs':[";
-  out += "[";
+
   for(int i = 0; i < len; i++){
-    out += "'";
     for(int j = 0; j < digits; j++){
       aux = clients_known[i].station[j];
-      if (aux < 16) out += "0";
-      out += String(aux, HEX);
-      if (j < digits-1) out += ":";
+      if (aux < 16) newMAC += "0";
+      newMAC += String(aux, HEX);
+      if (j < digits-1) newMAC += ":";
     }
-    out += "'";
-    if (i < len-1) out += ",";
+    newMAC += "'";
+    MACs[i] = newMAC;
   }
-  //out += "]}";
-  out += "]";
-
-  debugln("-------------- DEBUG --------------");
-  debugln("Redacted MACs to be sent:");
-  debugln(out);
-  debugln("-----------------------------------");
-  
-  return out;
+  totalMACs = len;
 }
+
+// String getClients(clientinfo clients_known[], int len, unsigned int digits){
+//   String out;
+//   uint8_t aux;
+//   if (digits > MAC_LEN) digits = MAC_LEN;
+//   //out = "{'total_clients':" + String(len) + ", ";
+//   //out += "'MACs':[";
+//   out += "[";
+//   for(int i = 0; i < len; i++){
+//     out += "'";
+//     for(int j = 0; j < digits; j++){
+//       aux = clients_known[i].station[j];
+//       if (aux < 16) out += "0";
+//       out += String(aux, HEX);
+//       if (j < digits-1) out += ":";
+//     }
+//     out += "'";
+//     if (i < len-1) out += ",";
+//   }
+//   //out += "]}";
+//   out += "]";
+
+//   debugln("-------------- DEBUG --------------");
+//   debugln("Redacted MACs to be sent:");
+//   debugln(out);
+//   debugln("-----------------------------------");
+  
+//   return out;
+// }
 
 // String showHelp(){
 //   String man = "";
