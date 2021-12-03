@@ -44,11 +44,11 @@
 // =====================================
 //              THINGSBOARD
 // =====================================
-  //#define NODE_NAME "a2457060-1fee-11ec-b4a5-cfb289af38d9" //MAJO
-  //#define NODE_TOKEN "NSo9BArnHowXfhTi9Xku" //MAJO
+  #define NODE_NAME "a2457060-1fee-11ec-b4a5-cfb289af38d9" //MAJO
+  #define NODE_TOKEN "NSo9BArnHowXfhTi9Xku" //MAJO
 
-  #define NODE_NAME "aa0a47f0-3b6c-11ec-a8d7-7db293f1afb9" //SEBA
-  #define NODE_TOKEN "ynQ3BwFFN1dfS8aYuXMa" //SEBA
+  //#define NODE_NAME "aa0a47f0-3b6c-11ec-a8d7-7db293f1afb9" //SEBA
+  //#define NODE_TOKEN "ynQ3BwFFN1dfS8aYuXMa" //SEBA
 
   #define NODE_PW NULL
 
@@ -357,48 +357,44 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     deserializeJson(in_message, payload);
 
     // --------- shared attribute " weightForCalibration " ----------
-      String weightForCalibration = in_message["weightForCalibration"]; //read from thingsboard
-      weight_for_calibration = (float) weightForCalibration.toInt();    //update ESP variable
-      Serial.println("WEIGHT FOR CALIBRATION");
-      Serial.println(String(weightForCalibration));
+      String tb_weight_for_calibration = String(in_message["weightForCalibration"]); //read from thingsboard
+
+      if (tb_weight_for_calibration) //if new value then update esp variable
+        weight_for_calibration = (float) tb_weight_for_calibration.toInt();
     //-
 
     // --------- shared attribute " calibrationModeLoadCell " ----------
-      String calibrationModeLoadCell = in_message["calibrationModeLoadCell"];
-      calibrationMode = String(calibrationModeLoadCell);
-      Serial.println("Leido desde tb");
-      Serial.println(calibrationMode);
-      //calibration mode (after WiFi connection)
+      String tb_calibrationMode = in_message["calibrationModeLoadCell"];
+      if (tb_calibrationMode){
+        calibrationMode = String(tb_calibrationMode);
         if (calibrationMode.equals("ON")){
           calibration_constant = calibrateLoadCell(scale, weight_for_calibration);
-          scale.set_scale(calibration_constant);
+          scale.set_scale(calibration_constant); 
           //Attribute update
-          /*  DynamicJsonDocument resp(256);
+            DynamicJsonDocument resp(256);
             resp["calibrationModeLoadCell"] = "OFF";
             char buffer[256];
             serializeJson(resp, buffer);
-            client.publish("v1/devices/me/attributes", buffer);
-            Serial.println("Enviando el OFF hacia tb");  */         
-          //-        
-        }
-      //-      
-    //-
+            client.publish("v1/devices/me/attributes", buffer);         
+          //-            
+        }       
+      }
 
     // --------- shared attribute " loadCellTimeOut " ----------
-      String loadCellTimeOut = in_message["loadCellTimeOut"];
-      loadcell_timeout = loadCellTimeOut.toInt();
-      Serial.println("loadCellTimeOut");
-      Serial.println(String(loadCellTimeOut));
+      String tb_loadcell_timeout = in_message["loadCellTimeOut"];
+      if (tb_loadcell_timeout){
+        loadcell_timeout = tb_loadcell_timeout.toInt();
+      } 
     //- 
 
     // --------- server attribute " alarmStateCO2 " ----------  
-      String stralarmCO2 = in_message["alarmCO2"];
-      alarmCO2 = stralarmCO2.equals("true");
-
-      if (alarmCO2)
-        openWindowsSign(true, WINDOWSIGN);
-      else
-        openWindowsSign(false, WINDOWSIGN);
+      String tb_alarmCO2 = in_message["alarmCO2"];
+      if (tb_alarmCO2){
+        if (tb_alarmCO2.equals("true"))
+          openWindowsSign(true, WINDOWSIGN);
+        else
+          openWindowsSign(false, WINDOWSIGN);        
+      }
     //-
   }
 
