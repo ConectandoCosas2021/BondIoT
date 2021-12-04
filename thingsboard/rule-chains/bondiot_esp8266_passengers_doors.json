@@ -23,7 +23,7 @@
         "name": "Capture passengers per doors and save it in passengersPerDoors attribute",
         "debugMode": false,
         "configuration": {
-          "jsScript": "var newMsg = {};\nnewMsg.passengersPerDoors = msg.doors;\n\nvar newMsgType = \"POST_ATTRIBUTES_REQUEST\";\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};\n"
+          "jsScript": "var newMsg = {};\nnewMsg.passengersDoors = msg.doors;\n\nvar newMsgType = \"POST_ATTRIBUTES_REQUEST\";\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};\n"
         }
       },
       {
@@ -54,7 +54,7 @@
           "clientAttributeNames": [],
           "sharedAttributeNames": [],
           "serverAttributeNames": [
-            "passengersPerDoors"
+            "passengersDoors"
           ],
           "latestTsKeyNames": [],
           "getLatestValueWithTs": false

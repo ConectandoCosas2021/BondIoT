@@ -116,6 +116,8 @@
   const int closedPos = 0; 
 
   bool alarmCO2 = false;           //initialize only. Value comes from thingsboard.
+
+  bool reachedMaxPass = false;     //initialize only. Value comes from thingsboard.
 //----------------------------------------------------------------------------
 
 
@@ -332,7 +334,6 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
         else{
           Serial.println("Cerrando escotilla");
           myServo.write(closedPos);
-          openWindowsSign(false, WINDOWSIGN);
         }
 
         //Attribute update
@@ -399,6 +400,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
       if (tb_alarmCO2){
         if (tb_alarmCO2.equals("true"))
           openWindowsSign(true, WINDOWSIGN);
+          myServo.write(openedPos);   //open hatch
         else
           openWindowsSign(false, WINDOWSIGN);        
       }
@@ -424,6 +426,16 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
       if (tb_weightVariation){
         weightVariation = tb_weightVariation.toInt();
       } 
+    //
+
+    // --------- shared attribute " reachedMaxPass " ----------
+      String tb_reachedMaxPass = in_message["reachedMaxPass"];
+
+      if (tb_reachedMaxPass){
+        reachedMaxPass = tb_reachedMaxPass.equals("true");
+      } 
+    //
+      
   }
 
 }
