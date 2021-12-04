@@ -844,6 +844,14 @@
                   "color": "#ffc107",
                   "settings": {},
                   "_hash": 0.943080450132339
+                },
+                {
+                  "name": "passengersPerDoors",
+                  "type": "attribute",
+                  "label": "passengersPerDoors",
+                  "color": "#607d8b",
+                  "settings": {},
+                  "_hash": 0.6196260189696765
                 }
               ]
             }
@@ -952,7 +960,7 @@
                   "label": "calibrationModeLoadCell",
                   "color": "#2196f3",
                   "settings": {},
-                  "_hash": 0.843920752960269
+                  "_hash": 0.34927799911686863
                 }
               ]
             }
@@ -1190,6 +1198,199 @@
         "row": 0,
         "col": 0,
         "id": "7de0d673-518e-acf1-f4ff-63f0449225d3"
+      },
+      "16dd8d0e-b48a-7164-e515-ff11fb0a6edb": {
+        "isSystemType": true,
+        "bundleAlias": "input_widgets",
+        "typeAlias": "update_shared_string_attribute",
+        "type": "latest",
+        "title": "New widget",
+        "image": null,
+        "description": null,
+        "sizeX": 7.5,
+        "sizeY": 3,
+        "config": {
+          "datasources": [
+            {
+              "type": "entity",
+              "name": null,
+              "entityAliasId": "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec",
+              "filterId": null,
+              "dataKeys": [
+                {
+                  "name": "busNameNum",
+                  "type": "attribute",
+                  "label": "busNameNum",
+                  "color": "#2196f3",
+                  "settings": {},
+                  "_hash": 0.4443160762438453
+                }
+              ]
+            }
+          ],
+          "timewindow": {
+            "realtime": {
+              "timewindowMs": 60000
+            }
+          },
+          "showTitle": true,
+          "backgroundColor": "rgba(94,159,123,0.66)",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "8px",
+          "settings": {
+            "showResultMessage": true,
+            "showLabel": true,
+            "isRequired": true,
+            "widgetTitle": "Línea y destino del ómnibus",
+            "maxLength": 16
+          },
+          "title": "Línea y destino del ómnibus",
+          "dropShadow": true,
+          "enableFullscreen": false,
+          "enableDataExport": false,
+          "widgetStyle": {},
+          "titleStyle": {
+            "fontSize": "16px",
+            "fontWeight": 400
+          },
+          "useDashboardTimewindow": true,
+          "showLegend": false,
+          "actions": {},
+          "showTitleIcon": false,
+          "titleTooltip": "",
+          "noDataDisplayMessage": ""
+        },
+        "row": 0,
+        "col": 0,
+        "id": "16dd8d0e-b48a-7164-e515-ff11fb0a6edb"
+      },
+      "1010d0a0-3ee3-bec1-f758-325109d96738": {
+        "isSystemType": true,
+        "bundleAlias": "input_widgets",
+        "typeAlias": "update_shared_string_attribute",
+        "type": "latest",
+        "title": "New widget",
+        "image": null,
+        "description": null,
+        "sizeX": 7.5,
+        "sizeY": 3,
+        "config": {
+          "datasources": [
+            {
+              "type": "entity",
+              "name": null,
+              "entityAliasId": "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec",
+              "filterId": null,
+              "dataKeys": [
+                {
+                  "name": "busMessage",
+                  "type": "attribute",
+                  "label": "busMessage",
+                  "color": "#2196f3",
+                  "settings": {},
+                  "_hash": 0.5902699108918068
+                }
+              ]
+            }
+          ],
+          "timewindow": {
+            "realtime": {
+              "timewindowMs": 60000
+            }
+          },
+          "showTitle": true,
+          "backgroundColor": "rgba(94,159,123,0.66)",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "8px",
+          "settings": {
+            "showResultMessage": true,
+            "showLabel": true,
+            "isRequired": true,
+            "widgetTitle": "Mensaje para cuando se llena el ómnibus",
+            "maxLength": 16
+          },
+          "title": "Mensaje para cuando se llena el ómnibus",
+          "dropShadow": true,
+          "enableFullscreen": false,
+          "enableDataExport": false,
+          "widgetStyle": {},
+          "titleStyle": {
+            "fontSize": "16px",
+            "fontWeight": 400
+          },
+          "useDashboardTimewindow": true,
+          "showLegend": false,
+          "actions": {},
+          "showTitleIcon": false,
+          "titleTooltip": "Mensaje para cuando se llena el ómnibus",
+          "noDataDisplayMessage": ""
+        },
+        "row": 0,
+        "col": 0,
+        "id": "1010d0a0-3ee3-bec1-f758-325109d96738"
+      },
+      "9d6991ed-691e-f300-dfb7-de7934ad7f6c": {
+        "isSystemType": true,
+        "bundleAlias": "input_widgets",
+        "typeAlias": "update_shared_integer_attribute",
+        "type": "latest",
+        "title": "New widget",
+        "image": null,
+        "description": null,
+        "sizeX": 7.5,
+        "sizeY": 3,
+        "config": {
+          "datasources": [
+            {
+              "type": "entity",
+              "name": null,
+              "entityAliasId": "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec",
+              "filterId": null,
+              "dataKeys": [
+                {
+                  "name": "weightVariation",
+                  "type": "attribute",
+                  "label": "weightVariation",
+                  "color": "#2196f3",
+                  "settings": {},
+                  "_hash": 0.763224267963122
+                }
+              ]
+            }
+          ],
+          "timewindow": {
+            "realtime": {
+              "timewindowMs": 60000
+            }
+          },
+          "showTitle": true,
+          "backgroundColor": "rgba(94,159,123,0.66)",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "8px",
+          "settings": {
+            "showResultMessage": true,
+            "showLabel": true,
+            "isRequired": true,
+            "widgetTitle": "Diferencia de peso mínima para que se envíen datos de la celda de carga"
+          },
+          "title": "Diferencia de peso mínima para que se envíen datos de la celda de carga",
+          "dropShadow": true,
+          "enableFullscreen": false,
+          "widgetStyle": {},
+          "titleStyle": {
+            "fontSize": "16px",
+            "fontWeight": 400
+          },
+          "useDashboardTimewindow": true,
+          "showLegend": false,
+          "actions": {},
+          "showTitleIcon": false,
+          "titleTooltip": "Diferencia de peso mínima",
+          "noDataDisplayMessage": ""
+        },
+        "row": 0,
+        "col": 0,
+        "id": "9d6991ed-691e-f300-dfb7-de7934ad7f6c"
       }
     },
     "states": {
@@ -1200,22 +1401,22 @@
           "main": {
             "widgets": {
               "d21f345c-248f-37f2-67fd-dece7076db61": {
-                "sizeX": 7,
+                "sizeX": 12,
                 "sizeY": 3,
                 "row": 3,
                 "col": 0
               },
               "c7788150-f8f5-6ff0-3c0a-a6b22b100c05": {
-                "sizeX": 7,
+                "sizeX": 12,
                 "sizeY": 3,
                 "row": 3,
-                "col": 7
+                "col": 12
               },
               "5c5f4c0a-73aa-e421-b900-6819c4aadfaa": {
-                "sizeX": 7,
+                "sizeX": 12,
                 "sizeY": 3,
                 "row": 3,
-                "col": 14
+                "col": 24
               },
               "3b050578-e578-3533-60c5-9aa5923ce6d6": {
                 "sizeX": 7,
@@ -1227,16 +1428,16 @@
                 "sizeX": 7,
                 "sizeY": 3,
                 "row": 9,
-                "col": 0
+                "col": 28
               },
               "1ec176f0-bb0d-f531-6a4d-08213ff4282b": {
-                "sizeX": 21,
+                "sizeX": 36,
                 "sizeY": 3,
                 "row": 0,
                 "col": 0
               },
               "39f8cd90-402d-12b2-c7e2-0d398d6456d1": {
-                "sizeX": 21,
+                "sizeX": 36,
                 "sizeY": 3,
                 "row": 6,
                 "col": 0
@@ -1246,6 +1447,24 @@
                 "sizeY": 3,
                 "row": 9,
                 "col": 14
+              },
+              "16dd8d0e-b48a-7164-e515-ff11fb0a6edb": {
+                "sizeX": 7,
+                "sizeY": 3,
+                "row": 9,
+                "col": 0
+              },
+              "1010d0a0-3ee3-bec1-f758-325109d96738": {
+                "sizeX": 7,
+                "sizeY": 3,
+                "row": 12,
+                "col": 0
+              },
+              "9d6991ed-691e-f300-dfb7-de7934ad7f6c": {
+                "sizeX": 7,
+                "sizeY": 3,
+                "row": 9,
+                "col": 21
               }
             },
             "gridSettings": {

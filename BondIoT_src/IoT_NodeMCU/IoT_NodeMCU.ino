@@ -98,20 +98,23 @@
 // --------------- control ---------------
   HX711 scale;
   Servo myServo;
+
   LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+  String busMessage = "";            //initialize only. Value comes from thingsboard.
+  String busNameNum = "192 MANGA";   //initialize only. Value comes from thingsboard.
 
-  String calibrationMode = "ON"; //initialize only. Value comes from thingsboard.
-  unsigned int last_weight = 0;
+  String calibrationMode = "ON";        //initialize only. Value comes from thingsboard.
+  unsigned int loadcell_timeout = 1000; //initialize only. Value comes from thingsboard.
+  int weightVariation = 30;             //initialize only. Value comes from thingsboard.
+  float weight_for_calibration = 500;   //initialize only. Value comes from thingsboard.
+  float calibration_constant = 1;    
+  float last_weight = 0;
+
   unsigned int passengers = 0;
-//-
 
-// ------------- constatnts --------------
   const int openedPos = 90;
   const int closedPos = 0; 
-  unsigned int loadcell_timeout = 1000; //initialize only. Value comes from thingsboard.
-  unsigned int weight_variation = 10;   // !!!!!!!! ESTO TIENE QUE TRAERSE DE THINGSBOARD
-  float weight_for_calibration = 500;   //initialize only. Value comes from thingsboard.
-  float calibration_constant = 1;
+
   bool alarmCO2 = false;           //initialize only. Value comes from thingsboard.
 //----------------------------------------------------------------------------
 
@@ -172,13 +175,6 @@ void setup() {
     myServo.write(closedPos);
 
     scale = setUpLoadCell(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
-
-    calibrationMode.toUpperCase();
-
-  	/*if (calibrationMode.equals("ON")){
-  		calibration_constant = calibrateLoadCell(scale, weight_for_calibration);
-      scale.set_scale(calibration_constant);
-    }*/
   	
   	delay(2000); //co2 warm-up
   //-
@@ -214,8 +210,6 @@ void loop() {
       sendValues(telemetryTopic, generateJsonPayload());   // If connected, send data to ThingsBoard
       lastTelemetryUpdate = millis();
     }
-
-    printLCD(lcd, false, "", 0, 0);
   }
 
 }
@@ -247,9 +241,17 @@ DynamicJsonDocument generateJsonPayload(){
   DynamicJsonDocument out(JBUFFER);
 
   out["co2"] = read_co2(MQ2_PIN); //random(1024);
-  out["loadcell"] = random(20000); //read_weight(scale, loadcell_timeout); 
   out["doors"] = passengers;
-  
+
+  //update loadcell telemetry ONLY if weight varies enough
+  float loadcell_reading = read_weight(scale, loadcell_timeout);
+  if (!loadcell_reading.equals("HX711 not found.")){
+    if (loadcell_reading.toInt() - last_weight >= weightVariation){
+      out["loadcell"] = String(loadcell_reading);
+      last_weight = loadcell_reading;
+    }
+  }  
+
   return out;
 }
 //----------------------------------------------------------------------------
@@ -364,11 +366,15 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
 
     // --------- shared attribute " calibrationModeLoadCell " ----------
       String tb_calibrationMode = in_message["calibrationModeLoadCell"];
+
       if (tb_calibrationMode){
         calibrationMode = String(tb_calibrationMode);
+        calibrationMode.toUpperCase();
+
         if (calibrationMode.equals("ON")){
           calibration_constant = calibrateLoadCell(scale, weight_for_calibration);
           scale.set_scale(calibration_constant); 
+
           //Attribute update
             DynamicJsonDocument resp(256);
             resp["calibrationModeLoadCell"] = "OFF";
@@ -381,13 +387,15 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
 
     // --------- shared attribute " loadCellTimeOut " ----------
       String tb_loadcell_timeout = in_message["loadCellTimeOut"];
+
       if (tb_loadcell_timeout){
         loadcell_timeout = tb_loadcell_timeout.toInt();
       } 
     //- 
 
-    // --------- server attribute " alarmStateCO2 " ----------  
+    // --------- shared attribute " alarmStateCO2 " ----------  
       String tb_alarmCO2 = in_message["alarmCO2"];
+
       if (tb_alarmCO2){
         if (tb_alarmCO2.equals("true"))
           openWindowsSign(true, WINDOWSIGN);
@@ -395,6 +403,27 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
           openWindowsSign(false, WINDOWSIGN);        
       }
     //-
+
+    // --------- shared attribute " busMessage AND busNameNum " ----------  
+      String tb_busMessage = in_message["busMessage"];
+      String tb_busNameNum = in_message["busNameNum"];
+
+      if (tb_busNameNum) {
+        busNameNum = tb_busMessage;
+      }
+      if (tb_busMessage){ 
+        busMessage = tb_busMessage;
+      }
+
+      printLCD(lcd, busNameNum, busMessage);
+    //-
+
+    // --------- shared attribute " weightVariation " ----------
+      String tb_weightVariation = in_message["weightVariation"];
+
+      if (tb_weightVariation){
+        weightVariation = tb_weightVariation.toInt();
+      } 
   }
 
 }

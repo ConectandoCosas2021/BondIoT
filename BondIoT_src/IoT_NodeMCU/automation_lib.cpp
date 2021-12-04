@@ -11,30 +11,12 @@
     }
 
 
-    void printLCD(LiquidCrystal_I2C &lcd, bool hasCustomMessage, char* customMessage, int qPas,int maxPas)
+    void printLCD(LiquidCrystal_I2C &lcd, String firstLine, String secondLine)
     {
-        if(hasCustomMessage)
-        {
-            lcd.home();                         // brings cursor to home position		
-            lcd.print(customMessage);	        // prints text  
-        }
-        else
-        {
-            lcd.home();                         // brings cursor to home position		
-            lcd.print("192 MANGA");	            // prints text
-
-            if(qPas < maxPas)
-            {
-                lcd.setCursor(0, 1);                    // sets cursor to column 0 row 1	
-                lcd.print("PASAJEROS:");                // prints text       
-                lcd.print(qPas);                    // prints number of passengers
-            }
-            else
-            {
-                lcd.setCursor(0, 1);		        // sets cursor to column 0 row 1		
-                lcd.print("OMNIBUS LLENO");	            // prints text
-            }
-        }
+        lcd.home();                     // brings cursor to home position		
+        lcd.print(firstLine);	        // prints text  
+        lcd.setCursor(0, 1);
+        lcd.print(secondLine);
     }
 //-
 

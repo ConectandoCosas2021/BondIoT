@@ -1,0 +1,172 @@
+{
+  "ruleChain": {
+    "additionalInfo": {
+      "description": ""
+    },
+    "name": "BondIoT-ESP8266-Passengers_MAC",
+    "type": "CORE",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 2,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "description": "While still reading MACs, send one by one to MAC vendors API",
+          "layoutX": 273,
+          "layoutY": 476
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Check if reading",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "return msg.readingMode == \"Reading\";"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1103,
+          "layoutY": 383
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
+        "name": "Save server attributes",
+        "debugMode": true,
+        "configuration": {
+          "scope": "SERVER_SCOPE",
+          "notifyDevice": false
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 306,
+          "layoutY": 150
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
+        "name": "Originator Attributes",
+        "debugMode": true,
+        "configuration": {
+          "tellFailureIfAbsent": true,
+          "clientAttributeNames": [
+            "readingMode"
+          ],
+          "sharedAttributeNames": [],
+          "serverAttributeNames": [
+            "nPassReading"
+          ],
+          "latestTsKeyNames": [],
+          "getLatestValueWithTs": false
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 626,
+          "layoutY": 151
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Switch if beginning to read",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "return msg.readingMode == \"New reading\";"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 928,
+          "layoutY": 150
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Reading Mode is \"new Reading\".",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "function resetReading(msg)\n{\n    msg.nPassReading = 0;\n}\n\nvar newMsgType = \"POST_ATTRIBUTES_REQUEST\";\n\nreturn {msg: resetReading(msg), metadata: metadata, msgType: newMsgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 220,
+          "layoutY": 268
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Check if finished reading",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "return msg.readingMode == \"End of reading\";"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 484,
+          "layoutY": 383
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Reading Mode is \"End of reading\".",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "function storeReading(msg)\n{\n    msg.nPassMAC = msg.nPassReading;\n}\n\nvar newMsgType = \"POST_ATTRIBUTES_REQUEST\";\n\nreturn {msg: storeReading(msg), metadata: metadata, msgType: newMsgType};"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 2,
+        "toIndex": 3,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 4,
+        "type": "True"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 5,
+        "type": "False"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 1,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 5,
+        "toIndex": 6,
+        "type": "True"
+      },
+      {
+        "fromIndex": 5,
+        "toIndex": 0,
+        "type": "False"
+      },
+      {
+        "fromIndex": 6,
+        "toIndex": 1,
+        "type": "Success"
+      }
+    ],
+    "ruleChainConnections": [
+      {
+        "fromIndex": 0,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "52bc8170-4e18-11ec-bdee-5b1567981707"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 672,
+          "layoutY": 477,
+          "ruleChainNodeId": "rule-chain-node-9"
+        },
+        "type": "True"
+      }
+    ]
+  }
+}
