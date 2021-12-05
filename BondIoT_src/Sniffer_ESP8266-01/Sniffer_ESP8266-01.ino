@@ -51,17 +51,18 @@
 // =====================================
 //              THINGSBOARD
 // =====================================
-  //#define NODE_NAME "380b62a0-4c8e-11ec-8c14-07468c6f7a3d"
-  //#define NODE_TOKEN "9T1exjdGQ7JTkFDtw0kY"
+  #define NODE_NAME "380b62a0-4c8e-11ec-8c14-07468c6f7a3d"
+  #define NODE_TOKEN "9T1exjdGQ7JTkFDtw0kY"
 
-  #define NODE_NAME "e5f19360-4cc7-11ec-bdee-5b1567981707" //SEBA
-  #define NODE_TOKEN "N0N2DiVEAtWOTp5LjEUa" //SEBA
+  //#define NODE_NAME "e5f19360-4cc7-11ec-bdee-5b1567981707" //SEBA
+  //#define NODE_TOKEN "N0N2DiVEAtWOTp5LjEUa" //SEBA
 
   #define NODE_PW NULL
 
   #define TB_SERVER "demo.thingsboard.io"
 
   #define telemetryTopic "v1/devices/me/telemetry"
+  #define attributesTopic "v1/devices/me/attributes"
 
 
 // =====================================
@@ -166,13 +167,16 @@ void loop() {
       TB_OK = connectToThingsBoard(TB_SERVER, NODE_NAME, NODE_TOKEN, NODE_PW, TB_connect_attempts);    // If WiFi connected successfully, connect to ThingsBoard
     
     if (TB_OK && WiFi_OK){
-      sendValues(telemetryTopic, "readingMode", "New reading");
-
+      sendValues(attributesTopic, "readingMode", "New reading");
+      sendValues(attributesTopic, "readingMode", "Reading");
       //getClients(clients_known, clients_known_count, 3);
 
-      for (int i = 0; i < totalMACs; i++) sendValues(telemetryTopic, "MAC", MACs[i]);
+      for (int i = 0; i < totalMACs; i++){
+        sendValues(telemetryTopic, "MACs", MACs[i]);
+        delay(100);
+      }
 
-      sendValues(telemetryTopic, "readingMode", "End of reading");
+      sendValues(attributesTopic, "readingMode", "End of reading");
 
       // DynamicJsonDocument data(JBUFFER);
       // data["MACs"] = "['00:f4:8d','80:fd:7a','c0:9f:e1','2c:d9:74','3e:84:6a','11:22:33','aa:bb:cc']"; //getClients(clients_known, clients_known_count, 3);
