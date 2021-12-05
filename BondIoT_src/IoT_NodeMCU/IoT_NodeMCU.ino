@@ -361,14 +361,14 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     // --------- shared attribute " weightForCalibration " ----------
       String tb_weight_for_calibration = String(in_message["weightForCalibration"]); //read from thingsboard
 
-      if (tb_weight_for_calibration) //if new value then update esp variable
+      if (tb_weight_for_calibration != "null") //if new value then update esp variable
         weight_for_calibration = (float) tb_weight_for_calibration.toInt();
     //-
 
     // --------- shared attribute " calibrationModeLoadCell " ----------
       String tb_calibrationMode = in_message["calibrationModeLoadCell"];
 
-      if (tb_calibrationMode){
+      if (tb_calibrationMode != "null"){
         calibrationMode = String(tb_calibrationMode);
         calibrationMode.toUpperCase();
 
@@ -389,7 +389,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     // --------- shared attribute " loadCellTimeOut " ----------
       String tb_loadcell_timeout = in_message["loadCellTimeOut"];
 
-      if (tb_loadcell_timeout){
+      if (tb_loadcell_timeout != "null"){
         loadcell_timeout = tb_loadcell_timeout.toInt();
       } 
     //- 
@@ -397,7 +397,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     // --------- shared attribute " alarmStateCO2 " ----------  
       String tb_alarmCO2 = in_message["alarmCO2"];
 
-      if (tb_alarmCO2){
+      if (tb_alarmCO2 != "null"){
         if (tb_alarmCO2.equals("true")){
           manageLEDs(true, WINDOW_SIGN_LEDS);
           myServo.write(openedPos);   //open hatch
@@ -431,7 +431,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     // --------- shared attribute " weightVariation " ----------
       String tb_weightVariation = in_message["weightVariation"];
 
-      if (tb_weightVariation){
+      if (tb_weightVariation != "null"){
         weightVariation = tb_weightVariation.toInt();
       } 
     //
@@ -439,7 +439,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     // --------- shared attribute " reachedMaxPass " ----------
       String tb_reachedMaxPass = in_message["reachedMaxPass"];
 
-      if (tb_reachedMaxPass){
+      if (tb_reachedMaxPass != "null"){
         reachedMaxPass = tb_reachedMaxPass.equals("true");
         manageLEDs(reachedMaxPass, FULL_BUS_LED);
       }       
