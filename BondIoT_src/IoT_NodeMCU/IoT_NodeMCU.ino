@@ -338,7 +338,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
 
         //Attribute update
         DynamicJsonDocument resp(256);
-        resp["busHatch"] = state;
+        resp["hatchState"] = state;
         char buffer[256];
         serializeJson(resp, buffer);
         client.publish("v1/devices/me/attributes", buffer);      
@@ -401,6 +401,13 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
         if (tb_alarmCO2.equals("true")){
           openWindowsSign(true, WINDOWSIGN);
           myServo.write(openedPos);   //open hatch
+
+          DynamicJsonDocument resp(256);
+          resp["hatchState"] = true;
+          char buffer[256];
+          serializeJson(resp, buffer);
+          client.publish("v1/devices/me/attributes", buffer);
+
         }else{
           openWindowsSign(false, WINDOWSIGN);        
         }
