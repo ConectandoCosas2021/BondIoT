@@ -161,7 +161,7 @@ void setup() {
   //-
 
   // -------------- pin mode ---------------
-    pinMode(LED_PIN, OUTPUT);
+    pinMode(FULL_BUS_LED, OUTPUT);
     pinMode(WINDOW_SIGN_LEDS, OUTPUT);
   //-
   
@@ -299,7 +299,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
     
 
     // --------- method "switchLED" ----------
-      if (method == "switchLED"){
+    /*  if (method == "switchLED"){
 
         bool state = in_message["params"]; //read parameter
 
@@ -320,7 +320,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
         debug("Message sent on atribute: ledStatus");
         debug(" ==> Payload: ");
         debug(buffer);
-      } 
+      } */
     //-
 
     // --------- method "setHatch" ----------
