@@ -246,11 +246,11 @@ DynamicJsonDocument generateJsonPayload(){
   out["doors"] = passengers;
 
   //update loadcell telemetry ONLY if weight varies enough
-  float loadcell_reading = read_weight(scale, loadcell_timeout);
+  String loadcell_reading = read_weight(scale, loadcell_timeout);
   if (!loadcell_reading.equals("HX711 not found.")){
     if (loadcell_reading.toInt() - last_weight >= weightVariation){
       out["loadcell"] = String(loadcell_reading);
-      last_weight = loadcell_reading;
+      last_weight = loadcell_reading.toInt();
     }
   }  
 
@@ -398,11 +398,12 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
       String tb_alarmCO2 = in_message["alarmCO2"];
 
       if (tb_alarmCO2){
-        if (tb_alarmCO2.equals("true"))
+        if (tb_alarmCO2.equals("true")){
           openWindowsSign(true, WINDOWSIGN);
           myServo.write(openedPos);   //open hatch
-        else
+        }else{
           openWindowsSign(false, WINDOWSIGN);        
+        }
       }
     //-
 
@@ -410,10 +411,10 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
       String tb_busMessage = in_message["busMessage"];
       String tb_busNameNum = in_message["busNameNum"];
 
-      if (tb_busNameNum) {
-        busNameNum = tb_busMessage;
+      if (tb_busNameNum != "null") {
+        busNameNum = tb_busNameNum;
       }
-      if (tb_busMessage){ 
+      if (tb_busMessage != "null"){ 
         busMessage = tb_busMessage;
       }
 

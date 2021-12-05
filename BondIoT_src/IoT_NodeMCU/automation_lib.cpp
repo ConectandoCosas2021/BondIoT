@@ -13,7 +13,8 @@
 
     void printLCD(LiquidCrystal_I2C &lcd, String firstLine, String secondLine)
     {
-        lcd.home();                     // brings cursor to home position		
+        lcd.clear();                        // erases screen
+        lcd.home();                     // brings cursor to home position	
         lcd.print(firstLine);	        // prints text  
         lcd.setCursor(0, 1);
         lcd.print(secondLine);

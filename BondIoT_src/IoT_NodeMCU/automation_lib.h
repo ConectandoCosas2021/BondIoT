@@ -24,7 +24,7 @@ Parameters: LiquidCrystal_I2C display.
             maxPas: Passenger limit.
 This function is used to print information on display.
 */
-void printLCD(LiquidCrystal_I2C &lcd, bool hasCustomMessage, char* customMessage, int qPas,int maxPas);
+void printLCD(LiquidCrystal_I2C &lcd, String firstLine, String secondLine);
 
 
 /*
