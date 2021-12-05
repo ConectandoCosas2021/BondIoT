@@ -244,7 +244,8 @@ DynamicJsonDocument generateJsonPayload(){
 
   out["co2"] = read_co2(MQ2_PIN); //random(1024);
   out["doors"] = passengers;
-
+  out["loadcell"] = read_weight(scale, loadcell_timeout);
+  /*
   //update loadcell telemetry ONLY if weight varies enough
   String loadcell_reading = read_weight(scale, loadcell_timeout);
   if (!loadcell_reading.equals("HX711 not found.")){
@@ -253,7 +254,7 @@ DynamicJsonDocument generateJsonPayload(){
       last_weight = loadcell_reading.toInt();
     }
   }  
-
+  */
   return out;
 }
 //----------------------------------------------------------------------------
