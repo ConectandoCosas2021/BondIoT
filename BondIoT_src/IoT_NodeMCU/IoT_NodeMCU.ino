@@ -71,10 +71,10 @@
 //               I/O PINS
 // =====================================
   #define MQ2_PIN A0              //co2 analog
-  #define WINDOWSIGN D0           //open windows sign
+  #define WINDOW_SIGN_LEDS D0     //LEDs from open windows sign
 //Pin D1, D2 -> i2C               //display
   #define SERVO D3                //servo
-  #define LED_PIN D4              //NodeMCU built in LED
+  #define FULL_BUS_LED D4         //LED for bus driver
   #define LOADCELL_DOUT_PIN D5    //loadcell data
   #define LOADCELL_SCK_PIN D6     //loadcell clock
   #define FRONTDOOR_OUT_PIN D7    //IR frontdoor
@@ -162,7 +162,7 @@ void setup() {
 
   // -------------- pin mode ---------------
     pinMode(LED_PIN, OUTPUT);
-    pinMode(WINDOWSIGN, OUTPUT);
+    pinMode(WINDOW_SIGN_LEDS, OUTPUT);
   //-
   
   // ------------ interruptions ------------
@@ -399,7 +399,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
 
       if (tb_alarmCO2){
         if (tb_alarmCO2.equals("true")){
-          openWindowsSign(true, WINDOWSIGN);
+          manageLEDs(true, WINDOW_SIGN_LEDS);
           myServo.write(openedPos);   //open hatch
 
           DynamicJsonDocument resp(256);
@@ -409,7 +409,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
           client.publish("v1/devices/me/attributes", buffer);
 
         }else{
-          openWindowsSign(false, WINDOWSIGN);        
+          manageLEDs(false, WINDOW_SIGN_LEDS);        
         }
       }
     //-
@@ -441,7 +441,8 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
 
       if (tb_reachedMaxPass){
         reachedMaxPass = tb_reachedMaxPass.equals("true");
-      } 
+        manageLEDs(reachedMaxPass, FULL_BUS_LED);
+      }       
     //
       
   }

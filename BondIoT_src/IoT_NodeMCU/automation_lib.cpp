@@ -21,9 +21,9 @@
     }
 //-
 
-// ---------- Open windows ----------
+// ---------- Manage LEDs ----------
 
-    void openWindowsSign(bool state, int pin)
+    void manageLEDs(bool state, int pin)
     {
         if (state)
             digitalWrite(pin, HIGH);

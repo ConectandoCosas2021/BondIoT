@@ -29,8 +29,8 @@ void printLCD(LiquidCrystal_I2C &lcd, String firstLine, String secondLine);
 
 /*
 Parameters: boolean that indicates if LEDs should be on (true) or off (false) and LED pin
-This function is used to turn on/off LEDs from a sign.
+This function is used to turn on/off LEDs
 */
-void openWindowsSign(bool state, int pin);
+void manageLEDs(bool state, int pin);
 
 #endif
