@@ -1,11 +1,11 @@
 #define MAC_LEN 6
 #define JBUFFER 1024
 
-String MACs[] = {"00:f4:8d","80:fd:7a","c0:9f:e1","2c:d9:74","3e:84:6a","11:22:33","aa:bb:cc"};
-int totalMACs = 7;
+//String MACs[] = {"00:f4:8d","80:fd:7a","c0:9f:e1","2c:d9:74","3e:84:6a","11:22:33","aa:bb:cc"};
+//int totalMACs = 7;
 
-//String MACs[MAX_CLIENTS_TRACKED];
-//int totalMACs = 0;
+String MACs[MAX_CLIENTS_TRACKED];
+int totalMACs = 0;
 
 
 WiFiClient wifiClient;
@@ -78,7 +78,7 @@ void sendValues(char* topic, String name, String value){
   bool publishOK = false;
 
   DynamicJsonDocument data(JBUFFER);
-  data[name] = value;"['00:f4:8d','80:fd:7a','c0:9f:e1','2c:d9:74','3e:84:6a','11:22:33','aa:bb:cc']"; 
+  data[name] = value;
 
   char payload[1024];
   serializeJson(data, payload);
@@ -198,8 +198,8 @@ void getClients(clientinfo clients_known[], int len, unsigned int digits){
       newMAC += String(aux, HEX);
       if (j < digits-1) newMAC += ":";
     }
-    newMAC += "'";
     MACs[i] = newMAC;
+    newMAC = "";
   }
   totalMACs = len;
 }

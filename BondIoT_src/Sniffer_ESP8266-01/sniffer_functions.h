@@ -12,8 +12,8 @@ extern "C" {
 #include <ESP8266WiFi.h>
 #include "./structures.h"
 
-#define MAX_APS_TRACKED 100
-#define MAX_CLIENTS_TRACKED 200
+#define MAX_APS_TRACKED 10
+#define MAX_CLIENTS_TRACKED 10
 
 beaconinfo aps_known[MAX_APS_TRACKED];                    // Array to save MACs of known APs
 int aps_known_count = 0;                                  // Number of known APs

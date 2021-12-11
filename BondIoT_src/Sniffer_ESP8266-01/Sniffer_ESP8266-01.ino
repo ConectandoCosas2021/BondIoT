@@ -158,6 +158,8 @@ void loop() {
     //digitalWrite(LED_PIN, LOW);
     wifi_promiscuous_enable(disable);
 
+    getClients(clients_known, clients_known_count, 3);
+
     for (int i = 0; i < totalMACs; i++) debug(MACs[i]);
     debugln("");
 
@@ -167,16 +169,16 @@ void loop() {
       TB_OK = connectToThingsBoard(TB_SERVER, NODE_NAME, NODE_TOKEN, NODE_PW, TB_connect_attempts);    // If WiFi connected successfully, connect to ThingsBoard
     
     if (TB_OK && WiFi_OK){
-      sendValues(attributesTopic, "readingMode", "New reading");
-      sendValues(attributesTopic, "readingMode", "Reading");
+      sendValues(telemetryTopic, "MACs", "New reading");
+      delay(1000);
       //getClients(clients_known, clients_known_count, 3);
 
       for (int i = 0; i < totalMACs; i++){
         sendValues(telemetryTopic, "MACs", MACs[i]);
-        delay(100);
+        delay(1000);
       }
 
-      sendValues(attributesTopic, "readingMode", "End of reading");
+      sendValues(telemetryTopic, "MACs", "End of reading");
 
       // DynamicJsonDocument data(JBUFFER);
       // data["MACs"] = "['00:f4:8d','80:fd:7a','c0:9f:e1','2c:d9:74','3e:84:6a','11:22:33','aa:bb:cc']"; //getClients(clients_known, clients_known_count, 3);
