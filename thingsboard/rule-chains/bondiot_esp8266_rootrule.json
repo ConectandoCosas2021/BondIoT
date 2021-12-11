@@ -16,8 +16,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 562,
-          "layoutY": 409
+          "layoutX": 508,
+          "layoutY": 432
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
         "name": "Save timeseries",
@@ -28,8 +28,8 @@
       },
       {
         "additionalInfo": {
-          "layoutX": 598,
-          "layoutY": 232
+          "layoutX": 514,
+          "layoutY": 325
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
         "name": "Save Client Attributes",
@@ -53,8 +53,8 @@
       },
       {
         "additionalInfo": {
-          "layoutX": 628,
-          "layoutY": 525
+          "layoutX": 519,
+          "layoutY": 547
         },
         "type": "org.thingsboard.rule.engine.action.TbLogNode",
         "name": "Log RPC from Device",
@@ -78,8 +78,8 @@
       {
         "additionalInfo": {
           "description": null,
-          "layoutX": 172,
-          "layoutY": 707
+          "layoutX": 510,
+          "layoutY": 808
         },
         "type": "org.thingsboard.rule.engine.rpc.TbSendRPCRequestNode",
         "name": "RPC Call Request",
@@ -101,9 +101,116 @@
           "persistAlarmRulesState": false,
           "fetchAlarmRulesStateOnStart": false
         }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1100,
+          "layoutY": 402
+        },
+        "type": "org.thingsboard.rule.engine.flow.TbRuleChainInputNode",
+        "name": "CO2",
+        "debugMode": false,
+        "configuration": {
+          "ruleChainId": "b9eea290-306f-11ec-bbfc-fd6a05948889"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1102,
+          "layoutY": 466
+        },
+        "type": "org.thingsboard.rule.engine.flow.TbRuleChainInputNode",
+        "name": "Loadcell",
+        "debugMode": false,
+        "configuration": {
+          "ruleChainId": "36334b20-37f1-11ec-a0a8-5356543a831d"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1100,
+          "layoutY": 528
+        },
+        "type": "org.thingsboard.rule.engine.flow.TbRuleChainInputNode",
+        "name": "Doors",
+        "debugMode": false,
+        "configuration": {
+          "ruleChainId": "44f26810-4e50-11ec-8c14-07468c6f7a3d"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1100,
+          "layoutY": 594
+        },
+        "type": "org.thingsboard.rule.engine.flow.TbRuleChainInputNode",
+        "name": "Full bus",
+        "debugMode": false,
+        "configuration": {
+          "ruleChainId": "3af17f60-5551-11ec-8109-0996a7665d7e"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "Returns true if Sniffer",
+          "layoutX": 848,
+          "layoutY": 430
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbCheckMessageNode",
+        "name": "Device selector",
+        "debugMode": true,
+        "configuration": {
+          "messageNames": [
+            "MACs"
+          ],
+          "metadataNames": [
+            "deviceType"
+          ],
+          "checkAllKeys": true
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 848,
+          "layoutY": 322
+        },
+        "type": "org.thingsboard.rule.engine.flow.TbRuleChainInputNode",
+        "name": "Total passengers",
+        "debugMode": false,
+        "configuration": {
+          "ruleChainId": "c81f8910-5a31-11ec-8159-03103585248e"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1100,
+          "layoutY": 261
+        },
+        "type": "org.thingsboard.rule.engine.flow.TbRuleChainInputNode",
+        "name": "MACs",
+        "debugMode": false,
+        "configuration": {
+          "ruleChainId": "b5959230-59af-11ec-9ebb-6f76783562fa"
+        }
       }
     ],
     "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 11,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 0,
+        "toIndex": 12,
+        "type": "Success"
+      },
       {
         "fromIndex": 2,
         "toIndex": 4,
@@ -116,6 +223,11 @@
       },
       {
         "fromIndex": 2,
+        "toIndex": 0,
+        "type": "Post telemetry"
+      },
+      {
+        "fromIndex": 2,
         "toIndex": 3,
         "type": "RPC Request from Device"
       },
@@ -125,73 +237,36 @@
         "type": "RPC Request to Device"
       },
       {
-        "fromIndex": 2,
-        "toIndex": 0,
-        "type": "Post telemetry"
-      },
-      {
         "fromIndex": 6,
         "toIndex": 2,
         "type": "Success"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 7,
+        "type": "False"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 8,
+        "type": "False"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 9,
+        "type": "False"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 10,
+        "type": "False"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 13,
+        "type": "True"
       }
     ],
-    "ruleChainConnections": [
-      {
-        "fromIndex": 0,
-        "targetRuleChainId": {
-          "entityType": "RULE_CHAIN",
-          "id": "b9eea290-306f-11ec-bbfc-fd6a05948889"
-        },
-        "additionalInfo": {
-          "description": "CO2",
-          "layoutX": 1023,
-          "layoutY": 408,
-          "ruleChainNodeId": "rule-chain-node-9"
-        },
-        "type": "Success"
-      },
-      {
-        "fromIndex": 0,
-        "targetRuleChainId": {
-          "entityType": "RULE_CHAIN",
-          "id": "52bc8170-4e18-11ec-bdee-5b1567981707"
-        },
-        "additionalInfo": {
-          "description": "MACs",
-          "layoutX": 1026,
-          "layoutY": 285,
-          "ruleChainNodeId": "rule-chain-node-10"
-        },
-        "type": "Success"
-      },
-      {
-        "fromIndex": 0,
-        "targetRuleChainId": {
-          "entityType": "RULE_CHAIN",
-          "id": "36334b20-37f1-11ec-a0a8-5356543a831d"
-        },
-        "additionalInfo": {
-          "description": "Passengers calculated by Loadcell weight meassure",
-          "layoutX": 1024,
-          "layoutY": 523,
-          "ruleChainNodeId": "rule-chain-node-11"
-        },
-        "type": "Success"
-      },
-      {
-        "fromIndex": 0,
-        "targetRuleChainId": {
-          "entityType": "RULE_CHAIN",
-          "id": "44f26810-4e50-11ec-8c14-07468c6f7a3d"
-        },
-        "additionalInfo": {
-          "description": "Doors",
-          "layoutX": 1025,
-          "layoutY": 191,
-          "ruleChainNodeId": "rule-chain-node-12"
-        },
-        "type": "Success"
-      }
-    ]
+    "ruleChainConnections": null
   }
 }

@@ -11,17 +11,67 @@
     "configuration": null
   },
   "metadata": {
-    "firstNodeIndex": 2,
+    "firstNodeIndex": 5,
     "nodes": [
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 1020,
-          "layoutY": 156
+          "layoutX": 22,
+          "layoutY": 354
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
+        "name": "Add originator attributes",
+        "debugMode": true,
+        "configuration": {
+          "tellFailureIfAbsent": true,
+          "clientAttributeNames": [],
+          "sharedAttributeNames": [],
+          "serverAttributeNames": [
+            "passengersRead"
+          ],
+          "latestTsKeyNames": [],
+          "getLatestValueWithTs": false
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 300,
+          "layoutY": 325
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "mac ok?",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "var res_api_error = msg.result.error;\nvar res_api = msg.result;\n\nif (metadata.statusCode == 200){\n    return res_api_error != \"no result\";\n}\n\nreturn false;\n\n/*if (res_api.hasOwnProperty('company'))\n    {\n    return true;\n    }\nelse\n    {\n    if (res_api_error.includes(\"no result\")) \n    {\n    return false;\n    }\n    else\n    {\n    return true;\n    }\n}*/\n"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "C0:9A:D0:AF:50:CD",
+          "layoutX": 21,
+          "layoutY": 255
+        },
+        "type": "org.thingsboard.rule.engine.debug.TbMsgGeneratorNode",
+        "name": "Generator Node",
+        "debugMode": true,
+        "configuration": {
+          "msgCount": 0,
+          "periodInSeconds": 5,
+          "jsScript": "var msg = {};\nvar metadata = {MAC_Address:\"Cz:9A:D0\"};\n\nvar msgType = \"POST_TELEMETRY_REQUEST\";\n\nreturn { msg: msg, metadata: metadata, msgType: msgType };",
+          "originatorId": "380b62a0-4c8e-11ec-8c14-07468c6f7a3d",
+          "originatorType": "DEVICE"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 936,
+          "layoutY": 324
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
         "name": "Save real MACs number",
-        "debugMode": false,
+        "debugMode": true,
         "configuration": {
           "scope": "SERVER_SCOPE",
           "notifyDevice": false
@@ -30,27 +80,27 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 686,
-          "layoutY": 153
+          "layoutX": 592,
+          "layoutY": 325
         },
         "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
         "name": "Increment counter only if MAC address is real.",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar res_api = metadata.headers;\nvar newMsg = {};\n\nif (res_api.includes(\"no result\")) {\n    newMsg.countMAC = \"hola\";\n}else{\n    newMsg.countMAC = \"chau\";\n}\n\nreturn {msg: msg, metadata: metadata, msgType: newMsgType};"
+          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar newMsg = {};\nnewMsg.passengersRead = parseInt(metadata.ss_passengersRead) + 1;\nvar newMetadata = {};\n\nreturn {msg: newMsg, metadata: newMetadata, msgType: newMsgType};"
         }
       },
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 316,
-          "layoutY": 151
+          "layoutX": 615,
+          "layoutY": 150
         },
         "type": "org.thingsboard.rule.engine.rest.TbRestApiCallNode",
         "name": "Get Mac vendors",
         "debugMode": true,
         "configuration": {
-          "restEndpointUrlPattern": "https://macvendors.co/api/${MAC_Address}",
+          "restEndpointUrlPattern": "https://macvendors.co/api/$[MACs]",
           "requestMethod": "GET",
           "useSimpleClientHttpFactory": false,
           "ignoreRequestBody": false,
@@ -78,11 +128,16 @@
     "connections": [
       {
         "fromIndex": 1,
-        "toIndex": 0,
+        "toIndex": 4,
+        "type": "True"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 3,
         "type": "Success"
       },
       {
-        "fromIndex": 2,
+        "fromIndex": 5,
         "toIndex": 1,
         "type": "Success"
       }
