@@ -1,8 +1,8 @@
 // =====================================
 //                 DEBUG
 // =====================================
-  #define WIFI_DEBUG 1
-  #define DEBUG 1
+  #define WIFI_DEBUG 0
+  #define DEBUG 0
 
   #if DEBUG == 1
   #define debug(x) Serial.print(x)
@@ -18,8 +18,10 @@
   #define mySSID ""
   #define myPASSWORD ""
   #else
-  #define mySSID "HUAWEI-IoT"
-  #define myPASSWORD "ORTWiFiIoT"
+  //#define mySSID "HUAWEI-IoT"
+  //#define myPASSWORD "ORTWiFiIoT"
+  #define mySSID "Redmi"
+  #define myPASSWORD "R3dmiN0t3"
   #endif
 //----------------------------------------------------------------------------
 

@@ -11,26 +11,12 @@
     "configuration": null
   },
   "metadata": {
-    "firstNodeIndex": 1,
+    "firstNodeIndex": 0,
     "nodes": [
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 1283,
-          "layoutY": 138
-        },
-        "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
-        "name": "Save alarmCO2",
-        "debugMode": false,
-        "configuration": {
-          "scope": "SHARED_SCOPE",
-          "notifyDevice": false
-        }
-      },
-      {
-        "additionalInfo": {
-          "description": "",
-          "layoutX": 379,
+          "layoutX": 317,
           "layoutY": 150
         },
         "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
@@ -52,8 +38,8 @@
       {
         "additionalInfo": {
           "description": "Change alarm state to ON and modify message type. The save attributes node requires message type = POST_ATTRIBUTES_REQUEST\n",
-          "layoutX": 1001,
-          "layoutY": 64
+          "layoutX": 932,
+          "layoutY": 60
         },
         "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
         "name": "Alarm ON",
@@ -65,7 +51,7 @@
       {
         "additionalInfo": {
           "description": "Change alarm state to OFF and modify message type. The save attributes node requires message type = POST_ATTRIBUTES_REQUEST",
-          "layoutX": 1001,
+          "layoutX": 943,
           "layoutY": 221
         },
         "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
@@ -78,8 +64,22 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 721,
-          "layoutY": 149
+          "layoutX": 1213,
+          "layoutY": 135
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
+        "name": "Save alarmCO2",
+        "debugMode": false,
+        "configuration": {
+          "scope": "SHARED_SCOPE",
+          "notifyDevice": false
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 647,
+          "layoutY": 151
         },
         "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
         "name": "CO2 < maxCO2 ?",
@@ -91,29 +91,29 @@
     ],
     "connections": [
       {
-        "fromIndex": 1,
+        "fromIndex": 0,
         "toIndex": 4,
         "type": "Success"
       },
       {
-        "fromIndex": 2,
-        "toIndex": 0,
+        "fromIndex": 1,
+        "toIndex": 3,
         "type": "Success"
       },
       {
-        "fromIndex": 3,
-        "toIndex": 0,
+        "fromIndex": 2,
+        "toIndex": 3,
         "type": "Success"
       },
       {
         "fromIndex": 4,
         "toIndex": 2,
-        "type": "True"
+        "type": "False"
       },
       {
         "fromIndex": 4,
-        "toIndex": 3,
-        "type": "False"
+        "toIndex": 1,
+        "type": "True"
       }
     ],
     "ruleChainConnections": null

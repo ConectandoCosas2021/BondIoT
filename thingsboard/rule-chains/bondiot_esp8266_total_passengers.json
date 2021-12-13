@@ -11,30 +11,8 @@
     "configuration": null
   },
   "metadata": {
-    "firstNodeIndex": null,
+    "firstNodeIndex": 3,
     "nodes": [
-      {
-        "additionalInfo": {
-          "description": "",
-          "layoutX": 518,
-          "layoutY": 152
-        },
-        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
-        "name": "Add metadata",
-        "debugMode": true,
-        "configuration": {
-          "tellFailureIfAbsent": true,
-          "clientAttributeNames": [],
-          "sharedAttributeNames": [],
-          "serverAttributeNames": [
-            "passengersMAC",
-            "passengersDoors",
-            "passengersLoadcell"
-          ],
-          "latestTsKeyNames": [],
-          "getLatestValueWithTs": false
-        }
-      },
       {
         "additionalInfo": {
           "description": "",
@@ -45,7 +23,7 @@
         "name": "Check if Passengers by MAC is ok",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var passengerByMAC =  metadata.ss_passengersMAC\n\nif (passengerByMAC < 0) return false;\nif(passengerByMAC > 100) return false\nreturn true;\n"
+          "jsScript": "var passengerByMAC =  msg.passMAC;\n\nif (passengerByMAC){\n    if (passengerByMAC <= 0) return false;\n    if(passengerByMAC > 100) return false\n    return true;    \n}\nreturn false;\n"
         }
       },
       {
@@ -58,7 +36,7 @@
         "name": "Check if Passengers by MAC is ok",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var passengerByMAC =  metadata.ss_passengersMAC\n\nif (passengerByMAC < 0) return false;\nif(passengerByMAC > 100) return false\nreturn true;\n"
+          "jsScript": "var passengerByMAC =  msg.passMAC;\n\nif (passengerByMAC){\n    if (passengerByMAC <= 0) return false;\n    if(passengerByMAC > 100) return false\n    return true;    \n}\nreturn false;\n"
         }
       },
       {
@@ -71,20 +49,46 @@
         "name": "Check if Passengers by MAC is ok",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var passengerByMAC =  metadata.ss_passengersMAC\n\nif (passengerByMAC < 0) return false;\nif(passengerByMAC > 100) return false\nreturn true;\n"
+          "jsScript": "var passengerByMAC =  msg.passMAC;\n\nif (passengerByMAC){\n    if (passengerByMAC <= 0) return false;\n    if(passengerByMAC > 100) return false\n    return true;    \n}\nreturn false;\n"
         }
       },
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 797,
-          "layoutY": 206
+          "layoutX": 300,
+          "layoutY": 150
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbChangeOriginatorNode",
+        "name": "To device",
+        "debugMode": true,
+        "configuration": {
+          "originatorSource": "RELATED",
+          "relationsQuery": {
+            "fetchLastLevelOnly": false,
+            "direction": "FROM",
+            "maxLevel": 1,
+            "filters": [
+              {
+                "relationType": "Contains",
+                "entityTypes": [
+                  "DEVICE"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 780,
+          "layoutY": 209
         },
         "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
         "name": "Average number of passengers",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = (parseInt(metadata.ss_passengersLoadcell) + parseInt(metadata.ss_passengersMAC) + parseInt(metadata.ss_passengersDoors))/3;\nvar newMsg = {};\n\nnewMsg.passengersTOTAL = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
+          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = (parseInt(msg.passLoadcell) + parseInt(msg.passMAC) + parseInt(msg.passDoors))/3;\nvar newMsg = {}\n\nnewMsg.passengersTOTAL = Math.round(passengersAverage);\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
         }
       },
       {
@@ -94,8 +98,8 @@
           "layoutY": 411
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
-        "name": "Save Attributes",
-        "debugMode": false,
+        "name": "Save passengersTOTAL",
+        "debugMode": true,
         "configuration": {
           "scope": "SERVER_SCOPE",
           "notifyDevice": false
@@ -111,20 +115,20 @@
         "name": "Check if Passengers by doors is ok",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var passengerBySensor =  metadata.ss_passengersDoors\nif (passengerBySensor < 0) return false;\nif(passengerBySensor > 100) return false;\nreturn true;"
+          "jsScript": "var passengerBySensor =  msg.passDoors;\n\nif (passengerBySensor){\n    if (passengerBySensor <= 0) return false;\n    if(passengerBySensor > 100) return false;\n    return true;    \n}\nreturn false;\n"
         }
       },
       {
         "additionalInfo": {
           "description": "",
           "layoutX": 539,
-          "layoutY": 251
+          "layoutY": 257
         },
         "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
         "name": "Check if Passengers by MAC is ok",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var passengerByMAC =  metadata.ss_passengersMAC\n\nif (passengerByMAC < 0) return false;\nif(passengerByMAC > 100) return false\nreturn true;\n"
+          "jsScript": "var passengerByMAC =  msg.passMAC;\n\nif (passengerByMAC){\n    if (passengerByMAC <= 0) return false;\n    if(passengerByMAC > 100) return false\n    return true;    \n}\nreturn false;\n\n"
         }
       },
       {
@@ -137,7 +141,7 @@
         "name": "Average number of passengers without MAC",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = (parseInt(metadata.ss_passengersLoadcell) + parseInt(metadata.ss_passengersDoors))/2;\nvar newMsg = {};\n\nnewMsg.passengersAvg = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
+          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = (parseInt(msg.passLoadcell) + parseInt(msg.passDoors))/2;\nvar newMsg = {};\n\nnewMsg.passengersTOTAL = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
         }
       },
       {
@@ -150,7 +154,7 @@
         "name": "Average number of passengers without Weight",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage =  (parseInt(metadata.ss_passengersMAC) + parseInt(metadata.ss_passengersDoor))/2;\nvar newMsg = {};\n\nnewMsg.passengersAvg = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
+          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = (parseInt(msg.passMAC) + parseInt(msg.passDoors))/2;\n\nvar newMsg = {};\nnewMsg.passengersTOTAL = Math.round(passengersAverage);\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
         }
       },
       {
@@ -163,7 +167,7 @@
         "name": "Average number of passengers without Weight and MAC",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = ( parseInt(metadata.ss_passengersDoors));\nvar newMsg = {};\n\nnewMsg.passengersAvg = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
+          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = ( parseInt(msg.passDoors));\nvar newMsg = {};\n\nnewMsg.passengersTOTAL = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
         }
       },
       {
@@ -176,7 +180,7 @@
         "name": "Average number of passengers without Sensor",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = (parseInt(metadata.ss_passengersWeight) + parseInt(metadata.ss_passengersMAC) )/2;\nvar newMsg = {};\nnewMsg.passengersAvg = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
+          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = (parseInt(msg.passLoadcell) + parseInt(msg.passMAC) )/2;\nvar newMsg = {};\nnewMsg.passengersTOTAL = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
         }
       },
       {
@@ -189,7 +193,7 @@
         "name": "Average number of passengers without MAC and Sensor",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = (parseInt(metadata.ss_passengersWeight));\nvar newMsg = {};\n\nnewMsg.passengersAvg = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
+          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = (parseInt(msg.passLoadcell));\nvar newMsg = {};\n\nnewMsg.passengersTOTAL = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
         }
       },
       {
@@ -202,7 +206,7 @@
         "name": "Average number of passengers without Weight and Sensor",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = ( parseInt(metadata.ss_passengersMAC));\nvar newMsg = {};\n\nnewMsg.passengersAvg = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
+          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = parseInt(msg.passMAC);\nvar newMsg = {};\n\nnewMsg.passengersTOTAL = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
         }
       },
       {
@@ -215,7 +219,7 @@
         "name": "Average number of passengers No data",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = 0;\nvar newMsg = {};\n\nnewMsg.passengersAvg = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
+          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar passengersAverage = 0;\nvar newMsg = {};\n\nnewMsg.passengersTOTAL = Math.round(passengersAverage);\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
         }
       },
       {
@@ -228,24 +232,7 @@
         "name": "Check if passengersLoadcell is ok",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var passengerByWeight =  metadata.ss_passengersLoadcell;\n\nif (passengerByWeight < 0) return false;\n\nif(passengerByWeight > 100) return false;\n\nreturn true;"
-        }
-      },
-      {
-        "additionalInfo": {
-          "description": "",
-          "layoutX": 240,
-          "layoutY": 151
-        },
-        "type": "org.thingsboard.rule.engine.debug.TbMsgGeneratorNode",
-        "name": "Generator",
-        "debugMode": true,
-        "configuration": {
-          "msgCount": 0,
-          "periodInSeconds": 5,
-          "jsScript": "var msg = {};\nvar metadata = { readingMode: \"Reading\",MACAddress:\"C0:9A:D0:AF:50:CD\" };\nvar msgType = \"POST_TELEMETRY_REQUEST\";\n\nreturn { msg: msg, metadata: metadata, msgType: msgType };",
-          "originatorId": null,
-          "originatorType": null
+          "jsScript": "var passengerByWeight =  msg.passLoadcell; //metadata.ss_passengersLoadcell;\n\nif (passengerByWeight){\n   if (passengerByWeight <= 0) return false;\n   if(passengerByWeight > 100) return false;\n   return true;    \n}\nreturn false;\n\n"
         }
       },
       {
@@ -258,45 +245,45 @@
         "name": "Check if Passengers by doors is ok",
         "debugMode": true,
         "configuration": {
-          "jsScript": "var passengerBySensor =  metadata.ss_passengersDoors\nif (passengerBySensor < 0) return false;\nif(passengerBySensor > 100) return false;\nreturn true;"
+          "jsScript": "var passengerBySensor =  msg.passDoors;\n\nif (passengerBySensor){\n    if (passengerBySensor <= 0) return false;\n    if(passengerBySensor > 100) return false;\n    return true;    \n}\nreturn false;"
         }
       }
     ],
     "connections": [
       {
         "fromIndex": 0,
-        "toIndex": 15,
-        "type": "Success"
-      },
-      {
-        "fromIndex": 1,
         "toIndex": 12,
         "type": "False"
       },
       {
-        "fromIndex": 1,
+        "fromIndex": 0,
         "toIndex": 11,
         "type": "True"
       },
       {
-        "fromIndex": 2,
+        "fromIndex": 1,
         "toIndex": 10,
         "type": "False"
       },
       {
-        "fromIndex": 2,
+        "fromIndex": 1,
         "toIndex": 9,
         "type": "True"
       },
       {
-        "fromIndex": 3,
+        "fromIndex": 2,
         "toIndex": 14,
         "type": "False"
       },
       {
-        "fromIndex": 3,
+        "fromIndex": 2,
         "toIndex": 13,
         "type": "True"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 15,
+        "type": "Success"
       },
       {
         "fromIndex": 4,
@@ -305,7 +292,7 @@
       },
       {
         "fromIndex": 6,
-        "toIndex": 1,
+        "toIndex": 0,
         "type": "False"
       },
       {
@@ -360,7 +347,7 @@
       },
       {
         "fromIndex": 15,
-        "toIndex": 17,
+        "toIndex": 16,
         "type": "False"
       },
       {
@@ -370,17 +357,12 @@
       },
       {
         "fromIndex": 16,
-        "toIndex": 0,
-        "type": "Success"
-      },
-      {
-        "fromIndex": 17,
-        "toIndex": 3,
+        "toIndex": 2,
         "type": "False"
       },
       {
-        "fromIndex": 17,
-        "toIndex": 2,
+        "fromIndex": 16,
+        "toIndex": 1,
         "type": "True"
       }
     ],

@@ -21,7 +21,7 @@
         },
         "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
         "name": "Attributes",
-        "debugMode": false,
+        "debugMode": true,
         "configuration": {
           "tellFailureIfAbsent": true,
           "clientAttributeNames": [],
@@ -44,9 +44,9 @@
         },
         "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
         "name": "Check if max pass",
-        "debugMode": false,
+        "debugMode": true,
         "configuration": {
-          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar newMsg = {};\n\nnewMsg.reachedMaxPass = msg.passengersTOTAL >= metadata.maxPassengers;\n    \nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};"
+          "jsScript": "var newMsgType = \"POST_ATTRIBUTES_REQUEST\";\nvar newMsg = {};\nvar newMetadata = {};\n\nnewMsg.reachedMaxPass = parseInt(metadata.ss_passengersTOTAL) >= parseInt(metadata.ss_maxPassengers);\n    \nreturn {msg: newMsg, metadata: newMetadata, msgType: newMsgType};"
         }
       },
       {
@@ -57,7 +57,7 @@
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
         "name": "Save reachedMaxPass",
-        "debugMode": false,
+        "debugMode": true,
         "configuration": {
           "scope": "SHARED_SCOPE",
           "notifyDevice": false

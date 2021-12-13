@@ -23,7 +23,7 @@
         "name": "Change number of passengers meassured by weight",
         "debugMode": false,
         "configuration": {
-          "jsScript": "var qty = msg.loadcell/metadata.ss_standardWeight;\n\nvar newMsg = {};\nnewMsg.passengersPerWeight = parseInt(qty);\nnewMsg.loadcell = msg.loadcell;\nnewMsg.standardWeight = metadata.ss_standardWeight;\n\nvar newMsgType = \"POST_ATTRIBUTES_REQUEST\";\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};\n"
+          "jsScript": "var qty = msg.loadcell/metadata.ss_standardWeight;\n\nvar newMsg = {};\nnewMsg.passengersLoadcell = parseInt(qty);\nnewMsg.loadcell = msg.loadcell;\nnewMsg.standardWeight = metadata.ss_standardWeight;\n\nvar newMsgType = \"POST_ATTRIBUTES_REQUEST\";\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};\n"
         }
       },
       {
@@ -55,7 +55,7 @@
           "sharedAttributeNames": [],
           "serverAttributeNames": [
             "standardWeight",
-            "passengersPerWeight"
+            "passengersLoadcell"
           ],
           "latestTsKeyNames": [],
           "getLatestValueWithTs": false

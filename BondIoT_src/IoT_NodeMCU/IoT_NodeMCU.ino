@@ -1,7 +1,7 @@
 // =====================================
 //                 DEBUG
 // =====================================
-  #define WIFI_DEBUG 1
+  #define WIFI_DEBUG 0
   #define DEBUG 1
 
   #if DEBUG == 1
@@ -18,8 +18,10 @@
   #define mySSID ""
   #define myPASSWORD ""
   #else
-  #define mySSID "HUAWEI-IoT"
-  #define myPASSWORD "ORTWiFiIoT"
+  //#define mySSID "HUAWEI-IoT"
+  //#define myPASSWORD "ORTWiFiIoT"
+  #define mySSID "Redmi"
+  #define myPASSWORD "R3dmiN0t3"
   #endif
 //----------------------------------------------------------------------------
 
@@ -100,17 +102,17 @@
   Servo myServo;
 
   LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
-  String busMessage = "";            //initialize only. Value comes from thingsboard.
+  String busMessage = "COCHE LLENO";            //initialize only. Value comes from thingsboard.
   String busNameNum = "192 MANGA";   //initialize only. Value comes from thingsboard.
 
   String calibrationMode = "ON";        //initialize only. Value comes from thingsboard.
   unsigned int loadcell_timeout = 1000; //initialize only. Value comes from thingsboard.
-  int weightVariation = 30;             //initialize only. Value comes from thingsboard.
+  int weightVariation = 0;             //initialize only. Value comes from thingsboard.
   float weight_for_calibration = 500;   //initialize only. Value comes from thingsboard.
   float calibration_constant = 1;    
   float last_weight = 0;
 
-  unsigned int passengers = 0;
+  int passengers = 0;
 
   const int openedPos = 90;
   const int closedPos = 0; 
@@ -133,6 +135,7 @@ ICACHE_RAM_ATTR void read_frontdoor()
 ICACHE_RAM_ATTR void read_backdoor()
 {
 	passengers--;
+  if (passengers < 0) passengers = 0;
 	debugln("Back door interrupting");
 }
 //----------------------------------------------------------------------------
@@ -244,17 +247,17 @@ DynamicJsonDocument generateJsonPayload(){
 
   out["co2"] = read_co2(MQ2_PIN); //random(1024);
   out["doors"] = passengers;
-  out["loadcell"] = read_weight(scale, loadcell_timeout);
-  /*
+  //out["loadcell"] = read_weight(scale, loadcell_timeout);
+  
   //update loadcell telemetry ONLY if weight varies enough
   String loadcell_reading = read_weight(scale, loadcell_timeout);
   if (!loadcell_reading.equals("HX711 not found.")){
-    if (loadcell_reading.toInt() - last_weight >= weightVariation){
+    if (abs(loadcell_reading.toInt() - last_weight) >= weightVariation){
       out["loadcell"] = String(loadcell_reading);
       last_weight = loadcell_reading.toInt();
     }
   }  
-  */
+  
   return out;
 }
 //----------------------------------------------------------------------------
@@ -363,7 +366,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
       String tb_weight_for_calibration = String(in_message["weightForCalibration"]); //read from thingsboard
 
       if (tb_weight_for_calibration != "null") //if new value then update esp variable
-        weight_for_calibration = (float) tb_weight_for_calibration.toInt();
+        weight_for_calibration = (float) tb_weight_for_calibration.toInt();        
     //-
 
     // --------- shared attribute " calibrationModeLoadCell " ----------
@@ -376,6 +379,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
         if (calibrationMode.equals("ON")){
           calibration_constant = calibrateLoadCell(scale, weight_for_calibration);
           scale.set_scale(calibration_constant); 
+          last_weight = 0;
 
           //Attribute update
             DynamicJsonDocument resp(256);
@@ -425,8 +429,6 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
       if (tb_busMessage != "null"){ 
         busMessage = tb_busMessage;
       }
-
-      printLCD(lcd, busNameNum, busMessage);
     //-
 
     // --------- shared attribute " weightVariation " ----------
@@ -434,6 +436,7 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
 
       if (tb_weightVariation != "null"){
         weightVariation = tb_weightVariation.toInt();
+        last_weight = 0;
       } 
     //
 
@@ -443,7 +446,12 @@ void thingsBoard_cb(const char* topic, byte* payload, unsigned int length){
       if (tb_reachedMaxPass != "null"){
         reachedMaxPass = tb_reachedMaxPass.equals("true");
         manageLEDs(reachedMaxPass, FULL_BUS_LED);
-      }       
+      } 
+
+      if (reachedMaxPass)
+        printLCD(lcd, busNameNum, busMessage);  //print warning for full bus
+      else
+        printLCD(lcd, busNameNum, "");          //print only bus info
     //
       
   }

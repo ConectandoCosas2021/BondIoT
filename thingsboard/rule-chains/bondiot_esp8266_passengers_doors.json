@@ -20,7 +20,7 @@
           "layoutY": 147
         },
         "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
-        "name": "Capture passengers per doors and save it in passengersPerDoors attribute",
+        "name": "Capture passengers per doors and save it in passengersDoors attribute",
         "debugMode": false,
         "configuration": {
           "jsScript": "var newMsg = {};\nnewMsg.passengersDoors = msg.doors;\n\nvar newMsgType = \"POST_ATTRIBUTES_REQUEST\";\n\nreturn {msg: newMsg, metadata: metadata, msgType: newMsgType};\n"

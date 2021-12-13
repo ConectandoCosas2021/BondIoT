@@ -48,7 +48,7 @@ float calibrateLoadCell(HX711 &scale, float weight_for_calibration)
   Serial.println(" ");
   Serial.println("============LOAD CELL CALIBRATION============");
   Serial.println("Put known weight");
-  delay(3000); 
+  delay(10000); 
 
 	int result = scale.get_units(10);
 	Serial.print("Measure = ");

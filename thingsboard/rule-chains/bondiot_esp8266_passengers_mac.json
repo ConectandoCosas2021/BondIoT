@@ -11,7 +11,7 @@
     "configuration": null
   },
   "metadata": {
-    "firstNodeIndex": 4,
+    "firstNodeIndex": 3,
     "nodes": [
       {
         "additionalInfo": {
@@ -46,20 +46,7 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 173,
-          "layoutY": 567
-        },
-        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
-        "name": "Check if reading",
-        "debugMode": true,
-        "configuration": {
-          "jsScript": "var meta_readingMode = metadata.readingMode;\nif (meta_readingMode.includes(\"Reading\"))\n    {\n    return true;\n    }\nelse\n    {\n    return false;\n    }\n    \n"
-        }
-      },
-      {
-        "additionalInfo": {
-          "description": "",
-          "layoutX": 970,
+          "layoutX": 813,
           "layoutY": 309
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
@@ -146,38 +133,38 @@
     ],
     "connections": [
       {
-        "fromIndex": 4,
-        "toIndex": 5,
+        "fromIndex": 3,
+        "toIndex": 4,
         "type": "Success"
       },
       {
-        "fromIndex": 5,
-        "toIndex": 7,
+        "fromIndex": 4,
+        "toIndex": 6,
         "type": "False"
       },
       {
-        "fromIndex": 5,
-        "toIndex": 6,
+        "fromIndex": 4,
+        "toIndex": 5,
         "type": "True"
       },
       {
-        "fromIndex": 6,
-        "toIndex": 3,
+        "fromIndex": 5,
+        "toIndex": 2,
         "type": "Success"
       },
       {
-        "fromIndex": 7,
+        "fromIndex": 6,
         "toIndex": 0,
         "type": "False"
       },
       {
-        "fromIndex": 7,
-        "toIndex": 8,
+        "fromIndex": 6,
+        "toIndex": 7,
         "type": "True"
       },
       {
-        "fromIndex": 8,
-        "toIndex": 3,
+        "fromIndex": 7,
+        "toIndex": 2,
         "type": "Success"
       }
     ],

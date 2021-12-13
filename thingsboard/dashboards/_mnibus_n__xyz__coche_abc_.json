@@ -21,16 +21,21 @@
             {
               "type": "entity",
               "name": null,
-              "entityAliasId": "bda638ab-1a40-410c-3afc-be231a4cd3df",
+              "entityAliasId": "bceaaeb1-9b4e-b34c-ed3b-3fb35c343aec",
               "filterId": null,
               "dataKeys": [
                 {
                   "name": "co2",
                   "type": "timeseries",
                   "label": "co2",
-                  "color": "#060606",
+                  "color": "#00060b",
                   "settings": {},
-                  "_hash": 0.7003136290312402
+                  "_hash": 0.0923843071361844,
+                  "units": null,
+                  "decimals": null,
+                  "funcBody": null,
+                  "usePostProcessing": null,
+                  "postFuncBody": null
                 }
               ]
             }
@@ -675,7 +680,7 @@
           "color": "rgba(0, 0, 0, 0.87)",
           "padding": "8px",
           "settings": {
-            "cardHtml": "<div class='card'> Datos para el ESP8266 </div>",
+            "cardHtml": "<div class='card'> Datos para el sistema abordo </div>",
             "cardCss": ".card {\n    font-weight: bold;\n    font-size: 32px;\n    color: #000;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}"
           },
           "title": "New HTML Card",
@@ -1420,7 +1425,7 @@
             }
           },
           "showTitle": true,
-          "backgroundColor": "rgba(113,164,185,0.37)",
+          "backgroundColor": "rgba(113,164,185,0.52)",
           "color": "rgba(0, 0, 0, 0.87)",
           "padding": "8px",
           "settings": {},
@@ -1641,20 +1646,20 @@
               "filterId": null,
               "dataKeys": [
                 {
-                  "name": "passengersTOTAL",
-                  "type": "attribute",
-                  "label": "passengersTOTAL",
-                  "color": "#2196f3",
-                  "settings": {},
-                  "_hash": 0.3539217266697158
-                },
-                {
                   "name": "maxPassengers",
                   "type": "attribute",
                   "label": "maxPassengers",
+                  "color": "#2196f3",
+                  "settings": {},
+                  "_hash": 0.2543151245849212
+                },
+                {
+                  "name": "passengersTOTAL",
+                  "type": "attribute",
+                  "label": "passengersTOTAL",
                   "color": "#4caf50",
                   "settings": {},
-                  "_hash": 0.4187707493195483
+                  "_hash": 0.6448997297017964
                 }
               ]
             }
@@ -1670,7 +1675,7 @@
           "padding": "0px",
           "settings": {
             "cardCss": ".card {\n   width: 100%;\n   height: 100%;\n   border: 2px solid #ccc;\n   box-sizing: border-box;\n}\n\n.card .content {\n   padding: 20px;\n   display: flex;\n   flex-direction: row;\n   align-items: center;\n   justify-content: space-around;\n   height: 100%;\n   box-sizing: border-box;\n}\n\n.card .content .column {\n   display: flex;\n   flex-direction: column;    \n   justify-content: space-around;\n   height: 100%;\n}\n\n.card h1 {\n    text-transform: uppercase;\n    color: #999;\n    font-size: 20px;\n    font-weight: bold;\n    margin: 0;\n    padding-bottom: 10px;\n    line-height: 32px;\n}\n\n.card .value {\n    font-size: 38px;\n    font-weight: 200;\n}\n\n.card .description {\n    font-size: 20px;\n    color: #999;\n}\n",
-            "cardHtml": "<div class='card'>\n    <div class='content'>\n        <div class='column'>\n            <h1>Abordo</h1>\n            <div class='value'>\n                ${passengersTOTAL:0}\n            </div>    \n        </div>\n        <div class='column'>\n            <h1>Máximo permitido</h1>\n            <div class='value'>\n                ${maxPassengers:0}\n            </div>    \n        </div>        \n        <img height=\"200px\" src=\"https://github.com/carbotton/bondiot/blob/main/images/logo.png?raw=true\" />\n    </div>\n</div>"
+            "cardHtml": "<div class='card'>\n    <div class='content'>\n        <div class='column'>\n            <h1>Abordo</h1>\n            <div class='value'>\n                ${passengersTOTAL:0}\n            </div>    \n        </div>\n        <div class='column'>\n            <h1>Máximo permitido</h1>\n            <div class='value'>\n                ${maxPassengers:0}\n            </div>    \n        </div>        \n        <img height=\"160px\" src=\"https://github.com/carbotton/bondiot/blob/main/images/logo.png?raw=true\" />\n    </div>\n</div>"
           },
           "title": "Cantidad de pasajeros",
           "dropShadow": false,
@@ -1864,7 +1869,7 @@
               "03198dfd-f786-37d0-8277-e5b19c0c1475": {
                 "sizeX": 7,
                 "sizeY": 3,
-                "row": 0,
+                "row": 5,
                 "col": 7
               },
               "76adeaac-ef5e-3656-50d9-22be3ff28a8d": {
@@ -1888,7 +1893,7 @@
               "873571b8-0f9f-9bd2-dab3-39d543ba864f": {
                 "sizeX": 7,
                 "sizeY": 5,
-                "row": 3,
+                "row": 0,
                 "col": 7
               }
             },

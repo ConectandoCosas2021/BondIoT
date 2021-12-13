@@ -1,0 +1,256 @@
+{
+  "ruleChain": {
+    "additionalInfo": {
+      "description": ""
+    },
+    "name": "BondIoT-ESP8266-Asset_Rule",
+    "type": "CORE",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": true,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 7,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 523,
+          "layoutY": 87
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
+        "name": "Metadata Sniffer",
+        "debugMode": true,
+        "configuration": {
+          "tellFailureIfAbsent": true,
+          "clientAttributeNames": [],
+          "sharedAttributeNames": [],
+          "serverAttributeNames": [
+            "passengersMAC"
+          ],
+          "latestTsKeyNames": [],
+          "getLatestValueWithTs": false
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 520,
+          "layoutY": 185
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
+        "name": "Metadata Main",
+        "debugMode": true,
+        "configuration": {
+          "tellFailureIfAbsent": true,
+          "clientAttributeNames": [],
+          "sharedAttributeNames": [],
+          "serverAttributeNames": [
+            "passengersLoadcell",
+            "passengersDoors"
+          ],
+          "latestTsKeyNames": [],
+          "getLatestValueWithTs": false
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1056,
+          "layoutY": 127
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbChangeOriginatorNode",
+        "name": "To Asset",
+        "debugMode": true,
+        "configuration": {
+          "originatorSource": "RELATED",
+          "relationsQuery": {
+            "fetchLastLevelOnly": false,
+            "direction": "TO",
+            "maxLevel": 1,
+            "filters": [
+              {
+                "relationType": "Contains",
+                "entityTypes": [
+                  "ASSET"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 52,
+          "layoutY": 367
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "Save timeseries",
+        "debugMode": false,
+        "configuration": {
+          "defaultTTL": 0
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 460,
+          "layoutY": 364
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
+        "name": "Latest timeseries",
+        "debugMode": true,
+        "configuration": {
+          "tellFailureIfAbsent": true,
+          "clientAttributeNames": [],
+          "sharedAttributeNames": [],
+          "serverAttributeNames": [],
+          "latestTsKeyNames": [
+            "passMAC",
+            "passLoadcell",
+            "passDoors"
+          ],
+          "getLatestValueWithTs": false
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 722,
+          "layoutY": 364
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Join",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "var newMsg = {};\nvar newMeta = {};\n\nnewMsg.passLoadcell = metadata.passLoadcell;\nnewMsg.passDoors = metadata.passDoors;\nnewMsg.passMAC = metadata.passMAC;\n\nreturn {msg: newMsg, metadata: newMeta, msgType: msgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1058,
+          "layoutY": 357
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "Save timeseries II",
+        "debugMode": false,
+        "configuration": {
+          "defaultTTL": 0
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 280,
+          "layoutY": 151
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsSwitchNode",
+        "name": "Switch by device type",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "function nextRelation(metadata, msg) {\n    if (metadata.deviceType === 'BondIoT-ESP8266-Prof') return ['main'];\n    else return ['sniffer'];\n}\n\nreturn nextRelation(metadata, msg);"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 812,
+          "layoutY": 85
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Change to Sniffer",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "var newMsg = {};\nvar newMeta = {};\n\nnewMsg.passMAC = metadata.ss_passengersMAC;\n\nreturn {msg: newMsg, metadata: newMeta, msgType: msgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 812,
+          "layoutY": 188
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Change to Main",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "var newMsg = {};\nvar newMeta = {};\n\nnewMsg.passLoadcell = metadata.ss_passengersLoadcell;\nnewMsg.passDoors = metadata.ss_passengersDoors;\n\nreturn {msg: newMsg, metadata: newMeta, msgType: msgType};\n"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 904,
+          "layoutY": 464
+        },
+        "type": "org.thingsboard.rule.engine.flow.TbRuleChainInputNode",
+        "name": "Total passengers",
+        "debugMode": true,
+        "configuration": {
+          "ruleChainId": "c81f8910-5a31-11ec-8159-03103585248e"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 8,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 1,
+        "toIndex": 9,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 3,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 4,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 5,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 5,
+        "toIndex": 6,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 6,
+        "toIndex": 10,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 7,
+        "toIndex": 1,
+        "type": "main"
+      },
+      {
+        "fromIndex": 7,
+        "toIndex": 0,
+        "type": "sniffer"
+      },
+      {
+        "fromIndex": 8,
+        "toIndex": 2,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 9,
+        "toIndex": 2,
+        "type": "Success"
+      }
+    ],
+    "ruleChainConnections": null
+  }
+}

@@ -16,8 +16,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 22,
-          "layoutY": 354
+          "layoutX": 28,
+          "layoutY": 512
         },
         "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
         "name": "Add originator attributes",
@@ -36,8 +36,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 300,
-          "layoutY": 325
+          "layoutX": 291,
+          "layoutY": 248
         },
         "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
         "name": "mac ok?",
@@ -49,8 +49,8 @@
       {
         "additionalInfo": {
           "description": "C0:9A:D0:AF:50:CD",
-          "layoutX": 21,
-          "layoutY": 255
+          "layoutX": 26,
+          "layoutY": 467
         },
         "type": "org.thingsboard.rule.engine.debug.TbMsgGeneratorNode",
         "name": "Generator Node",
@@ -66,11 +66,11 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 936,
-          "layoutY": 324
+          "layoutX": 601,
+          "layoutY": 343
         },
         "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
-        "name": "Save real MACs number",
+        "name": "Save temp MAC passengers",
         "debugMode": true,
         "configuration": {
           "scope": "SERVER_SCOPE",
@@ -80,8 +80,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 592,
-          "layoutY": 325
+          "layoutX": 297,
+          "layoutY": 339
         },
         "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
         "name": "Increment counter only if MAC address is real.",
@@ -93,8 +93,8 @@
       {
         "additionalInfo": {
           "description": "",
-          "layoutX": 615,
-          "layoutY": 150
+          "layoutX": 293,
+          "layoutY": 151
         },
         "type": "org.thingsboard.rule.engine.rest.TbRestApiCallNode",
         "name": "Get Mac vendors",
